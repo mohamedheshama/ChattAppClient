@@ -25,6 +25,11 @@
             <artifactId>jfoenix</artifactId>
             <version>9.0.9</version>
         </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-web</artifactId>
+            <version>15-ea+1</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml"
-            xmlns="http://javafx.com/javafx"
-            fx:controller="org.project.controller.chat_home.right_side.MainChatController"
-            prefHeight="400.0" prefWidth="600.0">
-
-</AnchorPane>
+<?import com.jfoenix.controls.JFXListView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.web.HTMLEditor?>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="600.0"
+            xmlns="http://javafx.com/javafx/10.0.2-internal"
+            fx:controller="org.project.controller.chat_home.right_side.MainChatController">
+   <bottom>
+      <HTMLEditor
+              htmlText="&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body contenteditable=&quot;true&quot;&gt;&lt;/body&gt;&lt;/html&gt;"
+              prefHeight="200.0" prefWidth="506.0"/>
+   </bottom>
+   <center>
+      <JFXListView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER"/>
+   </center>
+</BorderPane>
