@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
             minWidth="-Infinity" prefHeight="616.0" prefWidth="590.0"
-            style="-fx-background-color: #09c; -fx-background-image: url(&quot;..\images\bg2.jpg&quot;);; -fx-background-size: cover,auto; -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0);"
+            style="-fx-background-color: #09c; -fx-background-image: url(&quot;../images/bg2.jpg&quot;); -fx-background-size: cover,auto; -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0);"
             xmlns="http://javafx.com/javafx/10.0.2-internal">
     <children>
         <AnchorPane layoutX="145.0" layoutY="87.0" opacity="0.96" prefHeight="475.0" prefWidth="342.0"
