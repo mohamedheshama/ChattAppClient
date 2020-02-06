@@ -2,6 +2,9 @@ module org.project {
     requires javafx.controls;
     requires javafx.fxml;
     requires com.jfoenix;
+    requires javafx.web;
+    requires java.logging;
+    requires java.sql;
 
     opens org.project to javafx.fxml;
     opens org.project.controller.login to javafx.fxml;
