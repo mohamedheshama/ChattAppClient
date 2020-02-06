@@ -14,7 +14,7 @@
             fx:controller="org.project.controller.register.RegisterController">
     <children>
         <AnchorPane layoutX="145.0" layoutY="87.0" maxHeight="600.0" maxWidth="600.0" minHeight="400.0" minWidth="200.0"
-                    onMouseClicked="#confirmPasswordValid" opacity="0.96" prefHeight="475.0" prefWidth="200.0"
+                    opacity="0.96" prefHeight="475.0" prefWidth="200.0"
                     style="-fx-background-color: #fff; -fx-background-radius: 20px; -fx-border-radius: 20px; -fx-border-width: 1px; -fx-border-color: #999; -fx-background-color: rgba(0,0,0,0.15);"
                     AnchorPane.bottomAnchor="53.80000000000001" AnchorPane.leftAnchor="145.0"
                     AnchorPane.rightAnchor="102.0" AnchorPane.topAnchor="87.0">
@@ -47,8 +47,8 @@
                                 <Insets top="8.0"/>
                             </HBox.margin>
                         </ImageView>
-                        <JFXTextField fx:id="username" focusColor="#f9fafd" onMouseClicked="#setUserName"
-                                      onMousePressed="#userPhoneValid" prefHeight="8.0" prefWidth="295.0"
+                        <JFXTextField fx:id="username" focusColor="#f9fafd" onKeyTyped="#validateUserName"
+                                      prefHeight="8.0" prefWidth="295.0"
                                       promptText="User name" style="-fx-text-fill: #fff;" unFocusColor="#675858"/>
                     </children>
                 </HBox>
@@ -62,8 +62,8 @@
                                 <Insets top="11.0"/>
                             </HBox.margin>
                         </ImageView>
-                        <JFXTextField fx:id="userEmail" focusColor="WHITE" onKeyPressed="#setUserEmail"
-                                      onMouseClicked="#userNameValid" prefHeight="11.0" prefWidth="295.0"
+                        <JFXTextField fx:id="userEmail" focusColor="WHITE"
+                                      onKeyTyped="#validateEmail" prefHeight="11.0" prefWidth="295.0"
                                       promptText="E-mail" style="-fx-text-fill: #fff;" unFocusColor="#675858"/>
                     </children>
                 </HBox>
@@ -78,9 +78,10 @@
                             </HBox.margin>
                         </ImageView>
                         <JFXPasswordField fx:id="userPassword" focusColor="WHITE"
-                                          onInputMethodTextChanged="#setUserPassword" onKeyPressed="#setUserPassword"
-                                          onMouseClicked="#emailValid" prefHeight="26.0" prefWidth="299.0"
-                                          promptText="Password" style="-fx-text-fill: #fff;" unFocusColor="#675858"/>
+                                          prefHeight="26.0" prefWidth="299.0"
+                                          promptText="Password"
+                                          onKeyTyped="#validatePasswordMatch"
+                                          style="-fx-text-fill: #fff;" unFocusColor="#675858"/>
                     </children>
                 </HBox>
                 <HBox layoutX="14.0" layoutY="292.0" prefHeight="26.0" prefWidth="314.0">
@@ -94,8 +95,8 @@
                             </HBox.margin>
                         </ImageView>
                         <JFXPasswordField fx:id="userPasswordConfirm" focusColor="WHITE"
-                                          onAction="#confirmPasswordValid" onMouseClicked="#passwordValid"
-                                          onMouseExited="#confirmPasswordValid" prefHeight="26.0" prefWidth="299.0"
+                                          onKeyTyped="#validatePasswordMatch"
+                                          prefHeight="26.0" prefWidth="299.0"
                                           promptText="Confirm Password" style="-fx-text-fill: #fff;"
                                           unFocusColor="#675858"/>
                     </children>
