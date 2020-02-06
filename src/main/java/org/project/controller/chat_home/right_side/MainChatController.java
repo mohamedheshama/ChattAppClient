@@ -45,7 +45,7 @@ public class MainChatController {
         //      ImageView profileImage = new ImageView(image);
         WebView webView = new WebView();
         webView.getEngine().loadContent(msg.getMsg());
-
+        webView.setMaxWidth(300);
         HBox hBox = new HBox();
         hBox.setMaxWidth(chatPane.getWidth() - 20);
         hBox.setAlignment(Pos.TOP_RIGHT);
