@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="background" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="616.0" prefWidth="590.0" style="-fx-background-color: #000; -fx-background-image: url(&quot;./images/bg2.jpg&quot;); -fx-background-size: cover,auto; -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0);" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.controller.register.RegisterController">
+<AnchorPane fx:id="background" maxHeight="600.0" maxWidth="600.0" minHeight="400.0" minWidth="200.0" prefHeight="616.0" prefWidth="590.0" style="-fx-background-color: #000; -fx-background-image: url(&quot;./images/bg2.jpg&quot;); -fx-background-size: cover,auto; -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0);" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.controller.register.RegisterController">
     <children>
-        <AnchorPane layoutX="145.0" layoutY="87.0" onMouseClicked="#confirmPasswordValid" opacity="0.96" prefHeight="475.0" prefWidth="200.0" style="-fx-background-color: #fff; -fx-background-radius: 20px; -fx-border-radius: 20px; -fx-border-width: 1px; -fx-border-color: #999; -fx-background-color: rgba(0,0,0,0.15);" AnchorPane.bottomAnchor="53.80000000000001" AnchorPane.leftAnchor="145.0" AnchorPane.rightAnchor="102.0" AnchorPane.topAnchor="87.0">
+        <AnchorPane layoutX="145.0" layoutY="87.0" maxHeight="600.0" maxWidth="600.0" minHeight="400.0" minWidth="200.0" onMouseClicked="#confirmPasswordValid" opacity="0.96" prefHeight="475.0" prefWidth="200.0" style="-fx-background-color: #fff; -fx-background-radius: 20px; -fx-border-radius: 20px; -fx-border-width: 1px; -fx-border-color: #999; -fx-background-color: rgba(0,0,0,0.15);" AnchorPane.bottomAnchor="53.80000000000001" AnchorPane.leftAnchor="145.0" AnchorPane.rightAnchor="102.0" AnchorPane.topAnchor="87.0">
             <children>
                 <JFXTextField fx:id="phone_num" focusColor="#fafbfd" layoutX="53.0" layoutY="119.0" onMouseClicked="#userPhoneNumber" prefHeight="26.0" prefWidth="274.0" promptText="Phone number" style="-fx-text-fill: #fff;" unFocusColor="#675858" />
                 <JFXTextField editable="false" focusColor="WHITE" layoutX="14.0" layoutY="118.0" prefHeight="26.0" prefWidth="33.0" style="-fx-color: #fff;" text="20 +" />
@@ -79,10 +79,10 @@
                 <JFXCheckBox layoutX="15.0" layoutY="344.0" mnemonicParsing="false" text="i accept the " />
                 <Label layoutX="101.0" layoutY="345.0" prefHeight="18.0" prefWidth="172.0" text=" Terms of Use &amp; Privacy Policy " textFill="#1eac50" />
                 <JFXButton fx:id="registBtn" buttonType="RAISED" layoutX="47.0" layoutY="386.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="221.0" ripplerFill="#0099cc" style="-fx-background-color: #0066ff;" text="Register Now " textFill="WHITE" />
-            <Label fx:id="phoneNumError" layoutX="53.0" layoutY="146.0" textFill="#d70909" />
-            <Label fx:id="nameError" layoutX="33.0" layoutY="194.0" textFill="#c70e0e" />
-            <Label fx:id="emailError" layoutX="31.0" layoutY="234.0" textFill="#d50e0e" />
-            <Label fx:id="passError" layoutX="33.0" layoutY="284.0" textFill="#d70d0d" />
+                <Label fx:id="phoneNumError" layoutX="53.0" layoutY="146.0" textFill="#d70909" />
+                <Label fx:id="nameError" layoutX="33.0" layoutY="194.0" textFill="#c70e0e" />
+                <Label fx:id="emailError" layoutX="31.0" layoutY="234.0" textFill="#d50e0e" />
+                <Label fx:id="passError" layoutX="33.0" layoutY="284.0" textFill="#d70d0d" />
             </children>
             <cursor>
                 <Cursor fx:constant="H_RESIZE" />

@@ -16,7 +16,8 @@ public class App extends Application {
     private static Scene scene;
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("views/chat_home/right_side/main_chat"));
+        // scene = new Scene(loadFXML("views/chat_home/right_side/main_chat"));
+        scene = new Scene(loadFXML("views/register_view"));
         stage.setScene(scene);
         stage.show();
     }
