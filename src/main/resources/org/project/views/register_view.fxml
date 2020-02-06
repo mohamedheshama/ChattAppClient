@@ -2,21 +2,26 @@
 
 <?import com.jfoenix.controls.*?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity" prefHeight="616.0" prefWidth="590.0"
-            style="-fx-background-color: #09c; -fx-background-image: url(&quot;../images/bg2.jpg&quot;); -fx-background-size: cover,auto; -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0);"
-            xmlns="http://javafx.com/javafx/10.0.2-internal">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="background" maxHeight="-Infinity" maxWidth="-Infinity"
+            minHeight="-Infinity" minWidth="-Infinity" prefHeight="616.0" prefWidth="590.0"
+            style="-fx-background-color: #000; -fx-background-image: url(&quot;./images/bg2.jpg&quot;); -fx-background-size: cover,auto; -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0);"
+            xmlns="http://javafx.com/javafx/10.0.2-internal"
+            fx:controller="org.project.controller.register.RegisterController">
     <children>
-        <AnchorPane layoutX="145.0" layoutY="87.0" opacity="0.96" prefHeight="475.0" prefWidth="342.0"
-                    style="-fx-background-color: #fff; -fx-background-radius: 20px; -fx-border-radius: 20px; -fx-border-width: 1px; -fx-border-color: #999; -fx-background-color: rgba(0,0,0,0.15);">
+        <AnchorPane layoutX="145.0" layoutY="87.0" onMouseClicked="#confirmPasswordValid" opacity="0.96"
+                    prefHeight="475.0" prefWidth="200.0"
+                    style="-fx-background-color: #fff; -fx-background-radius: 20px; -fx-border-radius: 20px; -fx-border-width: 1px; -fx-border-color: #999; -fx-background-color: rgba(0,0,0,0.15);"
+                    AnchorPane.bottomAnchor="53.80000000000001" AnchorPane.leftAnchor="145.0"
+                    AnchorPane.rightAnchor="102.0" AnchorPane.topAnchor="87.0">
             <children>
-                <JFXTextField focusColor="#fafbfd" layoutX="53.0" layoutY="119.0" prefHeight="26.0" prefWidth="274.0"
-                              promptText="Phone nimber" style="-fx-text-fill: #fff;" unFocusColor="#675858"/>
+                <JFXTextField fx:id="phone_num" focusColor="#fafbfd" layoutX="53.0" layoutY="119.0"
+                              onMouseClicked="#userPhoneNumber" prefHeight="26.0" prefWidth="274.0"
+                              promptText="Phone number" style="-fx-text-fill: #fff;" unFocusColor="#675858"/>
                 <JFXTextField editable="false" focusColor="WHITE" layoutX="14.0" layoutY="118.0" prefHeight="26.0"
                               prefWidth="33.0" style="-fx-color: #fff;" text="20 +"/>
                 <Label layoutX="14.0" layoutY="71.0" prefHeight="22.0" prefWidth="191.0" text="Create account"
@@ -42,8 +47,9 @@
                                 <Insets top="8.0"/>
                             </HBox.margin>
                         </ImageView>
-                        <JFXTextField focusColor="#f9fafd" prefHeight="8.0" prefWidth="295.0" promptText="User name"
-                                      style="-fx-text-fill: #fff;" unFocusColor="#675858"/>
+                        <JFXTextField fx:id="username" focusColor="#f9fafd" onMouseClicked="#setUserName"
+                                      onMousePressed="#userPhoneValid" prefHeight="8.0" prefWidth="295.0"
+                                      promptText="User name" style="-fx-text-fill: #fff;" unFocusColor="#675858"/>
                     </children>
                 </HBox>
                 <HBox layoutX="12.0" layoutY="211.0" prefHeight="31.0" prefWidth="314.0">
@@ -56,8 +62,9 @@
                                 <Insets top="11.0"/>
                             </HBox.margin>
                         </ImageView>
-                        <JFXTextField focusColor="WHITE" prefHeight="11.0" prefWidth="295.0" promptText="E-mail"
-                                      style="-fx-text-fill: #fff;" unFocusColor="#675858"/>
+                        <JFXTextField fx:id="userEmail" focusColor="WHITE" onKeyPressed="#setUserEmail"
+                                      onMouseClicked="#userNameValid" prefHeight="11.0" prefWidth="295.0"
+                                      promptText="E-mail" style="-fx-text-fill: #fff;" unFocusColor="#675858"/>
                     </children>
                 </HBox>
                 <HBox layoutX="12.0" layoutY="253.0" prefHeight="26.0" prefWidth="314.0">
@@ -70,8 +77,10 @@
                                 <Insets top="8.0"/>
                             </HBox.margin>
                         </ImageView>
-                        <JFXPasswordField focusColor="WHITE" prefHeight="26.0" prefWidth="299.0" promptText="Password"
-                                          style="-fx-text-fill: #fff;" unFocusColor="#675858"/>
+                        <JFXPasswordField fx:id="userPassword" focusColor="WHITE"
+                                          onInputMethodTextChanged="#setUserPassword" onKeyPressed="#setUserPassword"
+                                          onMouseClicked="#emailValid" prefHeight="26.0" prefWidth="299.0"
+                                          promptText="Password" style="-fx-text-fill: #fff;" unFocusColor="#675858"/>
                     </children>
                 </HBox>
                 <HBox layoutX="14.0" layoutY="292.0" prefHeight="26.0" prefWidth="314.0">
@@ -84,7 +93,9 @@
                                 <Insets top="8.0"/>
                             </HBox.margin>
                         </ImageView>
-                        <JFXPasswordField focusColor="WHITE" prefHeight="26.0" prefWidth="299.0"
+                        <JFXPasswordField fx:id="userPasswordConfirm" focusColor="WHITE"
+                                          onAction="#confirmPasswordValid" onMouseClicked="#passwordValid"
+                                          onMouseExited="#confirmPasswordValid" prefHeight="26.0" prefWidth="299.0"
                                           promptText="Confirm Password" style="-fx-text-fill: #fff;"
                                           unFocusColor="#675858"/>
                     </children>
@@ -92,9 +103,13 @@
                 <JFXCheckBox layoutX="15.0" layoutY="344.0" mnemonicParsing="false" text="i accept the "/>
                 <Label layoutX="101.0" layoutY="345.0" prefHeight="18.0" prefWidth="172.0"
                        text=" Terms of Use &amp; Privacy Policy " textFill="#1eac50"/>
-                <JFXButton buttonType="RAISED" layoutX="47.0" layoutY="386.0" mnemonicParsing="false" prefHeight="26.0"
-                           prefWidth="221.0" ripplerFill="#0099cc" style="-fx-background-color: #0066ff;"
-                           text="Register Now " textFill="WHITE"/>
+                <JFXButton fx:id="registBtn" buttonType="RAISED" layoutX="47.0" layoutY="386.0" mnemonicParsing="false"
+                           prefHeight="26.0" prefWidth="221.0" ripplerFill="#0099cc"
+                           style="-fx-background-color: #0066ff;" text="Register Now " textFill="WHITE"/>
+                <Label fx:id="phoneNumError" layoutX="53.0" layoutY="146.0" textFill="#d70909"/>
+                <Label fx:id="nameError" layoutX="33.0" layoutY="194.0" textFill="#c70e0e"/>
+                <Label fx:id="emailError" layoutX="31.0" layoutY="234.0" textFill="#d50e0e"/>
+                <Label fx:id="passError" layoutX="33.0" layoutY="284.0" textFill="#d70d0d"/>
             </children>
             <cursor>
                 <Cursor fx:constant="H_RESIZE"/>
