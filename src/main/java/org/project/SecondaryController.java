@@ -8,7 +8,6 @@ public class SecondaryController {
 
     @FXML
     private void switchToPrimary() throws IOException {
-        App.setRoot("views/register_view");
-        //App.setRoot("views/update_info_view");
+        App.setRoot("views/login_view");
     }
 }
