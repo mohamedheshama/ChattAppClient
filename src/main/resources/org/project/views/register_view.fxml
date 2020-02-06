@@ -7,14 +7,14 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="background" maxHeight="-Infinity" maxWidth="-Infinity"
-            minHeight="-Infinity" minWidth="-Infinity" prefHeight="616.0" prefWidth="590.0"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="background" maxHeight="608.0" maxWidth="600.0" minHeight="400.0"
+            minWidth="200.0" prefHeight="608.0" prefWidth="590.0"
             style="-fx-background-color: #000; -fx-background-image: url(&quot;./images/bg2.jpg&quot;); -fx-background-size: cover,auto; -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0);"
             xmlns="http://javafx.com/javafx/10.0.2-internal"
             fx:controller="org.project.controller.register.RegisterController">
     <children>
-        <AnchorPane layoutX="145.0" layoutY="87.0" onMouseClicked="#confirmPasswordValid" opacity="0.96"
-                    prefHeight="475.0" prefWidth="200.0"
+        <AnchorPane layoutX="145.0" layoutY="87.0" maxHeight="600.0" maxWidth="600.0" minHeight="400.0" minWidth="200.0"
+                    onMouseClicked="#confirmPasswordValid" opacity="0.96" prefHeight="475.0" prefWidth="200.0"
                     style="-fx-background-color: #fff; -fx-background-radius: 20px; -fx-border-radius: 20px; -fx-border-width: 1px; -fx-border-color: #999; -fx-background-color: rgba(0,0,0,0.15);"
                     AnchorPane.bottomAnchor="53.80000000000001" AnchorPane.leftAnchor="145.0"
                     AnchorPane.rightAnchor="102.0" AnchorPane.topAnchor="87.0">
