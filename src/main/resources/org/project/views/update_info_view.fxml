@@ -119,7 +119,7 @@
             <JFXRadioButton layoutX="214.0" layoutY="513.0" mnemonicParsing="false" selected="true" text="Female"
                             toggleGroup="$gender"/>
             <Circle fill="#172029" layoutX="226.0" layoutY="87.0" radius="57.0" stroke="#d2d1d1" strokeType="INSIDE"
-                    style="-fx-fill: #fff;"/>
+                    style="-fx-fill: url(&quot;../images/bg2.jpg&quot;);"/>
             <Circle fill="#1bc54b" layoutX="274.0" layoutY="122.0" radius="8.0" stroke="#f3f5f3" strokeType="INSIDE"/>
             <Pane layoutX="26.0" layoutY="94.0" prefHeight="114.0" prefWidth="117.0"
                   style="-fx-background-color: #000; -fx-background-radius: 300px; -fx-border-width: 1px;"/>

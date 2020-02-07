@@ -1,38 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-
-<AnchorPane prefHeight="596.0" prefWidth="593.0" style="-fx-background-color: #09c; -fx-background-size: cover,auto; -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0); -fx-background-image: url(https://www.thinkwithgoogle.com/feature/travel-customer-journey-in-2020/public/img/hero1.65a76bc3.jpg);" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.controller.login.LoginController">
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="596.0" prefWidth="593.0"
+            style="-fx-background-color: #09c; -fx-background-size: cover,auto; -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0); -fx-background-image: url(https://www.thinkwithgoogle.com/feature/travel-customer-journey-in-2020/public/img/hero1.65a76bc3.jpg);"
+            xmlns="http://javafx.com/javafx/10.0.2-internal"
+            fx:controller="org.project.controller.login.LoginController">
    <children>
-      <AnchorPane layoutX="130.0" layoutY="60.0" opacity="0.96" prefHeight="475.0" prefWidth="342.0" style="-fx-background-color: #fff; -fx-background-radius: 20px; -fx-border-radius: 20px; -fx-border-width: 1px; -fx-border-color: #999; -fx-background-color: rgba(0,18,35,0.15);">
+      <AnchorPane layoutX="130.0" layoutY="60.0" opacity="0.96" prefHeight="475.0" prefWidth="342.0"
+                  style="-fx-background-color: #fff; -fx-background-radius: 20px; -fx-border-radius: 20px; -fx-border-width: 1px; -fx-border-color: #999; -fx-background-color: rgba(0,18,35,0.15);">
          <cursor>
-            <Cursor fx:constant="H_RESIZE" />
+            <Cursor fx:constant="H_RESIZE"/>
          </cursor>
          <children>
-            <ImageView fitHeight="63.0" fitWidth="130.0" layoutX="109.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" style="-fx-border-radius: 20px; -fx-border-width: 5px;">
+            <ImageView fitHeight="63.0" fitWidth="130.0" layoutX="109.0" layoutY="14.0" pickOnBounds="true"
+                       preserveRatio="true" style="-fx-border-radius: 20px; -fx-border-width: 5px;">
                <image>
-                  <Image url="@../images/photo-1553905346-3b6e399115b4.jpg" />
+                  <Image url="@../images/photo-1553905346-3b6e399115b4.jpg"/>
                </image>
             </ImageView>
             <HBox layoutX="12.0" layoutY="140.0" prefHeight="26.0" prefWidth="314.0">
                <children>
                   <ImageView fitHeight="26.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/person.png" />
+                        <Image url="@../images/person.png"/>
                      </image>
                      <HBox.margin>
-                        <Insets top="6.0" />
+                        <Insets top="6.0"/>
                      </HBox.margin>
                   </ImageView>
-                  <JFXTextField fx:id="phonenumber_Txtfield" focusColor="#f9fafd" prefHeight="8.0" prefWidth="295.0" promptText="phone number " style="-fx-text-fill: #fff;" unFocusColor="#675858">
+                  <JFXTextField fx:id="phonenumber_Txtfield" focusColor="#f9fafd" prefHeight="8.0" prefWidth="295.0"
+                                promptText="phone number " style="-fx-text-fill: #fff;" unFocusColor="#675858">
                      <HBox.margin>
-                        <Insets left="10.0" />
+                        <Insets left="10.0"/>
                      </HBox.margin>
                   </JFXTextField>
                </children>
@@ -41,38 +49,46 @@
                <children>
                   <ImageView fitHeight="26.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/password.png" />
+                        <Image url="@../images/password.png"/>
                      </image>
                      <HBox.margin>
-                        <Insets top="5.0" />
+                        <Insets top="5.0"/>
                      </HBox.margin>
                   </ImageView>
-                  <JFXPasswordField fx:id="password_TxtField" focusColor="#f8f9fc" prefHeight="25.0" prefWidth="296.0" promptText="Password" style="-fx-text-fill: #fff;" unFocusColor="#675858">
+                  <JFXPasswordField fx:id="password_TxtField" focusColor="#f8f9fc" prefHeight="25.0" prefWidth="296.0"
+                                    promptText="Password" style="-fx-text-fill: #fff;" unFocusColor="#675858">
                      <HBox.margin>
-                        <Insets left="10.0" />
+                        <Insets left="10.0"/>
                      </HBox.margin>
                   </JFXPasswordField>
                </children>
             </HBox>
-            <JFXCheckBox fx:id="keep_me_login_Chkbox" layoutX="14.0" layoutY="251.0" mnemonicParsing="false" text="Keep me Logged in " />
-            <JFXButton fx:id="login_Btn" buttonType="RAISED" layoutX="60.0" layoutY="321.0" mnemonicParsing="false" onAction="#view" prefHeight="26.0" prefWidth="221.0" ripplerFill="#69b1c3" style="-fx-border-radius: 20px;" text="Log in" textFill="#fffdfd">
+            <JFXCheckBox fx:id="keep_me_login_Chkbox" layoutX="14.0" layoutY="251.0" mnemonicParsing="false"
+                         text="Keep me Logged in "/>
+            <JFXButton fx:id="login_Btn" buttonType="RAISED" layoutX="60.0" layoutY="321.0" mnemonicParsing="false"
+                       onAction="#view" prefHeight="26.0" prefWidth="221.0" ripplerFill="#69b1c3"
+                       style="-fx-border-radius: 20px;" text="Log in" textFill="#fffdfd">
                <font>
-                  <Font size="19.0" />
+                  <Font size="19.0"/>
                </font>
             </JFXButton>
-            <Label fx:id="new_user_register_label" layoutX="215.0" layoutY="402.0" text="New User Register" underline="true" />
-            <Label fx:id="error_msg_password_label" layoutX="40.0" layoutY="229.0" prefHeight="17.0" prefWidth="196.0" text="Wrong password ! please try again.." textFill="#d72828" visible="false" />
-            <Label fx:id="error_msg_phone_label" layoutX="52.0" layoutY="178.0" prefHeight="17.0" prefWidth="132.0" text="phone number not Exist" textFill="#d31616" visible="false" />
+            <Label fx:id="new_user_register_label" layoutX="215.0" layoutY="402.0" text="New User Register"
+                   underline="true"/>
+            <Label fx:id="error_msg_password_label" layoutX="40.0" layoutY="229.0" prefHeight="17.0" prefWidth="196.0"
+                   text="Wrong password ! please try again.." textFill="#d72828" visible="false"/>
+            <Label fx:id="error_msg_phone_label" layoutX="52.0" layoutY="178.0" prefHeight="17.0" prefWidth="132.0"
+                   text="phone number not Exist" textFill="#d31616" visible="false"/>
          </children>
       </AnchorPane>
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="223.0" layoutY="2.0" text="Speak" textFill="#f8f1f1">
          <font>
-            <Font name="Berlin Sans FB Demi Bold" size="48.0" />
+            <Font name="Berlin Sans FB Demi Bold" size="48.0"/>
          </font>
       </Label>
-      <Label layoutX="173.0" layoutY="556.0" text="\@2020 Speak Chat  . All rights reserved,Design by ITI" textFill="#fffafa">
+      <Label layoutX="173.0" layoutY="556.0" text="\@2020 Speak Chat  . All rights reserved,Design by ITI"
+             textFill="#fffafa">
          <font>
-            <Font size="11.0" />
+            <Font size="11.0"/>
          </font>
       </Label>
    </children>

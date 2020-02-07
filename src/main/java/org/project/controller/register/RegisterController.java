@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
@@ -24,8 +25,7 @@ public class RegisterController implements Initializable {
     @FXML
     private JFXTextField username;
 
-    // @FXML
-    //private JFXTextField password;
+    boolean checkPhone = false;
     @FXML
     private JFXTextField userEmail;
     // @FXML
@@ -42,6 +42,13 @@ public class RegisterController implements Initializable {
     private JFXPasswordField userPasswordConfirm;
     @FXML
     private Label passError;
+    boolean checkEmail = false;
+    boolean checkName = false;
+    boolean checkPass = false;
+    boolean checkConfirmPass = false;
+    @FXML
+    private Button registBtn;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -81,7 +88,7 @@ public class RegisterController implements Initializable {
 
     @FXML
     public void setUserPassword() {
-        confirmPasswordValid();
+        //confirmPasswordValid();
         if (!userPassword.getText().isEmpty() || userPassword.getText() != " ") {
 
             userPassword.setStyle("-fx-border: 0px 0px 0px 0px ;");
@@ -93,6 +100,18 @@ public class RegisterController implements Initializable {
 
     }
 
+
+    @FXML
+    public void setUserConfirmPassword() {
+
+
+        userPasswordConfirm.setStyle("-fx-border: 0px 0px 0px 0px ;");
+        passError.setText("");
+        userPasswordConfirm.setFocusColor(Color.WHITE);
+        // userPasswordConfirm.setFocusColor(Color.DARKRED);
+
+
+    }
 
     @FXML
     public boolean userPhoneValid() {
@@ -111,10 +130,7 @@ public class RegisterController implements Initializable {
 
     @FXML
     public boolean userNameValid() {
-        userPhoneValid();
 
-
-//username.getText().matches("^[a-zA-Z_-][ a-zA-Z0-9_-]{6,14}$")
         if (!username.getText().matches("^[a-zA-Z_-][ a-zA-Z0-9_-]{6,14}$")) {
 
             username.setStyle("-fx-border: 0px 0px 2px 0px ; -fx-border-color: #f60");
@@ -125,10 +141,8 @@ public class RegisterController implements Initializable {
         return username.getText().matches("^[a-zA-Z_-][ a-zA-Z0-9_-]{6,14}$");
     }
 
-
     public boolean emailValid() {
-        userPhoneValid();
-        userNameValid();
+
         if (!userEmail.getText().matches("^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$")) {
 
             userEmail.setStyle("-fx-border: 0px 0px 2px 0px ; -fx-border-color: #f60");
@@ -140,27 +154,67 @@ public class RegisterController implements Initializable {
     }
 
     public boolean passwordValid() {
-        userPhoneValid();
-        userNameValid();
-        if (!userPassword.getText().matches("^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9\\\\\\\\s]).{6,}")) {
+
+        if (!userPassword.getText().matches("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$")) {
 
             userPassword.setStyle("-fx-border: 0px 0px 2px 0px ; -fx-border-color: #f60");
             passError.setText("Password Weak");
         }
 
 
-        return userPassword.getText().matches("^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$");
+        return userPassword.getText().matches("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$");
     }
 
     public void confirmPasswordValid() {
-        userPhoneValid();
+
 
         if (userPasswordConfirm.getText().equals(userPassword.getText())) {
-            userPasswordConfirm.setFocusColor(Color.GREEN);
-            userPassword.setUnFocusColor(Color.GREEN);
+            //userPasswordConfirm.setFocusColor(Color.GREEN);
+            // userPassword.setUnFocusColor(Color.GREEN);
+            checkConfirmPass = true;
         } else {
             userPasswordConfirm.setFocusColor(Color.DARKRED);
-            userPassword.setUnFocusColor(Color.DARKRED);
+            //userPassword.setUnFocusColor(Color.DARKRED);
+            passError.setText("Password Does Not Match");
+            userPassword.setStyle("-fx-border: 0px 0px 2px 0px ; -fx-border-color: #f60");
+            checkConfirmPass = false;
+        }
+
+
+    }
+
+    public void registe() {
+        userPhoneValid();
+        userNameValid();
+        emailValid();
+        passwordValid();
+
+
+        confirmPasswordValid();
+
+        if (userPhoneValid()) {
+            System.out.println("phone");
+        }
+        if (userNameValid()) {
+            System.out.println("name");
+        }
+        if (passwordValid()) {
+            System.out.println("pass");
+        }
+        if (emailValid()) {
+            System.out.println("email");
+        }
+
+        if (checkConfirmPass) {
+            System.out.println("confirm");
+        }
+
+
+        if (userPhoneValid() && userNameValid() && emailValid() && passwordValid() && checkConfirmPass) {
+            System.out.println("hello");
+            emailError.setText("E-mail Is Not Valid");
+
+
         }
 
 
