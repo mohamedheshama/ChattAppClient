@@ -20,7 +20,7 @@
                     AnchorPane.rightAnchor="102.0" AnchorPane.topAnchor="87.0">
             <children>
                 <JFXTextField fx:id="phone_num" focusColor="#fafbfd" layoutX="53.0" layoutY="119.0"
-                              onMouseClicked="#userPhoneNumber" prefHeight="26.0" prefWidth="274.0"
+                              onKeyTyped="#userPhoneNumber" prefHeight="26.0" prefWidth="274.0"
                               promptText="Phone number" style="-fx-text-fill: #fff;" unFocusColor="#675858"/>
                 <JFXTextField editable="false" focusColor="WHITE" layoutX="14.0" layoutY="118.0" prefHeight="26.0"
                               prefWidth="33.0" style="-fx-color: #fff;" text="20 +"/>
@@ -47,7 +47,7 @@
                                 <Insets top="8.0"/>
                             </HBox.margin>
                         </ImageView>
-                        <JFXTextField fx:id="username" focusColor="#f9fafd" onMouseClicked="#setUserName"
+                        <JFXTextField fx:id="username" focusColor="#f9fafd" onKeyTyped="#validateUserName"
                                       prefHeight="8.0" prefWidth="295.0" promptText="User name"
                                       style="-fx-text-fill: #fff;" unFocusColor="#675858"/>
                     </children>
@@ -62,7 +62,7 @@
                                 <Insets top="11.0"/>
                             </HBox.margin>
                         </ImageView>
-                        <JFXTextField fx:id="userEmail" focusColor="WHITE" onKeyTyped="#setUserEmail" prefHeight="11.0"
+                        <JFXTextField fx:id="userEmail" focusColor="WHITE" onKeyTyped="#validateEmail" prefHeight="11.0"
                                       prefWidth="295.0" promptText="E-mail" style="-fx-text-fill: #fff;"
                                       unFocusColor="#675858"/>
                     </children>
@@ -78,8 +78,7 @@
                             </HBox.margin>
                         </ImageView>
                         <JFXPasswordField fx:id="userPassword" focusColor="WHITE"
-                                          onInputMethodTextChanged="#setUserPassword" onKeyPressed="#setUserPassword"
-                                          onMouseClicked="#setUserPassword" prefHeight="26.0" prefWidth="299.0"
+                                         onKeyTyped="#validatePasswordMatch" prefHeight="26.0" prefWidth="299.0"
                                           promptText="Password" style="-fx-text-fill: #fff;" unFocusColor="#675858"/>
                     </children>
                 </HBox>
@@ -94,7 +93,7 @@
                             </HBox.margin>
                         </ImageView>
                         <JFXPasswordField fx:id="userPasswordConfirm" focusColor="WHITE"
-                                          onMouseClicked="#setUserConfirmPassword" prefHeight="26.0" prefWidth="299.0"
+                                          onKeyTyped="#validatePasswordMatch" prefHeight="26.0" prefWidth="299.0"
                                           promptText="Confirm Password" style="-fx-text-fill: #fff;"
                                           unFocusColor="#675858"/>
                     </children>
