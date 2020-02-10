@@ -5,6 +5,7 @@ module org.project {
     requires javafx.web;
     requires java.logging;
     requires java.sql;
+    requires java.rmi;
 
     opens org.project to javafx.fxml;
     opens org.project.controller.login to javafx.fxml;
