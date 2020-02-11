@@ -5,7 +5,6 @@ import java.rmi.RemoteException;
 
 public class MainDeligator {
     ServerConnectionController serverConnectionController;
-
     public MainDeligator() {
         try {
             this.serverConnectionController = new ServerConnectionController("localhost", 1234);
@@ -23,7 +22,9 @@ public class MainDeligator {
 //Karima
 // ToDo establish connection using class ServerConnectionController and return all user data from server
 
-
+    public Boolean checkUserLogin(String phoneNumber, String password) throws RemoteException {
+        return serverConnectionController.getServicesInterface().checkUserLogin(phoneNumber , password);
+    }
 //end Karima
 //Eman
 // ToDo populate Frieds and Friend Requests ListView With data
