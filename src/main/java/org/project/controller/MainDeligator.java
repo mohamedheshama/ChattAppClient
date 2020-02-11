@@ -1,14 +1,14 @@
 package org.project.controller;
 
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
-public class MainChatController {
+public class MainDeligator {
     ServerConnectionController serverConnectionController;
-
-    public MainChatController(ServerConnectionController serverConnectionController) {
+    public MainDeligator() {
         try {
             this.serverConnectionController = new ServerConnectionController("localhost", 1234);
-        } catch (RemoteException e) {
+        } catch (RemoteException | NotBoundException e) {
             e.printStackTrace();
         }
     }
@@ -22,7 +22,9 @@ public class MainChatController {
 //Karima
 // ToDo establish connection using class ServerConnectionController and return all user data from server
 
-
+    public Boolean checkUserLogin(String phoneNumber, String password) throws RemoteException {
+        return serverConnectionController.getServicesInterface().checkUserLogin(phoneNumber , password);
+    }
 //end Karima
 //Eman
 // ToDo populate Frieds and Friend Requests ListView With data

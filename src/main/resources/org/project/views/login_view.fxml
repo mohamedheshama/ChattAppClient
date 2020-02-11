@@ -72,8 +72,8 @@
                   <Font size="19.0"/>
                </font>
             </JFXButton>
-            <Label fx:id="new_user_register_label" layoutX="215.0" layoutY="402.0" text="New User Register"
-                   underline="true"/>
+            <Label fx:id="new_user_register_label" layoutX="215.0" layoutY="402.0" onMouseClicked="#registerNewUser"
+                   text="New User Register" underline="true"/>
             <Label fx:id="error_msg_password_label" layoutX="40.0" layoutY="229.0" prefHeight="17.0" prefWidth="196.0"
                    text="Wrong password ! please try again.." textFill="#d72828" visible="false"/>
             <Label fx:id="error_msg_phone_label" layoutX="52.0" layoutY="178.0" prefHeight="17.0" prefWidth="132.0"
