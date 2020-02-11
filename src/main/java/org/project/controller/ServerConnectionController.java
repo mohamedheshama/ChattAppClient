@@ -10,6 +10,10 @@ public class ServerConnectionController {
     private int port;
     ServicesInterface servicesInterface;
 
+    public ServicesInterface getServicesInterface() {
+        return servicesInterface;
+    }
+
     // toDo define chat seerver interface
     public ServerConnectionController(String ip, int port) throws RemoteException, NotBoundException {
         this.port = port;
