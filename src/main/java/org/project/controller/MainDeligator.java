@@ -1,14 +1,15 @@
 package org.project.controller;
 
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
-public class MainChatController {
+public class MainDeligator {
     ServerConnectionController serverConnectionController;
 
-    public MainChatController(ServerConnectionController serverConnectionController) {
+    public MainDeligator() {
         try {
             this.serverConnectionController = new ServerConnectionController("localhost", 1234);
-        } catch (RemoteException e) {
+        } catch (RemoteException | NotBoundException e) {
             e.printStackTrace();
         }
     }

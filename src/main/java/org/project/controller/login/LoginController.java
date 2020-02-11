@@ -7,7 +7,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import org.project.App;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -27,6 +29,7 @@ public class LoginController implements Initializable {
     private Button login_Btn;
     @FXML
     private Label new_user_register_label;
+
     @FXML
     private Label error_msg_password_label;
     @FXML
@@ -35,6 +38,11 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+    }
+
+    @FXML
+    public void registerNewUser() throws IOException {
+        App.setRoot("views/register_view");
     }
 
     @FXML
