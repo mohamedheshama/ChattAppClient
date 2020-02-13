@@ -8,8 +8,10 @@ module org.project {
     requires java.rmi;
 
     opens org.project to javafx.fxml;
+    exports org.project.controller.chat_home.right_side to com.jfoenix;
     opens org.project.controller.login to javafx.fxml;
     opens org.project.controller.register to javafx.fxml;
+    opens org.project.controller.chat_home.right_side to javafx.fxml;
     exports org.project;
 
 }

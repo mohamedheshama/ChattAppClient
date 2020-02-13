@@ -1,5 +1,7 @@
 package org.project.controller;
 
+import org.project.controller.messages.Message;
+import org.project.model.ChatRoom;
 import org.project.model.dao.users.Users;
 
 import java.rmi.NotBoundException;
@@ -31,7 +33,10 @@ public class MainDeligator {
 // ToDo establish connection using class ServerConnectionController and return all user data from server
 
     public Boolean checkUserLogin(String phoneNumber, String password) throws RemoteException {
-        return serverConnectionController.getServicesInterface().checkUserLogin(phoneNumber , password);
+        return serverConnectionController.getServicesInterface().checkUserLogin(phoneNumber, password);
+    }
+
+    public void sendMsg(Message newMsg, ChatRoom chatRoom) {
     }
 //end Karima
 //Eman

@@ -1,5 +1,6 @@
 package org.project.model;
 
+import org.project.controller.messages.Message;
 import org.project.model.dao.users.Users;
 
 import java.io.Serializable;
@@ -8,6 +9,16 @@ import java.util.ArrayList;
 public class ChatRoom implements Serializable {
     private String chatRoomId;
     private ArrayList<Users> users = new ArrayList<>();
+
+    private ArrayList<Message> chatRoomMessage = new ArrayList<>();
+
+    public ArrayList<Message> getChatRoomMessage() {
+        return chatRoomMessage;
+    }
+
+    public void setChatRoomMessage(ArrayList<Message> chatRoomMessage) {
+        this.chatRoomMessage = chatRoomMessage;
+    }
 
     public ChatRoom() {
     }
@@ -19,7 +30,6 @@ public class ChatRoom implements Serializable {
     public String getChatRoomId() {
         return chatRoomId;
     }
-
     public void setChatRoomId(String chatRoomId) {
         this.chatRoomId = chatRoomId;
     }

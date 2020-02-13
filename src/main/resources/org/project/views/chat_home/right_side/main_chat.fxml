@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="600.0"
-            xmlns="http://javafx.com/javafx/10.0.2-internal"
-            fx:controller="org.project.controller.chat_home.right_side.MainChatController"
-            stylesheets="@../../../styles/chatroom_stylesheet.css"
->
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" id="chatRoomRoot" prefHeight="400.0" prefWidth="600.0"
+            stylesheets="@../../../styles/chatroom_stylesheet.css" xmlns="http://javafx.com/javafx/10.0.2-internal"
+            fx:controller="org.project.controller.chat_home.right_side.MainChatController">
 
    <children>
       <ScrollPane id="showMsgsScrollPane" fx:id="showMsgsScrollPane" hbarPolicy="NEVER" layoutX="-1.0" layoutY="83.0"
@@ -27,30 +26,33 @@
                 prefWidth="566.0">
          <children>
             <StackPane prefHeight="32.0" prefWidth="19.0"/>
-            <TextField id="msgTxtField" fx:id="msgTxtField" prefHeight="48.0" prefWidth="495.0"
-                       promptText="Type your message ... ">
+            <TextArea id="msgTxtField" fx:id="msgTxtField" prefHeight="48.0" prefWidth="495.0"
+                      promptText="Type your message ... ">
                <font>
                   <Font name="Arial" size="14.0"/>
                </font>
-            </TextField>
+            </TextArea>
             <StackPane prefHeight="48.0" prefWidth="6.0"/>
             <ImageView id="attachFileImgBtn" fx:id="attachFileImgBtn" fitHeight="23.0" fitWidth="23.0"
                        pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../attach_file_icon.png"/>
+                  <Image url="@../../../images/attach_file_icon.png"/>
                </image>
                <cursor>
                   <Cursor fx:constant="HAND"/>
                </cursor>
             </ImageView>
          </children>
+         <padding>
+            <Insets bottom="5.0"/>
+         </padding>
       </FlowPane>
       <JFXButton id="sendMsgImgBtn" fx:id="sendMsgImgBtn" defaultButton="true" ellipsisString="" graphicTextGap="0.0"
-                 layoutX="597.0" layoutY="543.0" prefHeight="46.0" prefWidth="46.0" text=" ">
+                 layoutX="597.0" layoutY="543.0" prefHeight="46.0" prefWidth="46.0" text=" " onAction="#sendMessage">
          <graphic>
             <ImageView fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../send_message_icon.png"/>
+                  <Image url="@../../../images/send_message_icon.png"/>
                </image>
             </ImageView>
          </graphic>
@@ -70,7 +72,7 @@
          <graphic>
             <ImageView fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../saveicon.png"/>
+                  <Image url="@../../../images/saveicon.png"/>
                </image>
             </ImageView>
          </graphic>
@@ -103,14 +105,14 @@
             <Font name="Times New Roman Italic" size="18.0"/>
          </font>
       </JFXToggleButton>
-      <JFXColorPicker id="fontColorPicker" fx:id="fontColorPicker" layoutX="375.0" layoutY="504.0" prefHeight="25.0"
-                      prefWidth="175.0" promptText="choose font color ..." style="-fx-color-label-visible: false;"/>
+      <JFXColorPicker id="fontColorPicker" fx:id="fontColorPicker" layoutX="375.0" layoutY="504.0" prefHeight="26.0"
+                      prefWidth="90.0" promptText="choose font color ..." style="-fx-color-label-visible: false;"/>
       <JFXButton id="addGroupMembersImgBtn" fx:id="addGroupMembersImgBtn" ellipsisString="" graphicTextGap="0.0"
                  layoutX="657.0" layoutY="8.0" prefHeight="49.0" prefWidth="54.0" textAlignment="CENTER">
          <graphic>
             <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../add_group_members_btn.png"/>
+                  <Image url="@../../../images/add_group_members_btn.png"/>
                </image>
                <cursor>
                   <Cursor fx:constant="HAND"/>
@@ -124,6 +126,11 @@
             <Font name="Times New Roman Bold" size="18.0"/>
          </font>
       </Label>
+      <JFXComboBox fx:id="fontComboBox" layoutX="526.0" layoutY="506.0" prefHeight="26.0" prefWidth="133.0"
+                   visibleRowCount="5"/>
    </children>
+   <padding>
+      <Insets top="5.0"/>
+   </padding>
 
 </AnchorPane>
