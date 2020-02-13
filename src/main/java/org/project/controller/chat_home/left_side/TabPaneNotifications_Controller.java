@@ -2,20 +2,21 @@ package org.project.controller.chat_home.left_side;;
 
 import com.jfoenix.controls.JFXTabPane;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
-import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import javafx.scene.layout.BorderPane;
+import org.project.model.dao.users.Users;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class TabPaneNotifications_Controller implements Initializable {
     public JFXTabPane tabpane;
+    public BorderPane chatsTab;
+    Users user;
+
     @FXML
     Tab tab1;
     @FXML
@@ -38,7 +39,6 @@ public class TabPaneNotifications_Controller implements Initializable {
         //imageView.setStyle("-fx-image: url(notification-icon-png-2.png);");
 
 
-
         tab2.setGraphic(notification);
         tab1.setGraphic(chat);
         tab1.setText("Chats");
@@ -46,13 +46,26 @@ public class TabPaneNotifications_Controller implements Initializable {
         tab1.setStyle("-fx-font-size: 10; -fx-text-alignment:Left");
         tab2.setStyle("-fx-font-size: 10; -fx-text-alignment:Right");
 
-
-
-
-
-
-
-
-
     }
+
+    public void setUser(Users user) {
+        this.user = user;
+    }
+    public void setChatListView() throws Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/left_side/ChatsListView.fxml"));
+        BorderPane root = (BorderPane) loader.load();
+        ChatListView chatListView = loader.getController();
+        chatListView.setChatsListView(user);
+        tab1.setContent(root);
+    }
+
+    public void setRequestListView() throws Exception{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/left_side/RequestsListView.fxml"));
+        BorderPane root = (BorderPane) loader.load();
+        RequestsListView requestsListView = loader.getController();
+        requestsListView.setRequestListView(user);
+        tab2.setContent(root);
+    }
+
 }
+

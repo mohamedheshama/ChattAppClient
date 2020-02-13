@@ -1,52 +1,41 @@
 package org.project.controller.chat_home.left_side;
 
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.util.Callback;
+import org.project.model.dao.users.Users;
+import java.util.ArrayList;
 
-import java.net.URL;
-import java.util.ResourceBundle;
 
-public class ChatListView implements Initializable {
-
+public class ChatListView {
     @FXML
-    private javafx.scene.control.ListView<User> listView;
+    public ListView chatsListView;
 
-    private ObservableList<User> studentObservableList;
+    private ObservableList<Users> chatsObservableList;
+    Users user;
 
-    public ChatListView() {
-
-        studentObservableList = FXCollections.observableArrayList();
-
-        //add some Students
-        studentObservableList.addAll(
-                new User("John Doe", User.Status.Online),
-                new User("Jane Doe", User.Status.Online),
-                new User("Donte Dunigan", User.Status.Online),
-                new User("Gavin Genna", User.Status.Online),
-                new User("Darin Dear", User.Status.Online),
-                new User("Pura Petty", User.Status.Online),
-                new User("Herma Hines", User.Status.Online)
-        );
-
-
+    public void displayUpdatedFriendStatus(ArrayList<Users> friends) {
+        chatsObservableList = FXCollections.observableArrayList(friends);
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        listView.setItems(studentObservableList);
-        listView.setCellFactory(studentListView -> new ChatsListViewCell());
-        listView.setCellFactory(new Callback<javafx.scene.control.ListView<User>, ListCell<User>>() {
+    public void setChatsListView(Users user) {
+        this.user = user;
+
+        chatsObservableList = FXCollections.observableArrayList(user.getFriends());
+        chatsListView.setItems(chatsObservableList);
+        chatsListView.setCellFactory(chatListView -> new ChatsListViewCell());
+        chatsListView.setCellFactory(new Callback<javafx.scene.control.ListView<Users>, ListCell<Users>>() {
             @Override
-            public ListCell<User> call(javafx.scene.control.ListView<User> UserListView) {
+            public ListCell<Users> call(javafx.scene.control.ListView<Users> UserListView) {
                 return new ChatsListViewCell();
             }
         });
-
-
+        System.out.println(user);
     }
 }
+
 

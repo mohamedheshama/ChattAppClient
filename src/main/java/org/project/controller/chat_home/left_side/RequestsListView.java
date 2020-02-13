@@ -1,52 +1,43 @@
-package org.project.controller.chat_home.left_side;;
+package org.project.controller.chat_home.left_side;
+
+;
+
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.util.Callback;
-
-import java.net.URL;
-import java.util.ResourceBundle;
-
-public class RequestsListView implements Initializable {
-
-    @FXML
-    private javafx.scene.control.ListView<User> listView;
-
-    private ObservableList<User> studentObservableList;
-
-    public RequestsListView() {
-
-        studentObservableList = FXCollections.observableArrayList();
-
-        //add some Students
-        studentObservableList.addAll(
-                new User("John Doe", User.Status.Online),
-                new User("Jane Doe", User.Status.Online),
-                new User("Donte Dunigan", User.Status.Online),
-                new User("Gavin Genna", User.Status.Online),
-                new User("Darin Dear", User.Status.Online),
-                new User("Pura Petty", User.Status.Online),
-                new User("Herma Hines", User.Status.Online)
-        );
+import org.project.model.dao.users.Users;
 
 
-    }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        listView.setItems(studentObservableList);
-        listView.setCellFactory(studentListView -> new RequestListViewCell());
-        listView.setCellFactory(new Callback<javafx.scene.control.ListView<User>, ListCell<User>>() {
+public class RequestsListView {
+
+
+    public ListView requestListView;
+    private ObservableList<Users> requestsObservableList;
+    Users user;
+
+
+    public void setRequestListView(Users user){
+        this.user=user;
+        requestsObservableList = FXCollections.observableArrayList(user.getRequest_notifications());
+        requestListView.setItems(requestsObservableList);
+        requestListView.setCellFactory(requestListView -> new RequestListViewCell());
+        requestListView.setCellFactory(new Callback<javafx.scene.control.ListView<Users>, ListCell<Users>>() {
             @Override
-            public ListCell<User> call(javafx.scene.control.ListView<User> UserListView) {
+            public ListCell<Users> call(javafx.scene.control.ListView<Users> UserListView) {
                 return new RequestListViewCell();
             }
         });
-
-
     }
+  /*  @FXML
+    public void Accept(ActionEvent event){
+        mainDeligator.acceptFriendRequest();
+        Users acceptedUser= (Users) requestListView.getSelectionModel().getSelectedItem();
+        requestsObservableList.remove(acceptedUser);
+    }*/
+
 }
 
