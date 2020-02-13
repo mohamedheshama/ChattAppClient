@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+
+<AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="76.0" prefWidth="329.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox layoutX="-1.0" prefHeight="76.0" prefWidth="330.0">
+         <children>
+            <Pane prefHeight="76.0" prefWidth="78.0">
+               <children>
+                  <Circle fx:id="picture" fill="LIGHTGRAY" layoutX="37.0" layoutY="38.0" radius="30.0" stroke="LIGHTGRAY" strokeType="INSIDE" />
+                  <Label fx:id="status" layoutX="46.0" layoutY="53.0" prefHeight="2.0" prefWidth="18.0" styleClass="online-dot" stylesheets="@../../../styles/chat-home/left-side/Styling.css" />
+               </children>
+            </Pane>
+            <Pane prefHeight="34.0" prefWidth="252.0" stylesheets="@../../../styles/chat-home/left-side/Styling.css">
+               <children>
+                  <Label fx:id="name" layoutY="30.0" styleClass="font-style" stylesheets="@../../../styles/chat-home/left-side/Styling.css" text="Iman Selim" />
+               </children>
+            </Pane>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

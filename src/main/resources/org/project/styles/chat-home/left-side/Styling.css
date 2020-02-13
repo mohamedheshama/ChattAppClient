@@ -1,0 +1,109 @@
+.button:hover {
+    -fx-background-color: #E5E5E5;
+    -fx-text-fill: #000;
+}
+
+
+
+
+/* The main scrollbar **thumb** CSS class which we drag every time (movable) */
+/* chart properties */
+
+
+/*Imaaaaan*/
+
+.online-dot {
+    -fx-background-color: #29CC41;
+    -fx-background-radius: 100%;
+}
+
+.font-style {
+    -fx-font-family: "Arial Rounded MT Bold";
+    -fx-font-size: 15;
+}
+
+.circular {
+    -fx-border-radius: 50%;
+}
+.list-view.cell:selected{
+    -fx-background-color: white;
+}
+
+
+.jfx-tab-pane .tab-selected-line {
+    -fx-background-color: transparent;
+}
+
+.jfx-tab-pane .tab:hover {
+    -fx-background-color: powderblue;
+}
+
+.jfx-tab-pane .tab {
+    -fx-background-color: lightblue;
+    -fx-pref-width: 150;
+    -fx-pref-height: 50;
+    -fx-alignment: Right;
+    -fx-padding: 0 0 0 0;
+}
+
+.jfx-tab-pane {
+    -fx-background-color: aliceblue;
+    -fx-pref-width: 400;
+
+
+}
+
+.tab-label {
+
+    -fx-alignment: Center;
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+    -fx-font-family: "Arial Rounded MT Bold";
+    /* all the same except this newly added one */
+}
+
+
+.jfx-tab-pane .tab-header-background {
+    -fx-background-color: lightblue;
+    -fx-alignment: center;
+
+}
+
+.jfx-tab-pane .tab-header-alignment {
+    -fx-alignment: center;
+
+}
+
+.tab:hover {
+    -fx-font-size: 15;
+    -fx-text-alignment: Bottom;
+
+
+}
+
+.jfx-button {
+    -fx-background-color: #09c;
+    -fx-background-radius: 10;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-border-color: grey;
+    -fx-border-radius: 10;
+}
+
+.label {
+    -fx-wrap-text: true;
+}
+
+.list-view {
+    -fx-selection-bar:aliceblue ;
+    -fx-selection-bar-non-focused: aliceblue ;
+}
+
+
+
+
+
+
+
+
+
