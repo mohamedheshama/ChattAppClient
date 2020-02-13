@@ -1,28 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import java.lang.String?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Circle?>
 
-<AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="76.0" prefWidth="329.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="76.0" prefWidth="329.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" >
    <children>
       <HBox layoutX="-1.0" prefHeight="76.0" prefWidth="330.0">
          <children>
             <Pane prefHeight="76.0" prefWidth="78.0">
                <children>
-                  <Circle fx:id="picture" fill="LIGHTGRAY" layoutX="37.0" layoutY="38.0" radius="30.0" stroke="LIGHTGRAY" strokeType="INSIDE" />
+                  <Circle fx:id="requestPicture" fill="LIGHTGRAY" layoutX="37.0" layoutY="38.0" radius="30.0" stroke="LIGHTGRAY" strokeType="INSIDE" />
                </children>
             </Pane>
             <Pane prefHeight="34.0" prefWidth="252.0">
                <children>
-                  <Label fx:id="name" layoutY="1.0" prefHeight="76.0" prefWidth="89.0" stylesheets="@../../../styles/chat-home/left-side/Styling.css" text="Iman Selim" wrapText="true">
+                  <Label fx:id="RequestName" layoutY="1.0" prefHeight="76.0" prefWidth="89.0" stylesheets="@../../../styles/chat-home/left-side/Styling.css" text="Iman Selim" wrapText="true">
                      <styleClass>
                         <String fx:value="font-style" />
                         <String fx:value="label" />
                      </styleClass></Label>
-                  <JFXButton fx:id="Accept" layoutX="93.0" layoutY="26.0" stylesheets="@../../../styles/chat-home/left-side/Styling.css" text="Accept" />
+                  <JFXButton fx:id="Accept" layoutX="93.0" layoutY="26.0"  stylesheets="@../../../styles/chat-home/left-side/Styling.css" text="Accept" />
                   <JFXButton fx:id="Decline" layoutX="163.0" layoutY="26.0" stylesheets="@../../../styles/chat-home/left-side/Styling.css" text="Decline" />
                </children>
             </Pane>
