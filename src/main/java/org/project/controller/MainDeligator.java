@@ -37,11 +37,15 @@ public class MainDeligator {
     }
 
     public void sendMsg(Message newMsg, ChatRoom chatRoom) {
+
     }
-//end Karima
+
+    //end Karima
 //Eman
 // ToDo populate Frieds and Friend Requests ListView With data
-
+    public Users login(String phoneNumber) throws RemoteException {
+        return serverConnectionController.getServicesInterface().getUserData(phoneNumber);
+    }
 
 //End Eman
 // Amr

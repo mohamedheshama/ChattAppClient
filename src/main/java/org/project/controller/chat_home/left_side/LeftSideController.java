@@ -1,11 +1,8 @@
 package org.project.controller.chat_home.left_side;
 
-import com.jfoenix.controls.JFXTabPane;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import org.project.controller.MainDeligator;
@@ -25,7 +22,7 @@ public class LeftSideController implements Initializable {
     public LeftSideController()  {
         try {
             mainDeligator = new MainDeligator();
-            user = mainDeligator.Login("01065001124");
+            user = mainDeligator.login("01065001124");
 
         } catch (
                 RemoteException e) {

@@ -24,7 +24,7 @@ public class ClientImp extends UnicastRemoteObject implements ClientInterface {
     public void recieveUpdateStatus(UserStatus status,int id) {
         Users user=findUserById(this.getUser().getFriends(),id);
         user.setStatus(status);
-        mainDeligator.displayUpdateStatus(this.getUser().getFriends());
+        //mainDeligator.displayUpdateStatus(this.getUser().getFriends());
 
     }
     public Users findUserById(ArrayList<Users> friends,int id){
