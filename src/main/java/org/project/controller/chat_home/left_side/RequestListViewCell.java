@@ -1,21 +1,24 @@
-package org.project.controller.chat_home.left_side;;
+package org.project.controller.chat_home.left_side;
+
+;
+
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.shape.Circle;
+import org.project.model.dao.users.Users;
 
 import java.io.IOException;
 
-public class RequestListViewCell extends ListCell<User> {
-    public Circle picture;
-    public Label status;
+public class RequestListViewCell extends ListCell<Users> {
+
     public AnchorPane pane;
-    public Label name;
+    public Label RequestName;
+
 
     @Override
-    protected void updateItem(User user, boolean empty) {
+    protected void updateItem(Users user, boolean empty) {
         super.updateItem(user, empty);
 
         if (empty || user == null) {
@@ -34,9 +37,7 @@ public class RequestListViewCell extends ListCell<User> {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                name.setText(String.valueOf(user.getName()));
-
-
+                RequestName.setText(String.valueOf(user.getName()));
                 setText(null);
                 setGraphic(pane);
 
