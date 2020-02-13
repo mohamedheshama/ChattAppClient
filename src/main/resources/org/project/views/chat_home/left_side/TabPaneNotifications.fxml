@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="325.0" styleClass="tab-pane" stylesheets="@../../../styles/chat-home/left-side/Styling.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.controller.chat_home.left_side.TabPaneNotifications_Controller">
+    <children>
+        <JFXTabPane fx:id="tabpane" prefHeight="593.0" prefWidth="284.0">
+            <tabs>
+                <Tab fx:id="tab1" style="-fx-background-color: lightblue;">
+                    <AnchorPane style="-fx-background-color: lightblue;">
+                       <fx:include source="ChatsListView.fxml"/>
+                    </AnchorPane >
+                </Tab>
+                <Tab fx:id="tab2" style="-fx-background-color: lightblue;">
+                    <AnchorPane>
+                        <fx:include source="RequestsListView.fxml"/>
+                    </AnchorPane>
+                </Tab>
+            </tabs>
+        </JFXTabPane>
+    </children>
+</StackPane>

@@ -3,20 +3,21 @@ package org.project.controller.login;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import org.project.App;
+import org.project.controller.MainDeligator;
+import org.project.model.dao.users.Users;
 
+import java.io.IOException;
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 
-public class LoginController implements Initializable {
-    String phonenumber_input = null;
-    String password_input = null;
+public class LoginController implements Initializable , LoginInterface {
+    String phonenumber_input;
+    String password_input;
     boolean keepme = false;
-    String password_test = "karima11";
-    String phonenumber_test = "0123456789";
+
     @FXML
     private TextField phonenumber_Txtfield;
     @FXML
@@ -27,38 +28,67 @@ public class LoginController implements Initializable {
     private Button login_Btn;
     @FXML
     private Label new_user_register_label;
+
     @FXML
     private Label error_msg_password_label;
     @FXML
     private Label error_msg_phone_label;
-
+    MainDeligator mainDeligator;
+    boolean userIsExist;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        mainDeligator = new MainDeligator();
     }
 
     @FXML
-    public void view(ActionEvent actionEvent) {
+    public void registerNewUser() throws IOException {
+        App.setRoot("views/register_view");
+    }
+
+    @FXML
+    public void view(ActionEvent actionEvent) throws IOException {
         phonenumber_input = phonenumber_Txtfield.getText();
         password_input = password_TxtField.getText();
-        System.out.println(phonenumber_input);
-        System.out.println(password_input);
-        keepme = keep_me_login_Chkbox.isSelected();
-        System.out.println(keepme);
-        if (!phonenumber_test.equals(phonenumber_input)) {
-            error_msg_phone_label.setVisible(true);
+        App.setRoot("views/home");
+        userIsExist = checkUserLogin(phonenumber_input,password_input);
+        if (userIsExist)
+        {
+            keepme = keep_me_login_Chkbox.isSelected();
+            //App.setRoot("views/home");
+        }
+        else {
+            ShowAlertError();
             phonenumber_Txtfield.clear();
             password_TxtField.clear();
-
-        } else if (!password_test.equals(password_input)) {
-            error_msg_password_label.setVisible(true);
-            password_TxtField.clear();
-            //password_TxtField.setOnAction();
-
-        } else if (phonenumber_test.equals(phonenumber_input) && password_test.equals(password_input)) {
-            //phone & password is true yb2a hyd5ol 3la l home
-            System.out.println("true");
+            keep_me_login_Chkbox.setSelected(false);
         }
 
     }
+
+    @Override
+    public Users getUserData(String phoneNumber) {
+        return null;
+    }
+
+    @Override
+    public Boolean checkUserLogin(String phoneNumber, String password) {
+        boolean userExist = false;
+        try {
+            userExist = mainDeligator.checkUserLogin(phoneNumber , password);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        return userExist;
+    }
+    private void ShowAlertError()
+    {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+
+        alert.setTitle("Error alert");
+        alert.setHeaderText("Not Allow To Login");
+        alert.setContentText("incorrect phoneNumber or Password!");
+
+        alert.showAndWait();
+    }
+
 }
