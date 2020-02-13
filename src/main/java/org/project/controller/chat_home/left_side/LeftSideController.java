@@ -23,7 +23,6 @@ public class LeftSideController implements Initializable {
         try {
             mainDeligator = new MainDeligator();
             user = mainDeligator.login("01065001124");
-
         } catch (
                 RemoteException e) {
             e.printStackTrace();

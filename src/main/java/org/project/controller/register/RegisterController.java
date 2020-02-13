@@ -11,6 +11,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import org.project.controller.MainDeligator;
 import org.project.controller.ServicesInterface;
+import org.project.exceptions.UserAlreadyExistException;
 import org.project.model.dao.users.Gender;
 import org.project.model.dao.users.UserStatus;
 import org.project.model.dao.users.Users;
@@ -135,7 +136,7 @@ public class RegisterController implements Initializable {
     }*/
 
 
-    public void register() throws RemoteException {
+    public void register() throws RemoteException, UserAlreadyExistException {
 
         if (userDataValid()) {
             newUser.setName(username.getText());

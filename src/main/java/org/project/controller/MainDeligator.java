@@ -1,6 +1,7 @@
 package org.project.controller;
 
 import org.project.controller.messages.Message;
+import org.project.exceptions.UserAlreadyExistException;
 import org.project.model.ChatRoom;
 import org.project.model.dao.users.Users;
 
@@ -20,8 +21,8 @@ public class MainDeligator {
 
     //ToDo Register user  in DB (UserName & Password ) if already exists (throws UserAlreadyExistException (made in server))
 //                                                  else switch on Login Scene
-    public void registerUser(Users newUser) throws RemoteException {
-        if (serverConnectionController.getServicesInterface().Register(newUser)) {
+    public void registerUser(Users newUser) throws RemoteException, UserAlreadyExistException {
+        if (serverConnectionController.getServicesInterface().register(newUser)) {
             System.out.println("user registe succesfully");
         } else {
             System.out.println("user can't registe");
