@@ -3,6 +3,7 @@ package org.project.controller.chat_home;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.stage.Stage;
 import org.project.controller.MainDeligator;
 import org.project.controller.chat_home.right_side.MainChatController;
 import org.project.controller.messages.Message;
@@ -11,17 +12,50 @@ import org.project.model.dao.users.Users;
 
 import java.io.IOException;
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class HomeController implements Initializable {
-    MainDeligator mainDeligator; // todo assign this deligator from login page
+    MainDeligator mainDeligator;
     ArrayList<ChatRoom> chatRooms = new ArrayList<>();
-    Users user; // todo assign this user from login page
+    Users user;
+    String phoneNumber;
+    Stage stage;
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) throws RemoteException {
+        this.phoneNumber = phoneNumber;
+        user = getUserData(this.phoneNumber);
+        System.out.println(user);
+    }
+
+    private Users getUserData(String phoneNumber) throws RemoteException {
+        return mainDeligator.login(phoneNumber);
+    }
+
+    public MainDeligator getMainDeligator() {
+        return mainDeligator;
+    }
+
+    public void setMainDeligator(MainDeligator mainDeligator) {
+        this.mainDeligator = mainDeligator;
+    }
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        // todo get user data
     }
 
     public void sendMsg(Message newMsg, ChatRoom chatRoom) {

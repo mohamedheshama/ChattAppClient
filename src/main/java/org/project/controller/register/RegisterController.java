@@ -11,13 +11,14 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import org.project.controller.MainDeligator;
 import org.project.controller.ServicesInterface;
-import org.project.exceptions.UserAlreadyExistException;
 import org.project.model.dao.users.Gender;
 import org.project.model.dao.users.UserStatus;
 import org.project.model.dao.users.Users;
 
 import java.net.URL;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class RegisterController implements Initializable {
@@ -52,7 +53,13 @@ public class RegisterController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         newUser = new Users();
-        mainDeligator = new MainDeligator();
+        try {
+            mainDeligator = new MainDeligator();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (NotBoundException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -135,8 +142,8 @@ public class RegisterController implements Initializable {
         return userPassword.getText().matches("^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$");
     }*/
 
-
-    public void register() throws RemoteException, UserAlreadyExistException {
+    @FXML
+    public void register() throws RemoteException, SQLException {
 
         if (userDataValid()) {
             newUser.setName(username.getText());

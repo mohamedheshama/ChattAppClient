@@ -21,10 +21,12 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("views/login_view"));
-        //scene = new Scene(loadFXML("views/right_side/main_chat.fxml"));
+        scene = new Scene(loadFXML("/org/project/views/login_view"));
+        //scene = new Scene(loadFXML("/org/project/views/chat_home/right_side/main_chat"));
         stage.setScene(scene);
+        System.out.println("scene");
         stage.show();
+        System.out.println("wht the hack is here");
     }
 
     private static Parent loadFXML(String fxml) throws IOException {

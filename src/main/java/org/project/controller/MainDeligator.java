@@ -1,27 +1,24 @@
 package org.project.controller;
 
 import org.project.controller.messages.Message;
-import org.project.exceptions.UserAlreadyExistException;
 import org.project.model.ChatRoom;
 import org.project.model.dao.users.Users;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.sql.SQLException;
 
 public class MainDeligator {
     ServerConnectionController serverConnectionController;
-    public MainDeligator() {
-        try {
-            this.serverConnectionController = new ServerConnectionController("localhost", 1260);
-        } catch (RemoteException | NotBoundException e) {
-            e.printStackTrace();
-        }
+
+    public MainDeligator() throws RemoteException, NotBoundException {
+        this.serverConnectionController = new ServerConnectionController("localhost", 1260);
     }
 // Hend
 
     //ToDo Register user  in DB (UserName & Password ) if already exists (throws UserAlreadyExistException (made in server))
 //                                                  else switch on Login Scene
-    public void registerUser(Users newUser) throws RemoteException, UserAlreadyExistException {
+    public void registerUser(Users newUser) throws RemoteException, SQLException {
         if (serverConnectionController.getServicesInterface().register(newUser)) {
             System.out.println("user registe succesfully");
         } else {
