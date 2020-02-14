@@ -7,7 +7,8 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="background" maxHeight="608.0" maxWidth="600.0" minHeight="400.0"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" id="testID" fx:id="background" maxHeight="608.0" maxWidth="600.0"
+            minHeight="400.0"
             minWidth="200.0" prefHeight="608.0" prefWidth="590.0"
             style="-fx-background-color: #000; -fx-background-size: cover,auto; -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0);"
             xmlns="http://javafx.com/javafx/10.0.2-internal"
