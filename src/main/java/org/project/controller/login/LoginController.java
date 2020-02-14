@@ -66,10 +66,10 @@ public class LoginController implements Initializable , LoginInterface {
     }
 
     @FXML
-    public void view(ActionEvent actionEvent) throws IOException {
+    public void view(ActionEvent actionEvent) throws Exception {
         phonenumber_input = phonenumber_Txtfield.getText();
         password_input = password_TxtField.getText();
-        userIsExist = checkUserLogin(phonenumber_input,password_input);
+        userIsExist = checkUserLogin(phonenumber_input, password_input);
         if (userIsExist) {
             keepme = keep_me_login_Chkbox.isSelected();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/home.fxml"));

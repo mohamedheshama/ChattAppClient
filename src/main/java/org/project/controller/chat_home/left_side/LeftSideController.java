@@ -9,29 +9,38 @@ import org.project.controller.MainDeligator;
 import org.project.model.dao.users.Users;
 
 import java.net.URL;
-import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 
 public class LeftSideController implements Initializable {
     public BorderPane borderPane;
-    Users user;
-    MainDeligator mainDeligator = null;
-    ObservableList<Users> chatsObservableList = null;
-    private ObservableList<Users> requestsObservableList=null;
 
-    public LeftSideController()  {
-        try {
-            mainDeligator = new MainDeligator();
-            user = mainDeligator.login("01065001124");
-        } catch (
-                RemoteException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    MainDeligator mainDeligator;
+    ObservableList<Users> chatsObservableList;
+    private ObservableList<Users> requestsObservableList;
+
+    public LeftSideController() {
+
     }
 
-    public void setTabPane(Users user) throws Exception{
+    Users user;
+
+    public Users getUser() {
+        return user;
+    }
+
+    public void setUser(Users user) {
+        this.user = user;
+    }
+
+    public MainDeligator getMainDeligator() {
+        return mainDeligator;
+    }
+
+    public void setMainDeligator(MainDeligator mainDeligator) {
+        this.mainDeligator = mainDeligator;
+    }
+
+    public void setTabPane(Users user) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/left_side/TabPaneNotifications.fxml"));
         Pane root = (Pane) loader.load();
         TabPaneNotifications_Controller notificationsController = loader.getController();
