@@ -26,7 +26,6 @@ public class App extends Application {
         stage.setScene(scene);
         System.out.println("scene");
         stage.show();
-        System.out.println("wht the hack is here");
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
