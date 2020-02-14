@@ -41,11 +41,11 @@ public class LeftSideController implements Initializable {
         this.mainDeligator = mainDeligator;
     }
 
-    public void setTabPane(Users user) throws Exception {
+    public void setTabPane(Users user, HomeController homeController) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/left_side/TabPaneNotifications.fxml"));
         Pane root = (Pane) loader.load();
         TabPaneNotifications_Controller notificationsController = loader.getController();
-        notificationsController.setUser(user);
+        notificationsController.setUser(user,homeController);
         notificationsController.setRequestListView();
         notificationsController.setChatListView();
         borderPane.setLeft(root);
@@ -54,7 +54,7 @@ public class LeftSideController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            setTabPane(user);
+            setTabPane(user,homeController);
         } catch (Exception e) {
             e.printStackTrace();
         }

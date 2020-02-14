@@ -8,6 +8,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import org.project.controller.chat_home.HomeController;
 import org.project.model.dao.users.Users;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -16,6 +17,7 @@ public class TabPaneNotifications_Controller implements Initializable {
     public JFXTabPane tabpane;
     public BorderPane chatsTab;
     Users user;
+    HomeController homeController;
 
     @FXML
     Tab tab1;
@@ -48,14 +50,15 @@ public class TabPaneNotifications_Controller implements Initializable {
 
     }
 
-    public void setUser(Users user) {
+    public void setUser(Users user, HomeController homeController) {
         this.user = user;
+        this.homeController=homeController;
     }
     public void setChatListView() throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/left_side/ChatsListView.fxml"));
         BorderPane root = (BorderPane) loader.load();
         ChatListView chatListView = loader.getController();
-        chatListView.setChatsListView(user);
+        chatListView.setChatsListView(user,homeController);
         tab1.setContent(root);
     }
 
