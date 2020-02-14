@@ -1,11 +1,13 @@
 package org.project.controller.chat_home;
 
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import org.project.controller.ClientImp;
 import org.project.controller.MainDeligator;
 import org.project.controller.chat_home.left_side.LeftSideController;
 import org.project.controller.chat_home.right_side.MainChatController;
@@ -14,18 +16,23 @@ import org.project.model.ChatRoom;
 import org.project.model.dao.users.Users;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class HomeController implements Initializable {
-    public BorderPane borderBaneStage;
-    MainDeligator mainDeligator;
+public class HomeController implements Initializable, Serializable {
+    @FXML
+    transient BorderPane borderBaneStage;
+    transient MainDeligator mainDeligator;
     ArrayList<ChatRoom> chatRooms = new ArrayList<>();
     Users user;
     String phoneNumber;
-    Stage stage;
+    transient Stage stage;
+    ClientImp clientImp;
+    transient MainChatController mainChatController;
+    transient LeftSideController leftSideController;
 
     public String getPhoneNumber() {
         return phoneNumber;
@@ -36,13 +43,20 @@ public class HomeController implements Initializable {
         user = getUserData(this.phoneNumber);
         mainDeligator.setUser(user);
         System.out.println(user);
+        initClient();
         initLeftSide();
         initRightSide();
+    }
+
+    private void initClient() throws RemoteException {
+        clientImp = new ClientImp(user, this);
+        mainDeligator.registerClient(clientImp);
     }
 
     private Users getUserData(String phoneNumber) throws RemoteException {
         return mainDeligator.login(phoneNumber);
     }
+
     public MainDeligator getMainDeligator() {
         return mainDeligator;
     }
@@ -73,23 +87,29 @@ public class HomeController implements Initializable {
     private void initLeftSide() throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/left_side/Left_Chat_pane.fxml"));
         Pane root = (Pane) loader.load();
-        LeftSideController leftSideController = loader.getController();
-        leftSideController.setTabPane(user);
+        leftSideController = loader.getController();
+        System.out.println("in initleftmethod" + user);
+        leftSideController.setTabPane(user, this);
         leftSideController.setMainDeligator(mainDeligator);
         leftSideController.setHomeController(this);
         borderBaneStage.setLeft(root);
     }
 
-    public void sendMsg(Message newMsg, ChatRoom chatRoom) {
+    public void sendMsg(Message newMsg, ChatRoom chatRoom) throws RemoteException {
         mainDeligator.sendMsg(newMsg, chatRoom);
     }
 
     public void openChatRoom(ChatRoom chatRoom) throws IOException {
+        System.out.println("in open chat room");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/right_side/main_chat.fxml"));
         Parent root = loader.load();
-        MainChatController mainChatController = loader.getController();
+        mainChatController = loader.getController();
+        mainChatController.setmUser(user);
+        mainChatController.setHomeController(this);
         mainChatController.setChatRoom(chatRoom);
+        borderBaneStage.setCenter(root);
     }
+
     public void addChatRoom(ChatRoom chatRoom) throws IOException {
         long count = chatRooms.stream().map(value -> value.getChatRoomId()).filter(s -> s.equals(chatRoom.getChatRoomId())).count();
         if (count <= 0)
@@ -97,4 +117,7 @@ public class HomeController implements Initializable {
         openChatRoom(chatRoom);
     }
 
+    public void reciveMsg(Message newMsg) {
+        mainChatController.reciveMsg(newMsg);
+    }
 }

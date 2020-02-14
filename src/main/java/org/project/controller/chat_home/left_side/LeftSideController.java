@@ -42,6 +42,7 @@ public class LeftSideController implements Initializable {
     }
 
     public void setTabPane(Users user, HomeController homeController) throws Exception {
+        System.out.println("in tab pane " + user);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/left_side/TabPaneNotifications.fxml"));
         Pane root = (Pane) loader.load();
         TabPaneNotifications_Controller notificationsController = loader.getController();
@@ -53,10 +54,6 @@ public class LeftSideController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        try {
-            setTabPane(user,homeController);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 }

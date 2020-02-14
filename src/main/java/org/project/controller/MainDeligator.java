@@ -4,11 +4,12 @@ import org.project.controller.messages.Message;
 import org.project.model.ChatRoom;
 import org.project.model.dao.users.Users;
 
+import java.io.Serializable;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 
-public class MainDeligator {
+public class MainDeligator implements Serializable {
     Users user;
 
     public Users getUser() {
@@ -40,14 +41,20 @@ public class MainDeligator {
         return serverConnectionController.getServicesInterface().checkUserLogin(phoneNumber, password);
     }
 
-    public void sendMsg(Message newMsg, ChatRoom chatRoom) {
-
+    public void sendMsg(Message newMsg, ChatRoom chatRoom) throws RemoteException {
+        serverConnectionController.getServicesInterface().sendMessage(newMsg, chatRoom);
     }
-    //end Karima
-//Eman
-// ToDo populate Frieds and Friend Requests ListView With data
+
     public Users login(String phoneNumber) throws RemoteException {
         return serverConnectionController.getServicesInterface().getUserData(phoneNumber);
+    }
+
+    public void registerClient(ClientInterface clientImp) throws RemoteException {
+        serverConnectionController.getServicesInterface().registerClient(clientImp);
+    }
+
+    public void reciveMsg(Message newMsg) {
+
     }
 //End Eman
 

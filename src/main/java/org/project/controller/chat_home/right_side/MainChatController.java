@@ -4,18 +4,23 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXColorPicker;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXToggleButton;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import org.project.controller.chat_home.HomeController;
 import org.project.controller.messages.Message;
 import org.project.controller.messages.MessageType;
@@ -23,14 +28,12 @@ import org.project.model.ChatRoom;
 import org.project.model.dao.users.Users;
 
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class MainChatController implements Initializable {
-    Users mUser;
-    HomeController homeController;
-    ChatRoom chatRoom = new ChatRoom();
     @FXML
     private JFXButton sendMsgImgBtn;
     @FXML
@@ -55,6 +58,19 @@ public class MainChatController implements Initializable {
     private JFXComboBox fontComboBox;
     @FXML
     private JFXColorPicker fontColorPicker;
+
+    Users mUser;
+    HomeController homeController;
+    ChatRoom chatRoom;
+
+    public void setHomeController(HomeController homeController) {
+        this.homeController = homeController;
+    }
+
+    public void setmUser(Users mUser) {
+        this.mUser = mUser;
+    }
+
     private String colorPicked;
     private String fontFamily = "Arial";
     private int sizePicked;
@@ -71,7 +87,11 @@ public class MainChatController implements Initializable {
         msgTxtField.setWrapText(true);
         msgTxtField.setOnKeyPressed(keyEvent -> {
             if (keyEvent.getCode() == KeyCode.ENTER) {
-                sendMsgToHomeController();
+                try {
+                    sendMsgToHomeController();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
             }
         });
         fontComboBox.getItems().addAll(Font.getFontNames());
@@ -155,19 +175,19 @@ public class MainChatController implements Initializable {
         msgTxtField.setText(str);
     }
 
-    public ChatRoom getChatRoom() {
-        return chatRoom;
-    }
-
     public void setChatRoom(ChatRoom chatRoom) {
         this.chatRoom = chatRoom;
     }
 
     public void sendMessage(ActionEvent actionEvent) {
-        sendMsgToHomeController();
+        try {
+            sendMsgToHomeController();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void sendMsgToHomeController() {
+    private void sendMsgToHomeController() throws RemoteException {
         Message newMsg = new Message();
         newMsg.setMsg(msgTxtField.getText());
         newMsg.setType(MessageType.USER);
@@ -176,6 +196,7 @@ public class MainChatController implements Initializable {
         newMsg.setFontSize(sizePicked);
         newMsg.setUser(mUser);
         newMsg.setFontWeight(getFontWeight().name());
+        //System.out.println(newMsg.getUser().getName()+" "+newMsg.getMsg());
         homeController.sendMsg(newMsg, chatRoom);
         msgTxtField.setText("");
     }
@@ -190,7 +211,48 @@ public class MainChatController implements Initializable {
         }
     }
 
-    private void displayMsg(Message msg /* todo here is the Alignment type*/) {
-        // todo display msg with specified alignment
+
+    public void reciveMsg(Message newMsg) {
+        if (newMsg.getUser().getId() == mUser.getId()) {
+            displayMsg(newMsg, Pos.TOP_RIGHT);
+        } else {
+            displayMsg(newMsg, Pos.TOP_LEFT);
+        }
+    }
+
+    private void displayMsg(Message msg, Pos pos) {
+        Platform.runLater(() -> {
+            showMsgsBox.getChildren().addAll(recipientChatLine(msg, pos));
+        });
+
+    }
+
+    public HBox recipientChatLine(Message msg, Pos pos) {
+        HBox hb = new HBox();
+        try {
+            Label name = new Label(msg.getName());
+            // ImageView imageView = new ImageView();
+            Text text = new Text(msg.getMsg());
+            if (msg.getMsg().length() > 50)
+                text.setWrappingWidth(500);
+            VBox vb = new VBox();
+            //BufferedImage image = javax.imageio.ImageIO.read(new ByteArrayInputStream(msg.getUser().getDisplayPicture()));
+            //Image card = SwingFXUtils.toFXImage(image, null);
+            //imageView.setImage(card);
+            //imageView.setFitWidth(15);
+            //imageView.setPreserveRatio(true);
+            hb.setAlignment(pos);
+            vb.getChildren().add(name);
+            //vb.getChildren().add(imageView);
+            vb.setSpacing(2);
+            hb.getChildren().add(vb);
+            hb.getChildren().add(text);
+            hb.setPadding(new Insets(15, 12, 15, 12));
+            hb.setSpacing(10);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return hb;
     }
 }
