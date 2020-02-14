@@ -28,7 +28,6 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class MainChatController implements Initializable {
-    //todo initializ these variables from HomeContrroller
     Users mUser;
     HomeController homeController;
     ChatRoom chatRoom = new ChatRoom();

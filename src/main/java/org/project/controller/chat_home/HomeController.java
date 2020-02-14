@@ -76,6 +76,7 @@ public class HomeController implements Initializable {
         LeftSideController leftSideController = loader.getController();
         leftSideController.setTabPane(user);
         leftSideController.setMainDeligator(mainDeligator);
+        leftSideController.setHomeController(this);
         borderBaneStage.setLeft(root);
     }
 

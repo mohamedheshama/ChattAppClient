@@ -8,6 +8,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.util.Callback;
 import org.project.model.dao.users.Users;
+
 import java.util.ArrayList;
 
 
@@ -24,7 +25,6 @@ public class ChatListView {
 
     public void setChatsListView(Users user) {
         this.user = user;
-
         chatsObservableList = FXCollections.observableArrayList(user.getFriends());
         chatsListView.setItems(chatsObservableList);
         chatsListView.setCellFactory(chatListView -> new ChatsListViewCell());

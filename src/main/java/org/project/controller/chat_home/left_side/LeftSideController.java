@@ -6,6 +6,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import org.project.controller.MainDeligator;
+import org.project.controller.chat_home.HomeController;
+import org.project.model.ChatRoom;
 import org.project.model.dao.users.Users;
 
 import java.net.URL;
@@ -13,16 +15,19 @@ import java.util.ResourceBundle;
 
 public class LeftSideController implements Initializable {
     public BorderPane borderPane;
-
     MainDeligator mainDeligator;
-    ObservableList<Users> chatsObservableList;
+    HomeController homeController;
+    ChatRoom chatRoom;
+    Users user;
+
     private ObservableList<Users> requestsObservableList;
 
     public LeftSideController() {
-
     }
 
-    Users user;
+    public void setHomeController(HomeController homeController) {
+        this.homeController = homeController;
+    }
 
     public Users getUser() {
         return user;
@@ -30,10 +35,6 @@ public class LeftSideController implements Initializable {
 
     public void setUser(Users user) {
         this.user = user;
-    }
-
-    public MainDeligator getMainDeligator() {
-        return mainDeligator;
     }
 
     public void setMainDeligator(MainDeligator mainDeligator) {
