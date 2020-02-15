@@ -1,6 +1,8 @@
 package org.project.controller.messages;
 
 
+import org.project.model.dao.users.Users;
+
 import java.io.Serializable;
 
 public class Message implements Serializable {
@@ -8,6 +10,65 @@ public class Message implements Serializable {
     private String name;
     private MessageType type;
     private String msg;
+    private String fontFamily;
+    private String textFill;
+    private int fontSize;
+    private String fontWeight;
+    private Users user;
+    private String chatId;
+
+    public String getChatId() {
+        return chatId;
+    }
+
+    public void setChatId(String chatId) {
+        this.chatId = chatId;
+    }
+
+    public String getFontFamily() {
+        return fontFamily;
+    }
+
+    public void setFontFamily(String fontFamily) {
+        this.fontFamily = fontFamily;
+    }
+
+    public String getTextFill() {
+        return textFill;
+    }
+
+    public void setTextFill(String textFill) {
+        this.textFill = textFill;
+    }
+
+    public int getFontSize() {
+        return fontSize;
+    }
+
+    public void setFontSize(int fontSize) {
+        this.fontSize = fontSize;
+    }
+
+    public String getFontWeight() {
+        return fontWeight;
+    }
+
+    public void setFontWeight(String fontWeight) {
+        this.fontWeight = fontWeight;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
+    public Users getUser() {
+        return user;
+    }
+
+    public void setUser(Users user) {
+        this.user = user;
+    }
+
     // private ArrayList<Users> listUsers;
     // private ArrayList<Users> users;
     //private UserStatus status;

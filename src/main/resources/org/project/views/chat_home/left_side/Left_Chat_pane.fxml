@@ -10,11 +10,8 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Line?>
 
-<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="borderPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.controller.chat_home.left_side.LeftSideController">
     <top>
         <fx:include source="UserIcon.fxml"/>
     </top>
-    <left>
-        <fx:include source="TabPaneNotifications.fxml"/>
-    </left>
 </BorderPane>

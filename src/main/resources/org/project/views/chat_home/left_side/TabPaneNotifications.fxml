@@ -12,12 +12,12 @@
             <tabs>
                 <Tab fx:id="tab1" style="-fx-background-color: lightblue;">
                     <AnchorPane style="-fx-background-color: lightblue;">
-                       <fx:include source="ChatsListView.fxml"/>
+                       <fx:include fx:id="chatsTab"  source="ChatsListView.fxml"/>
                     </AnchorPane >
                 </Tab>
                 <Tab fx:id="tab2" style="-fx-background-color: lightblue;">
                     <AnchorPane>
-                        <fx:include source="RequestsListView.fxml"/>
+                        <fx:include fx:id="requestsTab" source="RequestsListView.fxml"/>
                     </AnchorPane>
                 </Tab>
             </tabs>

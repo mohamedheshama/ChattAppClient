@@ -16,7 +16,7 @@
          <children>
             <Pane prefHeight="76.0" prefWidth="78.0">
                <children>
-                  <Circle fx:id="image" fill="LIGHTGRAY" layoutX="37.0" layoutY="49.0" radius="30.0" stroke="LIGHTGRAY" strokeType="INSIDE" />
+                  <Circle fx:id="Userimage" fill="LIGHTGRAY" layoutX="37.0" layoutY="49.0" radius="30.0" stroke="LIGHTGRAY" strokeType="INSIDE" />
                   <Label layoutX="46.0" layoutY="64.0" prefHeight="2.0" prefWidth="18.0" styleClass="online-dot" stylesheets="@../../../styles/chat-home/left-side/Styling.css" />
                </children>
             </Pane>

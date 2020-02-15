@@ -9,8 +9,10 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
+
     <dependencies>
-        <dependency>
+
+    <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
             <version>11.0.2</version>
@@ -37,6 +39,19 @@
             <artifactId>javafx-controls</artifactId>
             <version>15-ea+1</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.controlsfx/controlsfx -->
+        <dependency>
+            <groupId>org.controlsfx</groupId>
+            <artifactId>controlsfx</artifactId>
+            <version>11.0.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-swing -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-swing</artifactId>
+            <version>15-ea+1</version>
+        </dependency>
 
     </dependencies>
     <build>
@@ -54,6 +69,23 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.1</version>
                 <configuration>
+                    <options>
+                        <option>--add-opens</option>
+                        <option>javafx.controls/com.sun.javafx.scene.control.behavior=com.jfoenix</option>
+                        <option>--add-opens</option>
+                        <option>javafx.controls/com.sun.javafx.scene.control=com.jfoenix</option>
+                        <option>--add-exports</option>
+                        <option>javafx.controls/com.sun.javafx.scene.control.behavior=com.jfoenix</option>
+                        <option>--add-exports</option>
+                        <option>javafx.controls/com.sun.javafx.scene.control=com.jfoenix</option>
+                        <option>--add-exports</option>
+                        <option>javafx.base/com.sun.javafx.binding=com.jfoenix</option>
+                        <option>--add-exports</option>
+                        <option>--add-exports javafx.graphics/com.sun.javafx.stage=com.jfoenix</option>
+                        <option>--add-exports</option>
+                        <option>--add-exports javafx.base/com.sun.javafx.event=com.jfoenix</option>
+
+                    </options>
                     <mainClass>org.project.App</mainClass>
                 </configuration>
             </plugin>

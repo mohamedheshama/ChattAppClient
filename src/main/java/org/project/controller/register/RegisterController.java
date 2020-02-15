@@ -1,5 +1,6 @@
 package org.project.controller.register;
 
+
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
@@ -8,12 +9,21 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
+import org.project.controller.MainDeligator;
+import org.project.controller.ServicesInterface;
+import org.project.model.dao.users.Gender;
+import org.project.model.dao.users.UserStatus;
+import org.project.model.dao.users.Users;
 
 import java.net.URL;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class RegisterController implements Initializable {
 
+    ServicesInterface obj;
     private boolean checkConfirmPass;
     @FXML
     private RadioButton male;
@@ -37,16 +47,20 @@ public class RegisterController implements Initializable {
     private JFXPasswordField userPasswordConfirm;
     @FXML
     private Label passError;
+    Users newUser;
+    MainDeligator mainDeligator;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        newUser = new Users();
+        try {
+            mainDeligator = new MainDeligator();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (NotBoundException e) {
+            e.printStackTrace();
+        }
     }
-
-
-
-
-
-
 
 
     @FXML
@@ -77,10 +91,6 @@ public class RegisterController implements Initializable {
     }
 
 
-
-
-
-
     @FXML
     public boolean userPhoneValid() {
         if (phone_num.getText().isEmpty() || phone_num.getText() == " ") {
@@ -102,18 +112,18 @@ public class RegisterController implements Initializable {
             userEmail.setStyle("-fx-border: 0px 0px 2px 0px;");
             emailError.setText("");
         }
-return userEmail.getText().matches("^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$");
+        return userEmail.getText().matches("^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$");
     }
 
     public void validatePasswordMatch(KeyEvent keyEvent) {
-        if (userPasswordConfirm.getText().equals(userPassword.getText())&&userPassword.getText().matches("^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9\\\\\\\\s]).{6,}")) {
+        if (userPasswordConfirm.getText().equals(userPassword.getText()) && userPassword.getText().matches("^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9\\\\\\\\s]).{6,}")) {
             userPasswordConfirm.setFocusColor(Color.GREEN);
             userPassword.setUnFocusColor(Color.GREEN);
-            checkConfirmPass=true;
+            checkConfirmPass = true;
         } else {
             userPasswordConfirm.setFocusColor(Color.DARKRED);
             userPassword.setUnFocusColor(Color.DARKRED);
-            checkConfirmPass=false;
+            checkConfirmPass = false;
         }
 
     }
@@ -132,12 +142,26 @@ return userEmail.getText().matches("^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/
         return userPassword.getText().matches("^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$");
     }*/
 
-  public  void registe(){
-      if(userPhoneNumber()&&validateUserName()&&userPhoneValid()&&validateEmail()&&checkConfirmPass){
-          System.out.println("hhdhdjjjh");
-      }
+    @FXML
+    public void register() throws RemoteException, SQLException {
 
-  }
+        if (userDataValid()) {
+            newUser.setName(username.getText());
+            newUser.setEmail(userEmail.getText());
+            newUser.setPassword(userPassword.getText());
+            newUser.setPhoneNumber(phone_num.getText());
+            newUser.setGender(Gender.Female);
+            newUser.setStatus(UserStatus.Available);
+            mainDeligator.registerUser(newUser);
+
+            // todo send user to deligator
+        }
+
+    }
+
+    public boolean userDataValid() {
+        return userPhoneNumber() && validateUserName() && userPhoneValid() && validateEmail() && checkConfirmPass;
+    }
 
 
 }
