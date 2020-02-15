@@ -91,6 +91,7 @@ public class HomeController implements Initializable, Serializable {
         leftSideController = loader.getController();
         System.out.println("in initleftmethod" + user);
         leftSideController.setTabPane(user, this);
+        leftSideController.setUserIcon(user);
         leftSideController.setMainDeligator(mainDeligator);
         leftSideController.setHomeController(this);
         borderBaneStage.setLeft(root);
@@ -112,13 +113,15 @@ public class HomeController implements Initializable, Serializable {
     }
 
     public void addChatRoom(ChatRoom chatRoom) throws IOException {
-        long count = chatRooms.stream().map(value -> value.getChatRoomId()).filter(s -> s.equals(chatRoom.getChatRoomId())).count();
-        if (count <= 0)
-            chatRooms.add(chatRoom);
-        openChatRoom(chatRoom);
+        user.getChatRooms().add(chatRoom);
+        System.out.println(user.getChatRooms());
     }
 
     public void reciveMsg(Message newMsg) {
         mainChatController.reciveMsg(newMsg);
+    }
+
+    public ChatRoom requestChatRoom(ArrayList<Users> chatroomUsers) {
+        return mainDeligator.requestChatRoom(chatroomUsers);
     }
 }

@@ -8,6 +8,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
+import org.project.controller.ClientInterface;
 import org.project.controller.chat_home.HomeController;
 import org.project.model.ChatRoom;
 import org.project.model.dao.users.Users;
@@ -32,7 +33,7 @@ public class ChatListView {
     public void setChatsListView(Users user, HomeController homeController) {
         System.out.println("from setChatListView" + user);
         this.user = user;
-        this.homeController=homeController;
+        this.homeController = homeController;
         chatsObservableList = FXCollections.observableArrayList(user.getFriends());
         chatsListView.setItems(chatsObservableList);
         chatsListView.setCellFactory(chatListView -> new ChatsListViewCell());
@@ -43,9 +44,9 @@ public class ChatListView {
             }
         });
 
-       // System.out.println(user);
+        // System.out.println(user);
     }
-    public void handle(MouseEvent event) {
+/*    public void handle(MouseEvent event) {
         System.out.println("in handle");
         Users friendUser= (Users) chatsListView.getSelectionModel().getSelectedItem();
         System.out.println(friendUser);
@@ -59,6 +60,20 @@ public class ChatListView {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }*/
+
+    public void handle(MouseEvent event) {
+        System.out.println("user ----> " + user.getChatRooms());
+        Users friendUser= (Users) chatsListView.getSelectionModel().getSelectedItem();
+        ArrayList<Users> chatroomUsers= new ArrayList<>();
+        chatroomUsers.add(friendUser);
+        System.out.println(friendUser.getChatRooms() + " this is th chat rooms in my fried");
+        chatroomUsers.add(this.user);
+        ChatRoom chatRoom=requestChatRoom(chatroomUsers);
+    }
+
+    private ChatRoom requestChatRoom(ArrayList<Users> chatroomUsers) {
+        return homeController.requestChatRoom(chatroomUsers);
     }
 
 

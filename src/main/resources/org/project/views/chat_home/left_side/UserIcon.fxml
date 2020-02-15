@@ -24,7 +24,7 @@
             </Pane>
             <Pane prefHeight="50.0" prefWidth="252.0">
                <children>
-                  <Label layoutX="-4.0" layoutY="39.0" styleClass="font-style" stylesheets="@../../../styles/chat-home/left-side/Styling.css" text="Iman Selim" />
+                  <Label fx:id="userName" layoutX="-4.0" layoutY="39.0" styleClass="font-style" stylesheets="@../../../styles/chat-home/left-side/Styling.css" text="Iman Selim" />
                   <ImageView fitHeight="76.0" fitWidth="89.0" layoutX="93.0" pickOnBounds="true" preserveRatio="true" />
                   <ChoiceBox fx:id="choicebox" layoutX="-12.0" layoutY="54.0" prefHeight="28.0" prefWidth="71.0" style="-fx-background-color: llaliceblue;" />
                   <ImageView fx:id="settings_icon" fitHeight="28.0" fitWidth="25.0" layoutX="175.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">

@@ -16,7 +16,7 @@ public class Message implements Serializable {
     private String fontWeight;
     private Users user;
     private String chatId;
-
+    
     public String getChatId() {
         return chatId;
     }
