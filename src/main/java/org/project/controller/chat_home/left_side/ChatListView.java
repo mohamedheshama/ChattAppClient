@@ -50,6 +50,7 @@ public class ChatListView {
         Users friendUser= (Users) chatsListView.getSelectionModel().getSelectedItem();
         System.out.println(friendUser);
         chatRoom = new ChatRoom();
+        chatRoom.setChatRoomId("id" + user.getPhoneNumber());
         chatRoom.getUsers().add(friendUser);
         chatRoom.getUsers().add(this.user);
         System.out.println(chatRoom.getUsers());

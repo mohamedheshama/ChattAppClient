@@ -50,6 +50,7 @@ public class MainDeligator implements Serializable {
     }
 
     public void registerClient(ClientInterface clientImp) throws RemoteException {
+        System.out.println("main deligator init client");
         serverConnectionController.getServicesInterface().registerClient(clientImp);
     }
 

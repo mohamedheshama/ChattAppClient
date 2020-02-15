@@ -15,6 +15,15 @@ public class Message implements Serializable {
     private int fontSize;
     private String fontWeight;
     private Users user;
+    private String chatId;
+
+    public String getChatId() {
+        return chatId;
+    }
+
+    public void setChatId(String chatId) {
+        this.chatId = chatId;
+    }
 
     public String getFontFamily() {
         return fontFamily;

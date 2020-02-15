@@ -6,14 +6,17 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXToggleButton;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -21,6 +24,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.util.Duration;
+import org.controlsfx.control.Notifications;
 import org.project.controller.chat_home.HomeController;
 import org.project.controller.messages.Message;
 import org.project.controller.messages.MessageType;
@@ -40,6 +46,8 @@ public class MainChatController implements Initializable {
     private TextArea msgTxtField;
     @FXML
     private VBox showMsgsBox;
+    @FXML
+    AnchorPane stagePane;
     @FXML
     private ImageView attachFileImgBtn;
     @FXML
@@ -195,6 +203,7 @@ public class MainChatController implements Initializable {
         newMsg.setTextFill(colorPicked);
         newMsg.setFontSize(sizePicked);
         newMsg.setUser(mUser);
+        newMsg.setChatId("id" + mUser.getPhoneNumber());
         newMsg.setFontWeight(getFontWeight().name());
         //System.out.println(newMsg.getUser().getName()+" "+newMsg.getMsg());
         homeController.sendMsg(newMsg, chatRoom);
@@ -216,8 +225,34 @@ public class MainChatController implements Initializable {
         if (newMsg.getUser().getId() == mUser.getId()) {
             displayMsg(newMsg, Pos.TOP_RIGHT);
         } else {
-            displayMsg(newMsg, Pos.TOP_LEFT);
+            if (newMsg.getChatId() == chatRoom.getChatRoomId())
+                displayMsg(newMsg, Pos.TOP_LEFT);
+            else
+                showMessageIncommingNotification(newMsg);
         }
+    }
+
+    private void showMessageIncommingNotification(Message newMsg) {
+        System.out.println("in the show Notification -> " + newMsg.getMsg());
+        Platform.runLater(() -> {
+            Notifications notificationBuilder = Notifications.create()
+                    .title("Announcement from the server")
+                    .graphic(new ImageView(new Image(getClass().getResource("/org/project/images/birthday.png").toExternalForm())))
+                    .text("From server : " + newMsg.getMsg())
+                    .hideAfter(Duration.seconds(8))
+                    .position(Pos.BOTTOM_RIGHT)
+                    .onAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent event) {
+                            System.out.println("announcement has been clicked");
+                        }
+                    });
+            notificationBuilder.darkStyle();
+            getStage().requestFocus();
+            notificationBuilder.show();
+        });
+
+
     }
 
     private void displayMsg(Message msg, Pos pos) {
@@ -225,6 +260,10 @@ public class MainChatController implements Initializable {
             showMsgsBox.getChildren().addAll(recipientChatLine(msg, pos));
         });
 
+    }
+
+    Stage getStage() {
+        return ((Stage) stagePane.getScene().getWindow());
     }
 
     public HBox recipientChatLine(Message msg, Pos pos) {
