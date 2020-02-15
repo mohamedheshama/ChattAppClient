@@ -26,5 +26,6 @@ module org.project {
     exports org.project.model.dao.friends;
     exports org.project.controller.chat_home.left_side;
     opens org.project.controller.chat_home to javafx.fxml;
+    exports org.project.model;
 
 }
