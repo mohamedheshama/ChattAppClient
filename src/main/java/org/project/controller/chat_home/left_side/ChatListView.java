@@ -8,7 +8,6 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
-import org.project.controller.ClientInterface;
 import org.project.controller.chat_home.HomeController;
 import org.project.model.ChatRoom;
 import org.project.model.dao.users.Users;
@@ -62,14 +61,15 @@ public class ChatListView {
         }
     }*/
 
-    public void handle(MouseEvent event) {
+    public void handle(MouseEvent event) throws IOException {
         System.out.println("user ----> " + user.getChatRooms());
-        Users friendUser= (Users) chatsListView.getSelectionModel().getSelectedItem();
-        ArrayList<Users> chatroomUsers= new ArrayList<>();
+        Users friendUser = (Users) chatsListView.getSelectionModel().getSelectedItem();
+        ArrayList<Users> chatroomUsers = new ArrayList<>();
         chatroomUsers.add(friendUser);
         System.out.println(friendUser.getChatRooms() + " this is th chat rooms in my fried");
         chatroomUsers.add(this.user);
-        ChatRoom chatRoom=requestChatRoom(chatroomUsers);
+        ChatRoom chatRoom = requestChatRoom(chatroomUsers);
+        homeController.openChatRoom(chatRoom);
     }
 
     private ChatRoom requestChatRoom(ArrayList<Users> chatroomUsers) {

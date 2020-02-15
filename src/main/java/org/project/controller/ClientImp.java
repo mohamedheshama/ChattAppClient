@@ -34,8 +34,8 @@ public class ClientImp extends UnicastRemoteObject implements ClientInterface {
     }
 
     @Override
-    public void recieveMsg(Message newMsg) {
-        homeController.reciveMsg(newMsg);
+    public void recieveMsg(Message newMsg, ChatRoom chatRoom) {
+        homeController.reciveMsg(newMsg, chatRoom);
     }
 
     @Override

@@ -205,9 +205,8 @@ public class MainChatController implements Initializable {
         newMsg.setTextFill(colorPicked);
         newMsg.setFontSize(sizePicked);
         newMsg.setUser(mUser);
-        newMsg.setChatId("id" + mUser.getPhoneNumber());
+        newMsg.setChatId(chatRoom.getChatRoomId());
         newMsg.setFontWeight(getFontWeight().name());
-        //System.out.println(newMsg.getUser().getName()+" "+newMsg.getMsg());
         homeController.sendMsg(newMsg, chatRoom);
         msgTxtField.setText("");
     }
@@ -223,14 +222,15 @@ public class MainChatController implements Initializable {
     }
 
 
-    public void reciveMsg(Message newMsg) {
+    public void reciveMsg(Message newMsg, ChatRoom chatRoom) {
         if (newMsg.getUser().getId() == mUser.getId()) {
             displayMsg(newMsg, Pos.TOP_RIGHT);
         } else {
-            if (newMsg.getChatId() == chatRoom.getChatRoomId())
+            if (chatRoom.getChatRoomId().equals(this.chatRoom.getChatRoomId())) {
                 displayMsg(newMsg, Pos.TOP_LEFT);
-            else
+            } else {
                 showMessageIncommingNotification(newMsg);
+            }
         }
     }
 

@@ -117,8 +117,8 @@ public class HomeController implements Initializable, Serializable {
         System.out.println(user.getChatRooms());
     }
 
-    public void reciveMsg(Message newMsg) {
-        mainChatController.reciveMsg(newMsg);
+    public void reciveMsg(Message newMsg, ChatRoom chatRoom) {
+        mainChatController.reciveMsg(newMsg, chatRoom);
     }
 
     public ChatRoom requestChatRoom(ArrayList<Users> chatroomUsers) {
