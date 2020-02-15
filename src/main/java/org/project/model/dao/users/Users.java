@@ -25,15 +25,26 @@ public class Users implements Serializable {
     private ArrayList<Users> request_notifications = new ArrayList<>();
     private ArrayList<ChatRoom> chatRooms = new ArrayList<>();
 
+    public ArrayList<ChatRoom> getChatRooms() {
+        return chatRooms;
+    }
+
+    public void setChatRooms(ArrayList<ChatRoom> chatRooms) {
+        this.chatRooms = chatRooms;
+    }
+
     public int getId() {
         return id;
     }
+
     public void setId(int id) {
         this.id = id;
     }
+
     public String getPhoneNumber() {
         return phoneNumber;
     }
+
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }

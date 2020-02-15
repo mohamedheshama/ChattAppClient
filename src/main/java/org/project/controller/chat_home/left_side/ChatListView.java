@@ -43,7 +43,7 @@ public class ChatListView {
             }
         });
 
-        System.out.println(user);
+       // System.out.println(user);
     }
     public void handle(MouseEvent event) {
         System.out.println("in handle");
