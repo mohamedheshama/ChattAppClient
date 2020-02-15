@@ -43,13 +43,14 @@ public class ChatListView {
             }
         });
 
-        System.out.println(user);
+       // System.out.println(user);
     }
     public void handle(MouseEvent event) {
         System.out.println("in handle");
         Users friendUser= (Users) chatsListView.getSelectionModel().getSelectedItem();
         System.out.println(friendUser);
         chatRoom = new ChatRoom();
+        chatRoom.setChatRoomId("id" + user.getPhoneNumber());
         chatRoom.getUsers().add(friendUser);
         chatRoom.getUsers().add(this.user);
         System.out.println(chatRoom.getUsers());

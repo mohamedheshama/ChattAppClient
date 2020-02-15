@@ -50,6 +50,7 @@ public class HomeController implements Initializable, Serializable {
 
     private void initClient() throws RemoteException {
         clientImp = new ClientImp(user, this);
+        System.out.println("in init clint");
         mainDeligator.registerClient(clientImp);
     }
 

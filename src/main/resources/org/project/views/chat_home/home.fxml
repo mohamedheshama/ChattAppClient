@@ -4,5 +4,5 @@
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             xmlns="http://javafx.com/javafx"
             fx:controller="org.project.controller.chat_home.HomeController"
-            prefHeight="400.0" prefWidth="600.0" fx:id="borderBaneStage">
+            fx:id="borderBaneStage">
 </BorderPane>

@@ -8,6 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" id="chatRoomRoot" prefHeight="400.0" prefWidth="600.0"
+            fx:id="stagePane"
             stylesheets="@../../../styles/chatroom_stylesheet.css" xmlns="http://javafx.com/javafx/10.0.2-internal"
             fx:controller="org.project.controller.chat_home.right_side.MainChatController">
 
