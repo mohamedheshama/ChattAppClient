@@ -2,130 +2,136 @@
 
 <?import com.jfoenix.controls.*?>
 <?import javafx.geometry.*?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.2-internal">
-   <children>
-      <Pane prefHeight="582.0" prefWidth="476.0" style="-fx-background-color: #fff;" AnchorPane.leftAnchor="0.0"
-            AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <Pane layoutX="-11.0" prefHeight="94.0" prefWidth="487.0" style="-fx-background-color: #09c;">
-               <children>
-                  <ImageView fitHeight="23.0" fitWidth="26.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true"
-                             preserveRatio="true">
-                     <image>
-                        <Image url="@../images/close.png"/>
-                     </image>
-                  </ImageView>
-               </children>
-            </Pane>
-            <Label alignment="CENTER" layoutX="99.0" layoutY="164.0" prefHeight="38.0" prefWidth="268.0"
-                   text="Hend Elaraby" textFill="#645e5e">
-               <font>
-                  <Font size="22.0"/>
-               </font>
-            </Label>
-            <ImageView fitHeight="28.0" fitWidth="20.0" layoutX="337.0" layoutY="175.0" pickOnBounds="true"
-                       preserveRatio="true">
-               <image>
-                  <Image url="@../images/chancheName.png"/>
-               </image>
-            </ImageView>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.2-internal"
+            fx:controller="org.project.controller.update_user.UpdateController">
+    <children>
+        <Pane prefHeight="582.0" prefWidth="476.0" style="-fx-background-color: #fff;" AnchorPane.leftAnchor="0.0"
+              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Pane layoutX="-11.0" prefHeight="94.0" prefWidth="487.0" style="-fx-background-color: #09c;"/>
+                <Label fx:id="upd_label_name" alignment="CENTER" layoutX="92.0" layoutY="147.0" prefHeight="38.0"
+                       prefWidth="268.0" style="-fx-text-fill: ahmed;" text="Hend Elaraby" textFill="#645e5e">
+                    <font>
+                        <Font size="22.0"/>
+                    </font>
+                </Label>
 
 
-            <JFXTextField focusColor="#000713" layoutX="128.0" layoutY="229.0" prefHeight="26.0" prefWidth="266.0"
-                          promptText="Phone number" style="-fx-text-fill: #000;" text="01010101010"
-                          unFocusColor="#827373"/>
-            <JFXTextField editable="false" focusColor="WHITE" layoutX="84.0" layoutY="229.0" prefHeight="26.0"
-                          prefWidth="33.0" style="-fx-color: #fff;" text="20 +"/>
-            <HBox layoutX="82.0" layoutY="277.0" prefHeight="28.0" prefWidth="321.0">
-               <children>
-                  <ImageView fitHeight="26.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/person.png"/>
-                     </image>
-                     <HBox.margin>
-                        <Insets top="8.0"/>
-                     </HBox.margin>
-                  </ImageView>
-                  <JFXTextField focusColor="#f9fafd" prefHeight="27.0" prefWidth="300.0" promptText="User name"
-                                style="-fx-text-fill: #fff;" unFocusColor="#675858">
-                     <padding>
-                        <Insets right="10.0"/>
-                     </padding>
-                  </JFXTextField>
-               </children>
-            </HBox>
-            <HBox layoutX="82.0" layoutY="318.0" prefHeight="31.0" prefWidth="314.0">
-               <children>
-                  <ImageView fitHeight="50.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/email.png"/>
-                     </image>
-                     <HBox.margin>
-                        <Insets top="11.0"/>
-                     </HBox.margin>
-                  </ImageView>
-                  <JFXTextField focusColor="WHITE" prefHeight="26.0" prefWidth="291.0" promptText="E-mail"
-                                style="-fx-text-fill: #fff;" unFocusColor="#675858"/>
+                <JFXTextField fx:id="upd_phone_num" onKeyTyped="#userPhoneNumber" focusColor="#000713" layoutX="133.0"
+                              layoutY="195.0" prefHeight="26.0" prefWidth="266.0" promptText="Phone number"
+                              style="-fx-text-fill: #000;" unFocusColor="#827373"/>
+                <JFXTextField editable="false" focusColor="WHITE" layoutX="92.0" layoutY="195.0" prefHeight="26.0"
+                              prefWidth="33.0" style="-fx-color: #fff;" text="20 +"/>
+                <HBox layoutX="82.0" layoutY="277.0" prefHeight="28.0" prefWidth="321.0">
+                    <children>
+                        <HBox prefHeight="31.0" prefWidth="314.0">
+                            <children>
+                                <ImageView fitHeight="29.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../images/person.png"/>
+                                    </image>
+                                    <HBox.margin>
+                                        <Insets top="11.0"/>
+                                    </HBox.margin>
+                                </ImageView>
+                                <JFXTextField fx:id="upd_username" focusColor="WHITE" onKeyTyped="#validateUserName"
+                                              prefHeight="26.0" prefWidth="291.0" promptText="User name"
+                                              style="-fx-text-fill: #000;" unFocusColor="#675858"/>
+                            </children>
+                        </HBox>
+                    </children>
+                </HBox>
+                <HBox layoutX="83.0" layoutY="324.0" prefHeight="31.0" prefWidth="314.0">
+                    <children>
+                        <ImageView fitHeight="50.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../images/email.png"/>
+                            </image>
+                            <HBox.margin>
+                                <Insets top="11.0"/>
+                            </HBox.margin>
+                        </ImageView>
+                        <JFXTextField fx:id="upd_userEmail" focusColor="WHITE" onKeyTyped="#validateEmail"
+                                      prefHeight="26.0" prefWidth="291.0" promptText="E-mail"
+                                      style="-fx-text-fill: #000;" unFocusColor="#675858"/>
                </children>
             </HBox>
             <HBox layoutX="82.0" layoutY="373.0" prefHeight="28.0" prefWidth="315.0">
                <children>
                   <ImageView fitHeight="26.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/password.png"/>
+                         <Image url="@../images/password.png"/>
                      </image>
                      <HBox.margin>
-                        <Insets top="8.0"/>
+                         <Insets top="8.0"/>
                      </HBox.margin>
                   </ImageView>
-                  <JFXPasswordField focusColor="WHITE" prefHeight="26.0" prefWidth="291.0" promptText="Password"
-                                    style="-fx-text-fill: #fff;" unFocusColor="#675858"/>
+                   <JFXPasswordField fx:id="upd_userPassword" focusColor="WHITE" onKeyTyped="#validatePasswordMatch"
+                                     prefHeight="26.0" prefWidth="291.0" promptText="Password"
+                                     style="-fx-text-fill: #000;" unFocusColor="#675858"/>
                </children>
             </HBox>
             <HBox layoutX="84.0" layoutY="419.0" prefHeight="28.0" prefWidth="309.0">
                <children>
                   <ImageView fitHeight="26.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/password.png"/>
+                         <Image url="@../images/password.png"/>
                      </image>
                      <HBox.margin>
-                        <Insets top="8.0"/>
+                         <Insets top="8.0"/>
                      </HBox.margin>
                   </ImageView>
-                  <JFXPasswordField focusColor="WHITE" prefHeight="26.0" prefWidth="285.0" promptText="Confirm Password"
-                                    style="-fx-text-fill: #fff;" unFocusColor="#675858"/>
+                   <JFXPasswordField fx:id="upd_userPasswordConfirm" focusColor="WHITE"
+                                     onKeyTyped="#validatePasswordMatch" prefHeight="26.0" prefWidth="285.0"
+                                     promptText="Confirm Password" style="-fx-text-fill: #000;" unFocusColor="#675858"/>
                </children>
             </HBox>
-            <JFXButton buttonType="RAISED" layoutX="388.0" layoutY="542.0" mnemonicParsing="false" prefHeight="26.0"
-                       prefWidth="80.0" ripplerFill="#0099cc" style="-fx-background-color: #0066ff;" text="Change"
-                       textFill="WHITE"/>
-            <HBox layoutX="84.0" layoutY="466.0" prefHeight="22.0" prefWidth="310.0">
-               <children>
-                  <JFXDatePicker defaultColor="#0c1615" prefHeight="25.0" prefWidth="366.0" promptText="Birthday"/>
-               </children>
-            </HBox>
-            <JFXRadioButton layoutX="82.0" layoutY="513.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="94.0"
-                            text="Male" viewOrder="1.0">
-               <toggleGroup>
-                  <ToggleGroup fx:id="gender"/>
-               </toggleGroup>
-            </JFXRadioButton>
-            <JFXRadioButton layoutX="214.0" layoutY="513.0" mnemonicParsing="false" selected="true" text="Female"
-                            toggleGroup="$gender"/>
-            <Circle fill="#172029" layoutX="226.0" layoutY="87.0" radius="57.0" stroke="#d2d1d1" strokeType="INSIDE"
-                    style="-fx-fill: url(&quot;../images/bg2.jpg&quot;);"/>
-            <Circle fill="#1bc54b" layoutX="274.0" layoutY="122.0" radius="8.0" stroke="#f3f5f3" strokeType="INSIDE"/>
-            <Pane layoutX="26.0" layoutY="94.0" prefHeight="114.0" prefWidth="117.0"
-                  style="-fx-background-color: #000; -fx-background-radius: 300px; -fx-border-width: 1px;"/>
+                <JFXButton fx:id="chane_upd" buttonType="RAISED" layoutX="388.0" layoutY="542.0" mnemonicParsing="false"
+                           onAction="#changeUpd" prefHeight="26.0" prefWidth="80.0" ripplerFill="#0099cc"
+                           style="-fx-background-color: #0066ff;" text="Change" textFill="WHITE"/>
+                <HBox layoutX="84.0" layoutY="466.0" prefHeight="22.0" prefWidth="310.0">
+                    <children>
+                        <JFXDatePicker fx:id="upd_birthday" defaultColor="#1a2120" prefHeight="28.0" prefWidth="399.0"
+                                       promptText="Birthday"/>
+                    </children>
+                </HBox>
+                <JFXRadioButton fx:id="upd_male" layoutX="82.0" layoutY="513.0" mnemonicParsing="false"
+                                prefHeight="17.0" prefWidth="94.0" text="Male" viewOrder="1.0">
+                    <toggleGroup>
+                        <ToggleGroup fx:id="gender"/>
+                    </toggleGroup>
+                </JFXRadioButton>
+                <JFXRadioButton fx:id="upd_female" layoutX="214.0" layoutY="513.0" mnemonicParsing="false"
+                                selected="true" text="Female" toggleGroup="$gender"/>
+                <Circle fx:id="upd_image" fill="#172029" layoutX="226.0" layoutY="87.0" radius="57.0" stroke="#d2d1d1"
+                        strokeType="INSIDE"/>
+                <Circle fill="#1bc54b" layoutX="274.0" layoutY="122.0" radius="8.0" stroke="#f3f5f3"
+                        strokeType="INSIDE"/>
+                <HBox layoutX="86.0" layoutY="237.0" prefHeight="31.0" prefWidth="314.0">
+                    <children>
+                        <ImageView fitHeight="30.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../images/biographdy-icon-png-7.png"/>
+                            </image>
+                            <HBox.margin>
+                                <Insets top="11.0"/>
+                            </HBox.margin>
+                        </ImageView>
+                        <JFXTextField fx:id="upd_bio" focusColor="WHITE" prefHeight="26.0" prefWidth="291.0"
+                                      promptText="Bio" style="-fx-text-fill: #000;" unFocusColor="#675858"/>
+                    </children>
+                </HBox>
+                <Label fx:id="upd_nameError" layoutX="109.0" layoutY="300.0" textFill="#da0808"/>
+                <Label fx:id="upd_emailError" layoutX="100.0" layoutY="347.0" textFill="#dd0a0a"/>
+                <Label fx:id="upd_phoneNumError" layoutX="109.0" layoutY="221.0" textFill="#df0a0a"/>
 
 
-         </children>
+            </children>
       </Pane>
    </children>
 </AnchorPane>

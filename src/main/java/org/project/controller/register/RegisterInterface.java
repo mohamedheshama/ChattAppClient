@@ -1,7 +1,5 @@
 package org.project.controller.register;
 
-import javafx.scene.input.KeyEvent;
-
 public interface RegisterInterface {
 
     public Boolean Register();
@@ -14,5 +12,5 @@ public interface RegisterInterface {
 
     public boolean validateEmail();
 
-    public void validatePasswordMatch(KeyEvent keyEvent);
+    public void validatePasswordMatch();
 }

@@ -7,8 +7,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" id="chatRoomRoot" prefHeight="400.0" prefWidth="600.0"
-            fx:id="stagePane"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" id="chatRoomRoot" fx:id="stagePane" prefHeight="400.0" prefWidth="600.0"
             stylesheets="@../../../styles/chatroom_stylesheet.css" xmlns="http://javafx.com/javafx/10.0.2-internal"
             fx:controller="org.project.controller.chat_home.right_side.MainChatController">
 
@@ -18,7 +17,8 @@
          <content>
             <AnchorPane id="showMsgsAnchorPane" fx:id="showMsgsAnchorPane" prefHeight="389.0" prefWidth="722.0">
                <children>
-                  <VBox id="showMsgsBox" fx:id="showMsgsBox" layoutX="34.0" prefHeight="389.0" prefWidth="653.0"/>
+                  <VBox id="showMsgsBox" fx:id="showMsgsBox" layoutX="34.0" layoutY="3.0" prefHeight="389.0"
+                        prefWidth="653.0"/>
                </children>
             </AnchorPane>
          </content>
@@ -49,7 +49,7 @@
          </padding>
       </FlowPane>
       <JFXButton id="sendMsgImgBtn" fx:id="sendMsgImgBtn" defaultButton="true" ellipsisString="" graphicTextGap="0.0"
-                 layoutX="597.0" layoutY="543.0" prefHeight="46.0" prefWidth="46.0" text=" " onAction="#sendMessage">
+                 layoutX="597.0" layoutY="543.0" onAction="#sendMessage" prefHeight="46.0" prefWidth="46.0" text=" ">
          <graphic>
             <ImageView fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -70,13 +70,6 @@
       </JFXButton>
       <JFXButton id="sendMsgImgBtn" fx:id="saveChatImgBtn" ellipsisString="" graphicTextGap="0.0" layoutX="659.0"
                  layoutY="543.0" prefHeight="46.0" prefWidth="46.0" text=" " textAlignment="CENTER">
-         <graphic>
-            <ImageView fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../images/saveicon.png"/>
-               </image>
-            </ImageView>
-         </graphic>
          <cursor>
             <Cursor fx:constant="HAND"/>
          </cursor>
@@ -129,6 +122,12 @@
       </Label>
       <JFXComboBox fx:id="fontComboBox" layoutX="526.0" layoutY="506.0" prefHeight="26.0" prefWidth="133.0"
                    visibleRowCount="5"/>
+      <ImageView fitHeight="43.0" fitWidth="43.0" layoutX="663.0" layoutY="545.0" onMouseClicked="#sendFile"
+                 pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../images/saveicon.png"/>
+         </image>
+      </ImageView>
    </children>
    <padding>
       <Insets top="5.0"/>

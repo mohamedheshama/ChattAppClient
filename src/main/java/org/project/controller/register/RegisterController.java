@@ -7,7 +7,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import org.project.controller.MainDeligator;
 import org.project.controller.ServicesInterface;
@@ -15,6 +14,7 @@ import org.project.model.dao.users.Gender;
 import org.project.model.dao.users.UserStatus;
 import org.project.model.dao.users.Users;
 
+import java.io.IOException;
 import java.net.URL;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -115,7 +115,7 @@ public class RegisterController implements Initializable {
         return userEmail.getText().matches("^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$");
     }
 
-    public void validatePasswordMatch(KeyEvent keyEvent) {
+    public void validatePasswordMatch() {
         if (userPasswordConfirm.getText().equals(userPassword.getText()) && userPassword.getText().matches("^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9\\\\\\\\s]).{6,}")) {
             userPasswordConfirm.setFocusColor(Color.GREEN);
             userPassword.setUnFocusColor(Color.GREEN);
@@ -142,8 +142,8 @@ public class RegisterController implements Initializable {
         return userPassword.getText().matches("^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$");
     }*/
 
-    @FXML
-    public void register() throws RemoteException, SQLException {
+
+    public void register() throws RemoteException, SQLException, IOException {
 
         if (userDataValid()) {
             newUser.setName(username.getText());
@@ -153,6 +153,7 @@ public class RegisterController implements Initializable {
             newUser.setGender(Gender.Female);
             newUser.setStatus(UserStatus.Available);
             mainDeligator.registerUser(newUser);
+
 
             // todo send user to deligator
         }
