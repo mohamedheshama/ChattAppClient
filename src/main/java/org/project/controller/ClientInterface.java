@@ -13,9 +13,133 @@ public interface ClientInterface extends Remote {
 
     public void recieveUpdateStatus(UserStatus status, int id) throws RemoteException;
 
-    void recieveMsg(Message newMsg, ChatRoom chatRoom) throws RemoteException;
-
-    void recieveFile(Message newMsg, ChatRoom chatRoom) throws RemoteException;
-
+    void recieveMsg(Message newMsg , ChatRoom chatRoom) throws RemoteException;
+    void recieveFile(Message newMsg,ChatRoom chatRoom)throws RemoteException;
     void addChatRoom(ChatRoom chatRoomExist) throws RemoteException;
+    // start hend
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //end hend
+
+    //start amr
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //end amr
+    //start iman
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // end imaN
+
+    //START SHIMAA
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //END SHIMAA
 }
