@@ -44,6 +44,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -78,6 +79,11 @@ public class MainChatController implements Initializable {
 
     Users mUser;
     HomeController homeController;
+
+    public ChatRoom getChatRoom() {
+        return chatRoom;
+    }
+
     ChatRoom chatRoom;
     MainDeligator mainDeligator;
 
@@ -215,6 +221,8 @@ public class MainChatController implements Initializable {
     private void sendMsgToHomeController() throws RemoteException {
         Message newMsg = new Message();
         newMsg.setMsg(msgTxtField.getText());
+        chatRoom.getChatRoomMessage().add(newMsg);
+        System.out.println("chat room id : "+chatRoom.getChatRoomId()+" message is " +chatRoom.getChatRoomMessage());
         newMsg.setType(MessageType.USER);
         newMsg.setFontFamily(fontFamily);
         newMsg.setTextFill(colorPicked);
@@ -431,63 +439,24 @@ public class MainChatController implements Initializable {
 
     //start AMR
     public void displayMessagesFromArrList() {
+        Pos pos;
+        System.out.println("chat room messages " + chatRoom.getChatRoomMessage());
         for (Message message : chatRoom.getChatRoomMessage()) {
             if (message.getUser().getId() == mUser.getId()) {
-                // todo set allignment to right and displayMsg
+                pos = Pos.TOP_RIGHT;
             } else {
+                pos = Pos.TOP_LEFT;
                 // todo set alignment to left nad display message
             }
+            displayMsg(message , pos);
         }
+
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public ArrayList<Message> getMessagesFromArrayList() {
+        System.out.println("Messages are " + chatRoom.getChatRoomMessage() + "chat room id : " + chatRoom.getChatRoomId()   );
+        return chatRoom.getChatRoomMessage();
+    }
 
 
     // END AMR

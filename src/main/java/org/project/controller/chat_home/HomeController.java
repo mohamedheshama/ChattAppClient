@@ -107,7 +107,7 @@ public class HomeController implements Initializable, Serializable {
     }
 
 
-    public void openChatRoom(ChatRoom chatRoom) throws IOException {
+    public void openChatRoom(ChatRoom chatRoom, boolean isChatRoomExist) throws IOException {
         System.out.println("in open chat room");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/right_side/main_chat.fxml"));
         Parent root = loader.load();
@@ -116,11 +116,14 @@ public class HomeController implements Initializable, Serializable {
         mainChatController.setHomeController(this);
         mainChatController.setChatRoom(chatRoom);
         borderBaneStage.setCenter(root);
+        if (!isChatRoomExist) {
+            mainChatController.displayMessagesFromArrList();
+        }
     }
 
     public void addChatRoom(ChatRoom chatRoom) throws IOException {
         user.getChatRooms().add(chatRoom);
-        System.out.println(user.getChatRooms());
+        System.out.println("here is your chat room " + chatRoom.getChatRoomId());
     }
 
     public void reciveMsg(Message newMsg, ChatRoom chatRoom) {
@@ -137,6 +140,10 @@ public class HomeController implements Initializable, Serializable {
 
     public boolean changeUserStatus(Users user, UserStatus userStatus) throws RemoteException {
         return mainDeligator.changeUserStatus(user ,userStatus);
+    }
+
+    public ArrayList<Message> getMessagesFromArrayList() {
+        return mainChatController.getMessagesFromArrayList();
     }
 
     // START AMR
