@@ -2,9 +2,11 @@ package org.project.controller;
 
 import org.project.controller.chat_home.HomeController;
 import org.project.controller.messages.Message;
+import org.project.model.ChatRoom;
 import org.project.model.dao.users.UserStatus;
 import org.project.model.dao.users.Users;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -32,8 +34,17 @@ public class ClientImp extends UnicastRemoteObject implements ClientInterface {
     }
 
     @Override
-    public void recieveMsg(Message newMsg) {
-        homeController.reciveMsg(newMsg);
+    public void recieveMsg(Message newMsg, ChatRoom chatRoom) {
+        homeController.reciveMsg(newMsg, chatRoom);
+    }
+
+    @Override
+    public void addChatRoom(ChatRoom chatRoomExist) {
+        try {
+            homeController.addChatRoom(chatRoomExist);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public Users findUserById(ArrayList<Users> friends, int id) {

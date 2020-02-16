@@ -19,6 +19,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -33,6 +34,7 @@ import org.project.controller.messages.MessageType;
 import org.project.model.ChatRoom;
 import org.project.model.dao.users.Users;
 
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ResourceBundle;
@@ -203,9 +205,8 @@ public class MainChatController implements Initializable {
         newMsg.setTextFill(colorPicked);
         newMsg.setFontSize(sizePicked);
         newMsg.setUser(mUser);
-        newMsg.setChatId("id" + mUser.getPhoneNumber());
+        newMsg.setChatId(chatRoom.getChatRoomId());
         newMsg.setFontWeight(getFontWeight().name());
-        //System.out.println(newMsg.getUser().getName()+" "+newMsg.getMsg());
         homeController.sendMsg(newMsg, chatRoom);
         msgTxtField.setText("");
     }
@@ -221,24 +222,26 @@ public class MainChatController implements Initializable {
     }
 
 
-    public void reciveMsg(Message newMsg) {
+    public void reciveMsg(Message newMsg, ChatRoom chatRoom) {
         if (newMsg.getUser().getId() == mUser.getId()) {
             displayMsg(newMsg, Pos.TOP_RIGHT);
         } else {
-            if (newMsg.getChatId() == chatRoom.getChatRoomId())
+            if (chatRoom.getChatRoomId().equals(this.chatRoom.getChatRoomId())) {
                 displayMsg(newMsg, Pos.TOP_LEFT);
-            else
+            } else {
                 showMessageIncommingNotification(newMsg);
+            }
         }
     }
 
     private void showMessageIncommingNotification(Message newMsg) {
         System.out.println("in the show Notification -> " + newMsg.getMsg());
+
         Platform.runLater(() -> {
             Notifications notificationBuilder = Notifications.create()
-                    .title("Announcement from the server")
-                    .graphic(new ImageView(new Image(getClass().getResource("/org/project/images/birthday.png").toExternalForm())))
-                    .text("From server : " + newMsg.getMsg())
+                    .title("Announcement")
+                    .graphic(new ImageView(new Image(getClass().getResource("/org/project/images/birthday.png").toExternalForm())))// todo  newMsg.getUser().getDisplayPicture()
+                    .text("New Message From : " + newMsg.getMsg())
                     .hideAfter(Duration.seconds(8))
                     .position(Pos.BOTTOM_RIGHT)
                     .onAction(new EventHandler<ActionEvent>() {
@@ -249,6 +252,14 @@ public class MainChatController implements Initializable {
                     });
             notificationBuilder.darkStyle();
             getStage().requestFocus();
+            AudioClip clip = null;
+            try {
+                clip = new AudioClip(getClass().getResource("/org/project/sounds/notification.wav").toURI().toString());
+            } catch (URISyntaxException e) {
+                System.out.println("in URI EX");
+                e.printStackTrace();
+            }
+            clip.play();
             notificationBuilder.show();
         });
 

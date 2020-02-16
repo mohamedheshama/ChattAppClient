@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class MainDeligator implements Serializable {
     Users user;
@@ -56,6 +57,15 @@ public class MainDeligator implements Serializable {
 
     public void reciveMsg(Message newMsg) {
 
+    }
+
+    public ChatRoom requestChatRoom(ArrayList<Users> chatroomUsers) {
+        try {
+            return serverConnectionController.getServicesInterface().requestChatRoom(chatroomUsers);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 //End Eman
 
