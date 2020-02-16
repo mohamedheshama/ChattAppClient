@@ -1,5 +1,7 @@
 package org.project.controller.chat_home.right_side;
 
+import com.healthmarketscience.rmiio.RemoteInputStreamServer;
+import com.healthmarketscience.rmiio.SimpleRemoteInputStream;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXColorPicker;
 import com.jfoenix.controls.JFXComboBox;
@@ -25,17 +27,24 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
+import org.project.controller.MainDeligator;
 import org.project.controller.chat_home.HomeController;
 import org.project.controller.messages.Message;
 import org.project.controller.messages.MessageType;
 import org.project.model.ChatRoom;
 import org.project.model.dao.users.Users;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -72,6 +81,7 @@ public class MainChatController implements Initializable {
     Users mUser;
     HomeController homeController;
     ChatRoom chatRoom;
+    MainDeligator mainDeligator;
 
     public void setHomeController(HomeController homeController) {
         this.homeController = homeController;
@@ -94,6 +104,13 @@ public class MainChatController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         chatReceiversTxtLabel.setText("myFrined");
+        try {
+            mainDeligator = new MainDeligator();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (NotBoundException e) {
+            e.printStackTrace();
+        }
         msgTxtField.setWrapText(true);
         msgTxtField.setOnKeyPressed(keyEvent -> {
             if (keyEvent.getCode() == KeyCode.ENTER) {
@@ -211,15 +228,6 @@ public class MainChatController implements Initializable {
         msgTxtField.setText("");
     }
 
-    public void displayMessagesFromArrList() {
-        for (Message message : chatRoom.getChatRoomMessage()) {
-            if (message.getUser().getId() == mUser.getId()) {
-                // todo set allignment to right and displayMsg
-            } else {
-                // todo set alignment to left nad display message
-            }
-        }
-    }
 
 
     public void reciveMsg(Message newMsg, ChatRoom chatRoom) {
@@ -233,6 +241,7 @@ public class MainChatController implements Initializable {
             }
         }
     }
+
 
     private void showMessageIncommingNotification(Message newMsg) {
         System.out.println("in the show Notification -> " + newMsg.getMsg());
@@ -305,4 +314,73 @@ public class MainChatController implements Initializable {
 
         return hb;
     }
+
+
+// strart HEND
+
+    public void reciveFile(Message newMsg, ChatRoom chatRoom) { // next step here notify file
+        if (newMsg.getUser().getId() == mUser.getId()) {
+            displayMsg(newMsg, Pos.TOP_RIGHT);
+        } else {
+            if (chatRoom.getChatRoomId().equals(this.chatRoom.getChatRoomId())) {
+                displayMsg(newMsg, Pos.TOP_LEFT);
+            } else {
+                showMessageIncommingNotification(newMsg);
+            }
+        }
+    }
+
+    public void sendFile() throws IOException, NotBoundException {
+
+        // Message message, File file, ChatRoom chatRoom
+        FileChooser SaveFileChooser = new FileChooser();
+        // Stage stage= (Stage) showMsgsBox.getScene().getWindow();
+
+        File file = SaveFileChooser.showOpenDialog(getStage());
+        String path = file.getAbsolutePath();
+        Message newMsg = new Message();
+        msgTxtField.setText(file.getName());
+        newMsg.setMsg(msgTxtField.getText());
+        newMsg.setType(MessageType.USER);
+        newMsg.setFontFamily(fontFamily);
+        newMsg.setTextFill(colorPicked);
+        newMsg.setFontSize(sizePicked);
+        newMsg.setUser(mUser);
+        newMsg.setChatId(chatRoom.getChatRoomId());
+        newMsg.setFontWeight(getFontWeight().name());
+        homeController.sendMsg(newMsg, chatRoom);
+        msgTxtField.setText("");
+        homeController.notifyUser(newMsg, chatRoom); //message
+
+
+        //initChatRoomService();
+        InputStream inputStream = new FileInputStream(file.getAbsolutePath());
+
+        RemoteInputStreamServer remoteFileData = new SimpleRemoteInputStream(inputStream);
+
+
+        //mainDeligator.sendFile(newMsg, remoteFileData.export());
+
+
+    }
+
+
+    // END HEND
+
+
+    //start AMR
+    public void displayMessagesFromArrList() {
+        for (Message message : chatRoom.getChatRoomMessage()) {
+            if (message.getUser().getId() == mUser.getId()) {
+                // todo set allignment to right and displayMsg
+            } else {
+                // todo set alignment to left nad display message
+            }
+        }
+    }
+
+
+    // END AMR
+
+
 }

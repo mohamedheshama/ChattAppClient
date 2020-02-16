@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
-
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
 <AnchorPane prefHeight="637.0" prefWidth="686.0" style="-fx-background-color: aliceblue;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.controller.chat_home.right_side.WelcomeController">
    <children>
       <HBox alignment="CENTER" layoutX="-1.0" layoutY="76.0" prefHeight="54.0" prefWidth="686.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="76.0">
@@ -20,11 +20,12 @@
       </HBox>
       <HBox alignment="CENTER" layoutY="174.0" prefHeight="100.0" prefWidth="686.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="174.0">
          <children>
-            <ImageView fitHeight="95.0" fitWidth="260.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../images/defualtUserImage.png" />
-               </image>
-            </ImageView>
+             <ImageView fx:id="personImg" fitHeight="95.0" fitWidth="260.0" nodeOrientation="INHERIT"
+                        onMouseClicked="#moveToUpdate" pickOnBounds="true" preserveRatio="true">
+                 <image>
+                     <Image url="@../../../images/defualtUserImage.png"/>
+                 </image>
+             </ImageView>
             <Circle fill="#46f27f" radius="9.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="2.0">
                <HBox.margin>
                   <Insets left="-20.0" top="50.0" />

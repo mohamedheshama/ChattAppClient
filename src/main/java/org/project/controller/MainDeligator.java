@@ -36,6 +36,24 @@ public class MainDeligator implements Serializable {
         }
     }
 
+    public void updateUser(Users existUser) throws RemoteException {
+        serverConnectionController.getServicesInterface().notifyUpdate(existUser);
+
+
+    }
+
+    /*
+       public void sendFile( Message newMsg, RemoteInputStream remoteFileData){
+        //   serverConnectionController.getServicesInterface().sendFile(newMsg,remoteFileData);
+
+       }
+
+       */
+    public void notifyUser(Message newMsg, ChatRoom chatRoom) throws RemoteException {
+        serverConnectionController.getServicesInterface().notifyUser(newMsg, chatRoom);
+    }
+
+
     //End Hend
 //Karima
     public Boolean checkUserLogin(String phoneNumber, String password) throws RemoteException {
@@ -55,9 +73,9 @@ public class MainDeligator implements Serializable {
         serverConnectionController.getServicesInterface().registerClient(clientImp);
     }
 
-    public void reciveMsg(Message newMsg) {
+    // public void reciveMsg(Message newMsg) {
 
-    }
+    //}
 
     public ChatRoom requestChatRoom(ArrayList<Users> chatroomUsers) {
         try {

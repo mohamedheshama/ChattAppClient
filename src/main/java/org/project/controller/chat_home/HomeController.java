@@ -101,6 +101,11 @@ public class HomeController implements Initializable, Serializable {
         mainDeligator.sendMsg(newMsg, chatRoom);
     }
 
+    public void notifyUser(Message newMsg, ChatRoom chatRoom) throws RemoteException {
+        mainDeligator.notifyUser(newMsg, chatRoom);
+    }
+
+
     public void openChatRoom(ChatRoom chatRoom) throws IOException {
         System.out.println("in open chat room");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/right_side/main_chat.fxml"));
@@ -121,7 +126,16 @@ public class HomeController implements Initializable, Serializable {
         mainChatController.reciveMsg(newMsg, chatRoom);
     }
 
+    public void reciveFile(Message newMsg, ChatRoom chatRoom) {
+        mainChatController.reciveFile(newMsg, chatRoom);
+    }
+
     public ChatRoom requestChatRoom(ArrayList<Users> chatroomUsers) {
         return mainDeligator.requestChatRoom(chatroomUsers);
     }
+
+    // START AMR
+
+
+    //END AMR
 }
