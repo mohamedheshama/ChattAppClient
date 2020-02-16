@@ -2,6 +2,7 @@ package org.project.controller;
 
 import org.project.controller.messages.Message;
 import org.project.model.ChatRoom;
+import org.project.model.dao.users.UserStatus;
 import org.project.model.dao.users.Users;
 
 import java.io.Serializable;
@@ -26,6 +27,67 @@ public class MainDeligator implements Serializable {
     public MainDeligator() throws RemoteException, NotBoundException {
         this.serverConnectionController = new ServerConnectionController("localhost", 1260);
     }
+    //Karima
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //end Karima
 
     // Hend
     public void registerUser(Users newUser) throws RemoteException, SQLException {
@@ -36,8 +98,47 @@ public class MainDeligator implements Serializable {
         }
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     //End Hend
-//Karima
     public Boolean checkUserLogin(String phoneNumber, String password) throws RemoteException {
         return serverConnectionController.getServicesInterface().checkUserLogin(phoneNumber, password);
     }
@@ -67,6 +168,160 @@ public class MainDeligator implements Serializable {
         }
         return null;
     }
+
+    public boolean changeUserStatus(Users user, UserStatus userStatus) throws RemoteException {
+        return serverConnectionController.getServicesInterface().changeUserStatus(user , userStatus);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //End Eman
+// AMR
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //END AMR
+
+    // shimaa
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // end shimaa
+
+    //mohamed
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //end mohamed
+
 
 }

@@ -2,6 +2,7 @@ package org.project.controller;
 
 import org.project.controller.messages.Message;
 import org.project.model.ChatRoom;
+import org.project.model.dao.users.UserStatus;
 import org.project.model.dao.users.Users;
 
 import java.rmi.Remote;
@@ -27,5 +28,7 @@ public interface ServicesInterface extends Remote {
     public void registerClient(ClientInterface clientImp) throws RemoteException;
 
     public ChatRoom requestChatRoom(ArrayList<Users> chatroomUsers) throws RemoteException;
+
+    public boolean changeUserStatus(Users user, UserStatus userStatus) throws RemoteException;
     // check if phone number exists, update online users
 }

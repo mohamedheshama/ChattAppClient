@@ -10,9 +10,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 import org.project.controller.chat_home.HomeController;
 import org.project.model.ChatRoom;
+import org.project.model.dao.users.UserStatus;
 import org.project.model.dao.users.Users;
 
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 
@@ -76,7 +78,206 @@ public class ChatListView {
         return homeController.requestChatRoom(chatroomUsers);
     }
 
+    public boolean changeUserStatus(UserStatus userStatus) throws RemoteException {
+        // todo ====> EMAN
+        //  call this method after updating the userStatus and if true call notify all clients with update
+        return homeController.changeUserStatus(user , userStatus);
+    }
+    //start IMAN
+    public void notifyUsersWithUpdateStatus(){
+        // todo =====> EMAN
+        //  there is two ways to update users list viww with the changes
+        //  first from DB (faster)
+        //  Second filter List view with this user and change his image with the new status (preferred)
 
+
+
+
+
+
+
+
+
+
+    }
+
+    // TODO ====> IMAN // accept and decline Friend request (HIGH PERIORITY)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //END IMAN
+    //START SHIMAA
+    //TODO ADD CONTACT
+    // AND SWITCH UPDATER PROFILE
+    // try SORTING users based on there STATUS (ONLINE - BUSY - AWAY - OFFLINE)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //END SHIMAAA
+
+    // START AMR
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //END AMR
 }
 
 

@@ -13,6 +13,7 @@ import org.project.controller.chat_home.left_side.LeftSideController;
 import org.project.controller.chat_home.right_side.MainChatController;
 import org.project.controller.messages.Message;
 import org.project.model.ChatRoom;
+import org.project.model.dao.users.UserStatus;
 import org.project.model.dao.users.Users;
 
 import java.io.IOException;
@@ -123,5 +124,9 @@ public class HomeController implements Initializable, Serializable {
 
     public ChatRoom requestChatRoom(ArrayList<Users> chatroomUsers) {
         return mainDeligator.requestChatRoom(chatroomUsers);
+    }
+
+    public boolean changeUserStatus(Users user, UserStatus userStatus) throws RemoteException {
+        return mainDeligator.changeUserStatus(user ,userStatus);
     }
 }

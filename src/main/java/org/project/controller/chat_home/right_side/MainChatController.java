@@ -16,9 +16,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -178,7 +176,7 @@ public class MainChatController implements Initializable {
     }
 
     public void setTextFieldStyle() {
-        System.out.println("s;geod");
+       // System.out.println("s;geod");
         String str = msgTxtField.getText().toString();
         msgTxtField.setText("");
         msgTxtField.setStyle("-fx-font-family: \"" + fontFamily + "\"; " + "-fx-text-fill: " + colorPicked + ";" + "-fx-font-size: " + sizePicked + ";" + " -fx-font-weight:" + getFontWeight().name() + ";" + " -fx-font-style:" + getFontPosture().name());
@@ -282,7 +280,13 @@ public class MainChatController implements Initializable {
         try {
             Label name = new Label(msg.getName());
             // ImageView imageView = new ImageView();
+            System.out.println(msg.getTextFill() + "  >");
             Text text = new Text(msg.getMsg());
+            text.setFill(Color.valueOf(msg.getTextFill()));
+            text.setStyle("-fx-font-family: \"" + msg.getFontFamily() + "\"; "
+                    + ";" + "-fx-font-size: " + msg.getFontSize()
+                    + ";" + " -fx-font-weight:" + msg.getFontWeight()
+                    + ";" + " -fx-font-style:" + FontPosture.REGULAR);
             if (msg.getMsg().length() > 50)
                 text.setWrappingWidth(500);
             VBox vb = new VBox();
@@ -299,6 +303,7 @@ public class MainChatController implements Initializable {
             hb.getChildren().add(text);
             hb.setPadding(new Insets(15, 12, 15, 12));
             hb.setSpacing(10);
+            hb.setBackground(new Background(new BackgroundFill(Color.valueOf(msg.getTextFill()).invert() , new CornerRadii(25) , new Insets(10.0f))));
         } catch (Exception e) {
             e.printStackTrace();
         }
