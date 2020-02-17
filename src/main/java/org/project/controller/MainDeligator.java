@@ -1,5 +1,6 @@
 package org.project.controller;
 
+import com.healthmarketscience.rmiio.RemoteInputStream;
 import org.project.controller.messages.Message;
 import org.project.model.ChatRoom;
 import org.project.model.dao.users.UserStatus;
@@ -98,9 +99,10 @@ public class MainDeligator implements Serializable {
         }
     }
 
+    public void sendFile( Message newMsg, RemoteInputStream remoteFileData)throws RemoteException {
+        serverConnectionController.getServicesInterface().sendFile(newMsg,remoteFileData);
 
-
-
+    }
 
 
 
@@ -151,8 +153,8 @@ public class MainDeligator implements Serializable {
        }
 
        */
-    public void notifyUser(Message newMsg, ChatRoom chatRoom) throws RemoteException {
-        serverConnectionController.getServicesInterface().notifyUser(newMsg, chatRoom);
+    public boolean fileNotifyUser(Message newMsg, ChatRoom chatRoom) throws RemoteException {
+       return serverConnectionController.getServicesInterface().fileNotifyUser(newMsg, chatRoom);
     }
 
 

@@ -13,8 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -46,6 +45,7 @@ import java.net.URL;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -350,16 +350,20 @@ public class MainChatController implements Initializable {
 
 // strart HEND
 
-    public void reciveFile(Message newMsg, ChatRoom chatRoom) { // next step here notify file
-        if (newMsg.getUser().getId() == mUser.getId()) {
-            displayMsg(newMsg, Pos.TOP_RIGHT);
-        } else {
+    public boolean notifyrecieveFile(Message newMsg, ChatRoom chatRoom) {
+       // if (newMsg.getUser().getId() == mUser.getId()) {
+         //   displayNotifyForFile(newMsg);
+       // } else {
             if (chatRoom.getChatRoomId().equals(this.chatRoom.getChatRoomId())) {
-                displayMsg(newMsg, Pos.TOP_LEFT);
+                if(displayNotifyForFile(newMsg)){
+                    return true;
+                }
             } else {
                 showMessageIncommingNotification(newMsg);
+                return true;
             }
-        }
+        //}
+        return false;
     }
 
     public void sendFile() throws IOException, NotBoundException {
@@ -382,26 +386,84 @@ public class MainChatController implements Initializable {
         newMsg.setFontWeight(getFontWeight().name());
         homeController.sendMsg(newMsg, chatRoom);
         msgTxtField.setText("");
-        homeController.notifyUser(newMsg, chatRoom); //message
+      if(homeController.fileNotifyUser(newMsg, chatRoom)){
+          InputStream inputStream = new FileInputStream(file.getAbsolutePath());
+          RemoteInputStreamServer remoteFileData = new SimpleRemoteInputStream(inputStream);
+          mainDeligator.sendFile(newMsg, remoteFileData);
+      }
 
 
-        //initChatRoomService();
-        InputStream inputStream = new FileInputStream(file.getAbsolutePath());
-
-        RemoteInputStreamServer remoteFileData = new SimpleRemoteInputStream(inputStream);
 
 
-        //mainDeligator.sendFile(newMsg, remoteFileData.export());
+
 
 
     }
 
+    private boolean displayNotifyForFile(Message msg) {
+        final boolean[] flage = {true};
+
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation Recive File ");
+            alert.setHeaderText("Look,There is a File Coming");
+            alert.setContentText("Are you ok with this?");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK){
+                flage[0] =true;
+            } else {
+                flage[0]=false;
+            }
 
 
 
 
 
 
+
+           // showMsgsBox.getChildren().addAll(alertFile(msg));
+        });
+return flage[0];
+    }
+
+/*
+    public VBox alertFile(Message msg){
+
+        VBox vb = new VBox();
+        try {
+            Label name = new Label(msg.getTextFill());
+            // ImageView imageView = new ImageView();
+            System.out.println(msg.getTextFill() + "  >");
+            Text text = new Text(msg.getMsg());
+            text.setFill(Color.valueOf(msg.getTextFill()));
+            text.setStyle("-fx-font-family: \"" + msg.getFontFamily() + "\"; "
+                    + ";" + "-fx-font-size: " + msg.getFontSize()
+                    + ";" + " -fx-font-weight:" + msg.getFontWeight()
+                    + ";" + " -fx-font-style:" + FontPosture.REGULAR);
+            Button acceptBtn=new Button("accept");
+            Button rejectBtn=new Button("reject");
+           // VBox vb = new VBox();
+            //BufferedImage image = javax.imageio.ImageIO.read(new ByteArrayInputStream(msg.getUser().getDisplayPicture()));
+            //Image card = SwingFXUtils.toFXImage(image, null);
+            //imageView.setImage(card);
+            //imageView.setFitWidth(15);
+            //imageView.setPreserveRatio(true);
+            vb.getChildren().add(acceptBtn);
+            vb.getChildren().add(rejectBtn);
+            //vb.getChildren().add(imageView);
+            vb.setSpacing(2);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return vb;
+
+
+    }
+
+*/
 
 
 

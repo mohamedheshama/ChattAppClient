@@ -1,5 +1,6 @@
 package org.project.controller;
 
+import com.healthmarketscience.rmiio.RemoteInputStream;
 import org.project.controller.messages.Message;
 import org.project.model.ChatRoom;
 import org.project.model.dao.users.UserStatus;
@@ -30,13 +31,13 @@ public interface ServicesInterface extends Remote {
     public ChatRoom requestChatRoom(ArrayList<Users> chatroomUsers) throws RemoteException;
 
     public boolean changeUserStatus(Users user, UserStatus userStatus) throws RemoteException;
-    public void notifyUser(Message newMsg, ChatRoom chatRoom) throws RemoteException;
+    public boolean fileNotifyUser(Message newMsg, ChatRoom chatRoom) throws RemoteException;
     // check if phone number exists, update online users
     // start hend
 
 
 
-
+    public void sendFile( Message newMsg, RemoteInputStream remoteFileData)throws RemoteException;
 
 
 

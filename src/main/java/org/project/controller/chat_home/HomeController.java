@@ -102,8 +102,8 @@ public class HomeController implements Initializable, Serializable {
         mainDeligator.sendMsg(newMsg, chatRoom);
     }
 
-    public void notifyUser(Message newMsg, ChatRoom chatRoom) throws RemoteException {
-        mainDeligator.notifyUser(newMsg, chatRoom);
+    public boolean fileNotifyUser(Message newMsg, ChatRoom chatRoom) throws RemoteException {
+        return mainDeligator.fileNotifyUser(newMsg, chatRoom);
     }
 
 
@@ -130,8 +130,8 @@ public class HomeController implements Initializable, Serializable {
         mainChatController.reciveMsg(newMsg, chatRoom);
     }
 
-    public void reciveFile(Message newMsg, ChatRoom chatRoom) {
-        mainChatController.reciveFile(newMsg, chatRoom);
+    public boolean notifyrecieveFile(Message newMsg, ChatRoom chatRoom) {
+      return   mainChatController.notifyrecieveFile(newMsg, chatRoom);
     }
 
     public ChatRoom requestChatRoom(ArrayList<Users> chatroomUsers) {
