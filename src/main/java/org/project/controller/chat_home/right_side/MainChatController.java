@@ -33,6 +33,7 @@ import org.project.controller.MainDeligator;
 import org.project.controller.chat_home.HomeController;
 import org.project.controller.messages.Message;
 import org.project.controller.messages.MessageType;
+import org.project.controller.security.RSAEncryptionWithAES;
 import org.project.model.ChatRoom;
 import org.project.model.dao.users.Users;
 
@@ -100,6 +101,7 @@ public class MainChatController implements Initializable {
     private int sizePicked;
     private boolean italic;
     private boolean bold;
+    RSAEncryptionWithAES rsaEncryptionWithAES;
 
     public ImageView getAttachFileImgBtn() {
         return attachFileImgBtn;
@@ -107,6 +109,11 @@ public class MainChatController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        try {
+            rsaEncryptionWithAES = new RSAEncryptionWithAES();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         chatReceiversTxtLabel.setText("myFrined");
         try {
             mainDeligator = new MainDeligator();
@@ -121,6 +128,8 @@ public class MainChatController implements Initializable {
                 try {
                     sendMsgToHomeController();
                 } catch (RemoteException e) {
+                    e.printStackTrace();
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -215,12 +224,15 @@ public class MainChatController implements Initializable {
             sendMsgToHomeController();
         } catch (RemoteException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
-    private void sendMsgToHomeController() throws RemoteException {
+    private void sendMsgToHomeController() throws Exception {
+        String encryptedText = rsaEncryptionWithAES.encryptTextUsingAES(msgTxtField.getText(), rsaEncryptionWithAES.getSecretAESKeyString());
         Message newMsg = new Message();
-        newMsg.setMsg(msgTxtField.getText());
+        newMsg.setMsg(encryptedText);
         chatRoom.getChatRoomMessage().add(newMsg);
         System.out.println("chat room id : "+chatRoom.getChatRoomId()+" message is " +chatRoom.getChatRoomMessage());
         newMsg.setType(MessageType.USER);
@@ -228,6 +240,8 @@ public class MainChatController implements Initializable {
         newMsg.setTextFill(colorPicked);
         newMsg.setFontSize(sizePicked);
         newMsg.setUser(mUser);
+        newMsg.setPublicKey(rsaEncryptionWithAES.getPublicKey());
+        newMsg.setEncryptedAESKeyString(rsaEncryptionWithAES.getEncryptedAESKeyString());
         newMsg.setChatId(chatRoom.getChatRoomId());
         newMsg.setFontWeight(getFontWeight().name());
         homeController.sendMsg(newMsg, chatRoom);
@@ -236,7 +250,12 @@ public class MainChatController implements Initializable {
 
 
 
-    public void reciveMsg(Message newMsg, ChatRoom chatRoom) {
+    public void reciveMsg(Message newMsg, ChatRoom chatRoom) throws Exception {
+        String decryptedAESKeyString = rsaEncryptionWithAES.decryptAESKey(newMsg.getEncryptedAESKeyString(), newMsg.getPublicKey());
+
+        // Now decrypt data using the decrypted AES key!
+        String decryptedText = rsaEncryptionWithAES.decryptTextUsingAES(newMsg.getMsg(), decryptedAESKeyString);
+        newMsg.setMsg(decryptedText);
         if (newMsg.getUser().getId() == mUser.getId()) {
             displayMsg(newMsg, Pos.TOP_RIGHT);
         } else {
