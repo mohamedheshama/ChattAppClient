@@ -38,8 +38,8 @@ public class ClientImp extends UnicastRemoteObject implements ClientInterface {
         homeController.reciveMsg(newMsg, chatRoom);
     }
 
-    public void recieveFile(Message newMsg, ChatRoom chatRoom) {
-        homeController.reciveFile(newMsg, chatRoom);
+    public boolean notifyrecieveFile(Message newMsg, ChatRoom chatRoom) {
+       return homeController.notifyrecieveFile(newMsg, chatRoom);
     }
 
     @Override
