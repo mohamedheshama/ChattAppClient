@@ -11,9 +11,11 @@ module org.project {
     requires javafx.media;
     requires java.base;
     requires org.controlsfx.controls;
-
+    requires rmiio;
 
     opens org.project to javafx.fxml;
+    opens org.project.controller.update_user to javafx.fxml;
+
     exports org.project.controller.chat_home.right_side to com.jfoenix;
     exports org.project.controller;
     opens org.project.controller.login to javafx.fxml;
@@ -27,5 +29,6 @@ module org.project {
     exports org.project.controller.chat_home.left_side;
     opens org.project.controller.chat_home to javafx.fxml;
     exports org.project.model;
+    exports org.project.controller.update_user to javafx.fxml;
 
 }

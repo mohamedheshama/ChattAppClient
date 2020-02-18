@@ -22,7 +22,7 @@ import java.util.ResourceBundle;
 
 public class LoginController implements Initializable , LoginInterface {
     public AnchorPane mainPane;
-    String phonenumber_input;
+    static String phonenumber_input;
     String password_input;
     boolean keepme = false;
 
@@ -42,6 +42,8 @@ public class LoginController implements Initializable , LoginInterface {
     @FXML
     private Label error_msg_phone_label;
     MainDeligator mainDeligator;
+    HomeController homecontroller;
+
     boolean userIsExist;
 
     public Stage getStage() {
@@ -52,6 +54,7 @@ public class LoginController implements Initializable , LoginInterface {
     public void initialize(URL location, ResourceBundle resources) {
         try {
             mainDeligator = new MainDeligator();
+
         } catch (RemoteException e) {
             e.printStackTrace();
         } catch (NotBoundException e) {
@@ -68,10 +71,13 @@ public class LoginController implements Initializable , LoginInterface {
     @FXML
     public void view(ActionEvent actionEvent) throws Exception {
         phonenumber_input = phonenumber_Txtfield.getText();
+
         password_input = password_TxtField.getText();
         userIsExist = checkUserLogin(phonenumber_input, password_input);
         if (userIsExist) {
             keepme = keep_me_login_Chkbox.isSelected();
+
+
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/home.fxml"));
             Parent root = fxmlLoader.load();
             HomeController homeController = fxmlLoader.getController();
@@ -79,6 +85,9 @@ public class LoginController implements Initializable , LoginInterface {
             homeController.setStage(getStage());
             homeController.setPhoneNumber(phonenumber_input);
             getStage().setScene(new Scene(root));
+
+            //App.setRoot("/org/project/views/update_info_view");
+
         }
         else {
             ShowAlertError();

@@ -1,7 +1,9 @@
 package org.project.controller;
 
+import com.healthmarketscience.rmiio.RemoteInputStream;
 import org.project.controller.messages.Message;
 import org.project.model.ChatRoom;
+import org.project.model.dao.users.UserStatus;
 import org.project.model.dao.users.Users;
 
 import java.io.Serializable;
@@ -26,6 +28,67 @@ public class MainDeligator implements Serializable {
     public MainDeligator() throws RemoteException, NotBoundException {
         this.serverConnectionController = new ServerConnectionController("localhost", 1260);
     }
+    //Karima
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //end Karima
 
     // Hend
     public void registerUser(Users newUser) throws RemoteException, SQLException {
@@ -35,6 +98,65 @@ public class MainDeligator implements Serializable {
             System.out.println("user can't registe");
         }
     }
+
+    public void sendFile( Message newMsg, RemoteInputStream remoteFileData)throws RemoteException {
+        serverConnectionController.getServicesInterface().sendFile(newMsg,remoteFileData);
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public void updateUser(Users existUser) throws RemoteException {
+        serverConnectionController.getServicesInterface().notifyUpdate(existUser);
+
+
+    }
+
+    /*
+       public void sendFile( Message newMsg, RemoteInputStream remoteFileData){
+        //   serverConnectionController.getServicesInterface().sendFile(newMsg,remoteFileData);
+
+       }
+
+       */
+    public boolean fileNotifyUser(Message newMsg, ChatRoom chatRoom) throws RemoteException {
+       return serverConnectionController.getServicesInterface().fileNotifyUser(newMsg, chatRoom);
+    }
+
 
     //End Hend
 //Karima
@@ -67,6 +189,160 @@ public class MainDeligator implements Serializable {
         }
         return null;
     }
+
+    public boolean changeUserStatus(Users user, UserStatus userStatus) throws RemoteException {
+        return serverConnectionController.getServicesInterface().changeUserStatus(user , userStatus);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //End Eman
+// AMR
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //END AMR
+
+    // shimaa
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // end shimaa
+
+    //mohamed
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //end mohamed
+
 
 }

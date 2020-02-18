@@ -1,5 +1,7 @@
 package org.project.controller.chat_home.right_side;
 
+import com.healthmarketscience.rmiio.RemoteInputStreamServer;
+import com.healthmarketscience.rmiio.SimpleRemoteInputStream;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXColorPicker;
 import com.jfoenix.controls.JFXComboBox;
@@ -11,32 +13,39 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
+import org.project.controller.MainDeligator;
 import org.project.controller.chat_home.HomeController;
 import org.project.controller.messages.Message;
 import org.project.controller.messages.MessageType;
+import org.project.controller.security.RSAEncryptionWithAES;
 import org.project.model.ChatRoom;
 import org.project.model.dao.users.Users;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -71,7 +80,13 @@ public class MainChatController implements Initializable {
 
     Users mUser;
     HomeController homeController;
+
+    public ChatRoom getChatRoom() {
+        return chatRoom;
+    }
+
     ChatRoom chatRoom;
+    MainDeligator mainDeligator;
 
     public void setHomeController(HomeController homeController) {
         this.homeController = homeController;
@@ -86,6 +101,7 @@ public class MainChatController implements Initializable {
     private int sizePicked;
     private boolean italic;
     private boolean bold;
+    RSAEncryptionWithAES rsaEncryptionWithAES;
 
     public ImageView getAttachFileImgBtn() {
         return attachFileImgBtn;
@@ -93,13 +109,27 @@ public class MainChatController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        try {
+            rsaEncryptionWithAES = new RSAEncryptionWithAES();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         chatReceiversTxtLabel.setText("myFrined");
+        try {
+            mainDeligator = new MainDeligator();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (NotBoundException e) {
+            e.printStackTrace();
+        }
         msgTxtField.setWrapText(true);
         msgTxtField.setOnKeyPressed(keyEvent -> {
             if (keyEvent.getCode() == KeyCode.ENTER) {
                 try {
                     sendMsgToHomeController();
                 } catch (RemoteException e) {
+                    e.printStackTrace();
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -178,7 +208,7 @@ public class MainChatController implements Initializable {
     }
 
     public void setTextFieldStyle() {
-        System.out.println("s;geod");
+       // System.out.println("s;geod");
         String str = msgTxtField.getText().toString();
         msgTxtField.setText("");
         msgTxtField.setStyle("-fx-font-family: \"" + fontFamily + "\"; " + "-fx-text-fill: " + colorPicked + ";" + "-fx-font-size: " + sizePicked + ";" + " -fx-font-weight:" + getFontWeight().name() + ";" + " -fx-font-style:" + getFontPosture().name());
@@ -194,35 +224,38 @@ public class MainChatController implements Initializable {
             sendMsgToHomeController();
         } catch (RemoteException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
-    private void sendMsgToHomeController() throws RemoteException {
+    private void sendMsgToHomeController() throws Exception {
+        String encryptedText = rsaEncryptionWithAES.encryptTextUsingAES(msgTxtField.getText(), rsaEncryptionWithAES.getSecretAESKeyString());
         Message newMsg = new Message();
-        newMsg.setMsg(msgTxtField.getText());
+        newMsg.setMsg(encryptedText);
+        chatRoom.getChatRoomMessage().add(newMsg);
+        System.out.println("chat room id : "+chatRoom.getChatRoomId()+" message is " +chatRoom.getChatRoomMessage());
         newMsg.setType(MessageType.USER);
         newMsg.setFontFamily(fontFamily);
         newMsg.setTextFill(colorPicked);
         newMsg.setFontSize(sizePicked);
         newMsg.setUser(mUser);
+        newMsg.setPublicKey(rsaEncryptionWithAES.getPublicKey());
+        newMsg.setEncryptedAESKeyString(rsaEncryptionWithAES.getEncryptedAESKeyString());
         newMsg.setChatId(chatRoom.getChatRoomId());
         newMsg.setFontWeight(getFontWeight().name());
         homeController.sendMsg(newMsg, chatRoom);
         msgTxtField.setText("");
     }
 
-    public void displayMessagesFromArrList() {
-        for (Message message : chatRoom.getChatRoomMessage()) {
-            if (message.getUser().getId() == mUser.getId()) {
-                // todo set allignment to right and displayMsg
-            } else {
-                // todo set alignment to left nad display message
-            }
-        }
-    }
 
 
-    public void reciveMsg(Message newMsg, ChatRoom chatRoom) {
+    public void reciveMsg(Message newMsg, ChatRoom chatRoom) throws Exception {
+        String decryptedAESKeyString = rsaEncryptionWithAES.decryptAESKey(newMsg.getEncryptedAESKeyString(), newMsg.getPublicKey());
+
+        // Now decrypt data using the decrypted AES key!
+        String decryptedText = rsaEncryptionWithAES.decryptTextUsingAES(newMsg.getMsg(), decryptedAESKeyString);
+        newMsg.setMsg(decryptedText);
         if (newMsg.getUser().getId() == mUser.getId()) {
             displayMsg(newMsg, Pos.TOP_RIGHT);
         } else {
@@ -233,6 +266,7 @@ public class MainChatController implements Initializable {
             }
         }
     }
+
 
     private void showMessageIncommingNotification(Message newMsg) {
         System.out.println("in the show Notification -> " + newMsg.getMsg());
@@ -282,7 +316,13 @@ public class MainChatController implements Initializable {
         try {
             Label name = new Label(msg.getName());
             // ImageView imageView = new ImageView();
+            System.out.println(msg.getTextFill() + "  >");
             Text text = new Text(msg.getMsg());
+            text.setFill(Color.valueOf(msg.getTextFill()));
+            text.setStyle("-fx-font-family: \"" + msg.getFontFamily() + "\"; "
+                    + ";" + "-fx-font-size: " + msg.getFontSize()
+                    + ";" + " -fx-font-weight:" + msg.getFontWeight()
+                    + ";" + " -fx-font-style:" + FontPosture.REGULAR);
             if (msg.getMsg().length() > 50)
                 text.setWrappingWidth(500);
             VBox vb = new VBox();
@@ -299,10 +339,208 @@ public class MainChatController implements Initializable {
             hb.getChildren().add(text);
             hb.setPadding(new Insets(15, 12, 15, 12));
             hb.setSpacing(10);
+            hb.setBackground(new Background(new BackgroundFill(Color.valueOf(msg.getTextFill()).invert() , new CornerRadii(25) , new Insets(10.0f))));
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         return hb;
     }
+
+
+// strart HEND
+
+    public boolean notifyrecieveFile(Message newMsg, ChatRoom chatRoom) {
+       // if (newMsg.getUser().getId() == mUser.getId()) {
+         //   displayNotifyForFile(newMsg);
+       // } else {
+            if (chatRoom.getChatRoomId().equals(this.chatRoom.getChatRoomId())) {
+                if(displayNotifyForFile(newMsg)){
+                    return true;
+                }
+            } else {
+                showMessageIncommingNotification(newMsg);
+                return true;
+            }
+        //}
+        return false;
+    }
+
+    public void sendFile() throws IOException, NotBoundException {
+
+        // Message message, File file, ChatRoom chatRoom
+        FileChooser SaveFileChooser = new FileChooser();
+        // Stage stage= (Stage) showMsgsBox.getScene().getWindow();
+
+        File file = SaveFileChooser.showOpenDialog(getStage());
+        String path = file.getAbsolutePath();
+        Message newMsg = new Message();
+        msgTxtField.setText(file.getName());
+        newMsg.setMsg(msgTxtField.getText());
+        newMsg.setType(MessageType.USER);
+        newMsg.setFontFamily(fontFamily);
+        newMsg.setTextFill(colorPicked);
+        newMsg.setFontSize(sizePicked);
+        newMsg.setUser(mUser);
+        newMsg.setChatId(chatRoom.getChatRoomId());
+        newMsg.setFontWeight(getFontWeight().name());
+        homeController.sendMsg(newMsg, chatRoom);
+        msgTxtField.setText("");
+      if(homeController.fileNotifyUser(newMsg, chatRoom)){
+          InputStream inputStream = new FileInputStream(file.getAbsolutePath());
+          RemoteInputStreamServer remoteFileData = new SimpleRemoteInputStream(inputStream);
+          mainDeligator.sendFile(newMsg, remoteFileData);
+      }
+
+
+
+
+
+
+
+    }
+
+    private boolean displayNotifyForFile(Message msg) {
+        final boolean[] flage = {true};
+
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation Recive File ");
+            alert.setHeaderText("Look,There is a File Coming");
+            alert.setContentText("Are you ok with this?");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK){
+                flage[0] =true;
+            } else {
+                flage[0]=false;
+            }
+
+
+
+
+
+
+
+           // showMsgsBox.getChildren().addAll(alertFile(msg));
+        });
+return flage[0];
+    }
+
+/*
+    public VBox alertFile(Message msg){
+
+        VBox vb = new VBox();
+        try {
+            Label name = new Label(msg.getTextFill());
+            // ImageView imageView = new ImageView();
+            System.out.println(msg.getTextFill() + "  >");
+            Text text = new Text(msg.getMsg());
+            text.setFill(Color.valueOf(msg.getTextFill()));
+            text.setStyle("-fx-font-family: \"" + msg.getFontFamily() + "\"; "
+                    + ";" + "-fx-font-size: " + msg.getFontSize()
+                    + ";" + " -fx-font-weight:" + msg.getFontWeight()
+                    + ";" + " -fx-font-style:" + FontPosture.REGULAR);
+            Button acceptBtn=new Button("accept");
+            Button rejectBtn=new Button("reject");
+           // VBox vb = new VBox();
+            //BufferedImage image = javax.imageio.ImageIO.read(new ByteArrayInputStream(msg.getUser().getDisplayPicture()));
+            //Image card = SwingFXUtils.toFXImage(image, null);
+            //imageView.setImage(card);
+            //imageView.setFitWidth(15);
+            //imageView.setPreserveRatio(true);
+            vb.getChildren().add(acceptBtn);
+            vb.getChildren().add(rejectBtn);
+            //vb.getChildren().add(imageView);
+            vb.setSpacing(2);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return vb;
+
+
+    }
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // END HEND
+
+
+    //start AMR
+    public void displayMessagesFromArrList() {
+        Pos pos;
+        System.out.println("chat room messages " + chatRoom.getChatRoomMessage());
+        for (Message message : chatRoom.getChatRoomMessage()) {
+            if (message.getUser().getId() == mUser.getId()) {
+                pos = Pos.TOP_RIGHT;
+            } else {
+                pos = Pos.TOP_LEFT;
+                // todo set alignment to left nad display message
+            }
+            displayMsg(message , pos);
+        }
+
+    }
+
+    public ArrayList<Message> getMessagesFromArrayList() {
+        System.out.println("Messages are " + chatRoom.getChatRoomMessage() + "chat room id : " + chatRoom.getChatRoomId()   );
+        return chatRoom.getChatRoomMessage();
+    }
+
+
+    // END AMR
+
+
 }

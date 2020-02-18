@@ -13,6 +13,7 @@ import org.project.controller.chat_home.left_side.LeftSideController;
 import org.project.controller.chat_home.right_side.MainChatController;
 import org.project.controller.messages.Message;
 import org.project.model.ChatRoom;
+import org.project.model.dao.users.UserStatus;
 import org.project.model.dao.users.Users;
 
 import java.io.IOException;
@@ -101,7 +102,12 @@ public class HomeController implements Initializable, Serializable {
         mainDeligator.sendMsg(newMsg, chatRoom);
     }
 
-    public void openChatRoom(ChatRoom chatRoom) throws IOException {
+    public boolean fileNotifyUser(Message newMsg, ChatRoom chatRoom) throws RemoteException {
+        return mainDeligator.fileNotifyUser(newMsg, chatRoom);
+    }
+
+
+    public void openChatRoom(ChatRoom chatRoom, boolean isChatRoomExist) throws IOException {
         System.out.println("in open chat room");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/right_side/main_chat.fxml"));
         Parent root = loader.load();
@@ -110,18 +116,38 @@ public class HomeController implements Initializable, Serializable {
         mainChatController.setHomeController(this);
         mainChatController.setChatRoom(chatRoom);
         borderBaneStage.setCenter(root);
+        if (!isChatRoomExist) {
+            mainChatController.displayMessagesFromArrList();
+        }
     }
 
     public void addChatRoom(ChatRoom chatRoom) throws IOException {
         user.getChatRooms().add(chatRoom);
-        System.out.println(user.getChatRooms());
+        System.out.println("here is your chat room " + chatRoom.getChatRoomId());
     }
 
-    public void reciveMsg(Message newMsg, ChatRoom chatRoom) {
+    public void reciveMsg(Message newMsg, ChatRoom chatRoom) throws Exception {
         mainChatController.reciveMsg(newMsg, chatRoom);
+    }
+
+    public boolean notifyrecieveFile(Message newMsg, ChatRoom chatRoom) {
+      return   mainChatController.notifyrecieveFile(newMsg, chatRoom);
     }
 
     public ChatRoom requestChatRoom(ArrayList<Users> chatroomUsers) {
         return mainDeligator.requestChatRoom(chatroomUsers);
     }
+
+    public boolean changeUserStatus(Users user, UserStatus userStatus) throws RemoteException {
+        return mainDeligator.changeUserStatus(user ,userStatus);
+    }
+
+    public ArrayList<Message> getMessagesFromArrayList() {
+        return mainChatController.getMessagesFromArrayList();
+    }
+
+    // START AMR
+
+
+    //END AMR
 }
