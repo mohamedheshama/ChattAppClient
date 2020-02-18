@@ -1,6 +1,5 @@
 package org.project.controller;
 
-import org.project.controller.chat_home.HomeController;
 import org.project.controller.messages.Message;
 import org.project.model.ChatRoom;
 import org.project.model.dao.users.UserStatus;
@@ -43,7 +42,7 @@ public class ClientImp extends UnicastRemoteObject implements ClientInterface {
     }
 
     public boolean notifyrecieveFile(Message newMsg, ChatRoom chatRoom) {
-       return mainDeligator.notifyrecieveFile(newMsg, chatRoom);
+        return mainDeligator.notifyrecieveFile(newMsg, chatRoom);
     }
 
     @Override
@@ -55,6 +54,11 @@ public class ClientImp extends UnicastRemoteObject implements ClientInterface {
         }
     }
 
+    @Override
+    public void recieveContactRequest(Users user) throws RemoteException {
+        mainDeligator.recieveContactRequest(user);
+    }
+
     public Users findUserById(ArrayList<Users> friends, int id) {
         for (Users friend : friends) {
             if (friend.getId() == id)
@@ -62,8 +66,6 @@ public class ClientImp extends UnicastRemoteObject implements ClientInterface {
         }
         return null;
     }
-
-
 
 
 }

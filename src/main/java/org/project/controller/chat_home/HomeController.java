@@ -1,5 +1,6 @@
 package org.project.controller.chat_home;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,16 +17,24 @@ import org.project.model.ChatRoom;
 import org.project.model.dao.users.UserStatus;
 import org.project.model.dao.users.Users;
 
+import javax.swing.text.html.ListView;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class HomeController implements Initializable, Serializable {
+
+
+    public BorderPane getBorderBaneStage() {
+        return borderBaneStage;
+    }
+
     @FXML
-    transient BorderPane borderBaneStage;
+    private transient BorderPane borderBaneStage;
     transient MainDeligator mainDeligator;
     ArrayList<ChatRoom> chatRooms = new ArrayList<>();
     Users user;
@@ -145,6 +154,18 @@ public class HomeController implements Initializable, Serializable {
 
     public ArrayList<Message> getMessagesFromArrayList() {
         return mainChatController.getMessagesFromArrayList();
+    }
+
+    public void addUsersToFriedNotifications(List<String> contactList, Users user) throws RemoteException {
+        mainDeligator.addUsersToFriedNotifications(contactList , user);
+    }
+
+    public List<String> getUsersList(int userId)  throws RemoteException{
+        return mainDeligator.getUsersList(userId);
+    }
+
+    public void recieveContactRequest(Users user)  {
+          leftSideController.recieveContactRequest(user);
     }
 
     // START AMR

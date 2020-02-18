@@ -1,5 +1,7 @@
 package org.project.controller;
 
+import javafx.collections.ObservableList;
+import javafx.scene.control.ListView;
 import com.healthmarketscience.rmiio.RemoteInputStream;
 import org.project.controller.chat_home.HomeController;
 import org.project.controller.messages.Message;
@@ -13,6 +15,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainDeligator implements Serializable {
     Users user;
@@ -37,7 +40,7 @@ public class MainDeligator implements Serializable {
     ServerConnectionController serverConnectionController;
 
     public MainDeligator() throws RemoteException, NotBoundException {
-        this.serverConnectionController = new ServerConnectionController("localhost", 1260);
+        this.serverConnectionController = new ServerConnectionController("10.145.7.12", 1260);
     }
     //Karima
 
@@ -248,32 +251,17 @@ public class MainDeligator implements Serializable {
 
     // shimaa
 
+    public void addUsersToFriedNotifications(List<String> contactList, Users user) throws RemoteException {
+        serverConnectionController.getServicesInterface().addUsersToFriedNotifications(contactList , user);
+    }
 
+    public List<String> getUsersList(int userId)  throws RemoteException{
+        return serverConnectionController.getServicesInterface().getUsersList(userId);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    }
+     public void recieveContactRequest(Users user) {
+        homeController.recieveContactRequest(user);
+    }
 
 
     // end shimaa
