@@ -10,6 +10,8 @@ import javafx.scene.control.ListView;
 import javafx.util.Callback;
 import org.project.model.dao.users.Users;
 
+import java.rmi.RemoteException;
+import java.util.List;
 
 
 public class RequestsListView {
@@ -31,6 +33,10 @@ public class RequestsListView {
                 return new RequestListViewCell();
             }
         });
+    }
+
+    public void recieveContactRequest(Users user) {
+
     }
   /*  @FXML
     public void Accept(ActionEvent event){

@@ -11,12 +11,14 @@ import org.project.model.ChatRoom;
 import org.project.model.dao.users.Users;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class LeftSideController implements Initializable {
     public BorderPane borderPane;
     MainDeligator mainDeligator;
     HomeController homeController;
+    TabPaneNotifications_Controller notificationsController;
     ChatRoom chatRoom;
     Users user;
 
@@ -45,10 +47,11 @@ public class LeftSideController implements Initializable {
         System.out.println("in tab pane " + user);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/left_side/TabPaneNotifications.fxml"));
         Pane root = (Pane) loader.load();
-        TabPaneNotifications_Controller notificationsController = loader.getController();
+        notificationsController = loader.getController();
         notificationsController.setUser(user,homeController);
         notificationsController.setRequestListView();
         notificationsController.setChatListView();
+        notificationsController.setContactListView();
         borderPane.setLeft(root);
     }
 
@@ -58,11 +61,17 @@ public class LeftSideController implements Initializable {
         Pane root = (Pane) loader.load();
         UserIconController userIconController = loader.getController();
         userIconController.setUser(user);
+
+        //userIconController.setHomeController(homeController);
         borderPane.setTop(root);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+    }
+
+    public void recieveContactRequest(Users user) {
+         notificationsController.recieveContactRequest(user);
     }
 }
