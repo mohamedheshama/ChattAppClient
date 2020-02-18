@@ -13,11 +13,11 @@ import java.util.ArrayList;
 
 public class ClientImp extends UnicastRemoteObject implements ClientInterface {
     Users user;
-    HomeController homeController;
+    MainDeligator mainDeligator;
 
-    public ClientImp(Users user, HomeController homeController) throws RemoteException {
+    public ClientImp(Users user, MainDeligator mainDeligator) throws RemoteException {
         this.user = user;
-        this.homeController = homeController;
+        this.mainDeligator = mainDeligator;
     }
 
     @Override
@@ -36,20 +36,20 @@ public class ClientImp extends UnicastRemoteObject implements ClientInterface {
     @Override
     public void recieveMsg(Message newMsg, ChatRoom chatRoom) {
         try {
-            homeController.reciveMsg(newMsg, chatRoom);
+            mainDeligator.reciveMsg(newMsg, chatRoom);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public boolean notifyrecieveFile(Message newMsg, ChatRoom chatRoom) {
-       return homeController.notifyrecieveFile(newMsg, chatRoom);
+       return mainDeligator.notifyrecieveFile(newMsg, chatRoom);
     }
 
     @Override
     public void addChatRoom(ChatRoom chatRoomExist) {
         try {
-            homeController.addChatRoom(chatRoomExist);
+            mainDeligator.addChatRoom(chatRoomExist);
         } catch (IOException e) {
             e.printStackTrace();
         }

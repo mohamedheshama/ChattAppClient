@@ -1,11 +1,13 @@
 package org.project.controller;
 
 import com.healthmarketscience.rmiio.RemoteInputStream;
+import org.project.controller.chat_home.HomeController;
 import org.project.controller.messages.Message;
 import org.project.model.ChatRoom;
 import org.project.model.dao.users.UserStatus;
 import org.project.model.dao.users.Users;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -14,6 +16,15 @@ import java.util.ArrayList;
 
 public class MainDeligator implements Serializable {
     Users user;
+    HomeController homeController;
+
+    public HomeController getHomeController() {
+        return homeController;
+    }
+
+    public void setHomeController(HomeController homeController) {
+        this.homeController = homeController;
+    }
 
     public Users getUser() {
         return user;
@@ -177,8 +188,8 @@ public class MainDeligator implements Serializable {
         serverConnectionController.getServicesInterface().registerClient(clientImp);
     }
 
-    public void reciveMsg(Message newMsg) {
-
+    public void reciveMsg(Message newMsg, ChatRoom chatRoom) throws Exception {
+        homeController.reciveMsg(newMsg , chatRoom);
     }
 
     public ChatRoom requestChatRoom(ArrayList<Users> chatroomUsers) {
@@ -194,43 +205,13 @@ public class MainDeligator implements Serializable {
         return serverConnectionController.getServicesInterface().changeUserStatus(user , userStatus);
     }
 
+    public boolean notifyrecieveFile(Message newMsg, ChatRoom chatRoom) {
+        return homeController.notifyrecieveFile(newMsg, chatRoom);
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public void addChatRoom(ChatRoom chatRoomExist) throws IOException {
+        homeController.addChatRoom(chatRoomExist);
+    }
 
 
 //End Eman

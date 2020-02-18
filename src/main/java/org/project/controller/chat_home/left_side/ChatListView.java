@@ -67,7 +67,7 @@ public class ChatListView implements Initializable {
         }
     }*/
 
-    public void handle(MouseEvent event) throws IOException {
+    public void handle(MouseEvent event) throws Exception {
         Users friendUser = (Users) chatsListView.getSelectionModel().getSelectedItem();
         System.out.println("the user is " + friendUser);
         ArrayList<Users> chatroomUsers = new ArrayList<>();

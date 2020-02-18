@@ -43,6 +43,7 @@ public class HomeController implements Initializable, Serializable {
         this.phoneNumber = phoneNumber;
         user = getUserData(this.phoneNumber);
         mainDeligator.setUser(user);
+        mainDeligator.setHomeController(this);
         System.out.println(user);
         initClient();
         initLeftSide();
@@ -50,7 +51,7 @@ public class HomeController implements Initializable, Serializable {
     }
 
     private void initClient() throws RemoteException {
-        clientImp = new ClientImp(user, this);
+        clientImp = new ClientImp(user, mainDeligator);
         System.out.println("in init clint");
         mainDeligator.registerClient(clientImp);
     }
@@ -107,7 +108,7 @@ public class HomeController implements Initializable, Serializable {
     }
 
 
-    public void openChatRoom(ChatRoom chatRoom, boolean isChatRoomExist) throws IOException {
+    public void openChatRoom(ChatRoom chatRoom, boolean isChatRoomExist) throws Exception {
         System.out.println("in open chat room");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/right_side/main_chat.fxml"));
         Parent root = loader.load();

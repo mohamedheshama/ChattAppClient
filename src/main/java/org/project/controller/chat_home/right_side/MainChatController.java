@@ -248,13 +248,14 @@ public class MainChatController implements Initializable {
         msgTxtField.setText("");
     }
 
-
+    String decryptedAESKeyString;
+    String decryptedText;
 
     public void reciveMsg(Message newMsg, ChatRoom chatRoom) throws Exception {
-        String decryptedAESKeyString = rsaEncryptionWithAES.decryptAESKey(newMsg.getEncryptedAESKeyString(), newMsg.getPublicKey());
+         decryptedAESKeyString = rsaEncryptionWithAES.decryptAESKey(newMsg.getEncryptedAESKeyString(), newMsg.getPublicKey());
 
         // Now decrypt data using the decrypted AES key!
-        String decryptedText = rsaEncryptionWithAES.decryptTextUsingAES(newMsg.getMsg(), decryptedAESKeyString);
+         decryptedText = rsaEncryptionWithAES.decryptTextUsingAES(newMsg.getMsg(), decryptedAESKeyString);
         newMsg.setMsg(decryptedText);
         if (newMsg.getUser().getId() == mUser.getId()) {
             displayMsg(newMsg, Pos.TOP_RIGHT);
@@ -519,10 +520,11 @@ return flage[0];
 
 
     //start AMR
-    public void displayMessagesFromArrList() {
+    public void displayMessagesFromArrList() throws Exception {
         Pos pos;
         System.out.println("chat room messages " + chatRoom.getChatRoomMessage());
         for (Message message : chatRoom.getChatRoomMessage()) {
+            System.out.println(message.getMsg() + "               ..>" + decryptedText);
             if (message.getUser().getId() == mUser.getId()) {
                 pos = Pos.TOP_RIGHT;
             } else {
