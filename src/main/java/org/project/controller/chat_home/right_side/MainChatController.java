@@ -534,7 +534,7 @@ return flage[0];
     //start AMR
     public void displayMessagesFromArrList() throws Exception {
         Pos pos;
-        System.out.println("chat room messages " + chatRoom.getChatRoomMessage());
+        System.out.println("chat room messages test" + chatRoom.getChatRoomMessage());
         for (Message message : chatRoom.getChatRoomMessage()) {
 
             //System.out.println(message.getMsg() + "               ..>" + "decryptedText");
