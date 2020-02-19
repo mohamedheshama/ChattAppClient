@@ -111,5 +111,7 @@ public class NewContactController implements Initializable {
     }
 
 
+    public void handleAutoComplete(KeyEvent keyEvent) {
+    }
 }
 
