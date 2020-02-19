@@ -3,18 +3,38 @@ package org.project.controller.chat_home.left_side;
 ;
 
 
+import com.jfoenix.controls.JFXButton;
+import javafx.collections.FXCollections;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.AnchorPane;
+import org.project.controller.MainDeligator;
+import org.project.controller.chat_home.HomeController;
 import org.project.model.dao.users.Users;
 
+import java.awt.event.ActionEvent;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class RequestListViewCell extends ListCell<Users> {
 
     public AnchorPane pane;
     public Label RequestName;
+    public JFXButton Accept;
+    public JFXButton Decline;
+    private HomeController homeController;
+    private ChatListView chatListView;
+    Users currentUser;
+
+    public RequestListViewCell(HomeController homeController, Users currentUser,ChatListView chatListView) {
+      this.homeController=homeController;
+       this.currentUser=currentUser;
+       this.chatListView=chatListView;
+    }
+
+
 
 
     @Override
@@ -38,11 +58,38 @@ public class RequestListViewCell extends ListCell<Users> {
                     e.printStackTrace();
                 }
                 RequestName.setText(String.valueOf(user.getName()));
+                Accept.setOnAction(event -> {
+                    homeController.acceptRequest(currentUser,this.getItem());
+                    ArrayList<Users> usersToUpdate= new ArrayList<>();
+                    usersToUpdate.add(currentUser);
+                    usersToUpdate.add(this.getItem());
+                    homeController.updateRequestNotifications(usersToUpdate);
+                    System.out.println("Done Accepted");
+                    this.getListView().refresh();
+                });
+                Decline.setOnAction(event -> {
+                    homeController.declineRequest(currentUser,this.getItem());
+                    ArrayList<Users> usersToUpdate= new ArrayList<>();
+                    usersToUpdate.add(currentUser);
+                    homeController.updateRequestNotifications(usersToUpdate);
+                    System.out.println("Done Declined");
+                    this.getListView().refresh();
+
+                });
+
+
+
                 setText(null);
                 setGraphic(pane);
 
 
+
             }
         }
+
     }
+
+
+
+
 }

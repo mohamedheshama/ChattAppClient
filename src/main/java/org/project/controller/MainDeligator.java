@@ -1,19 +1,33 @@
 package org.project.controller;
 
+import javafx.collections.ObservableList;
+import javafx.scene.control.ListView;
 import com.healthmarketscience.rmiio.RemoteInputStream;
+import org.project.controller.chat_home.HomeController;
 import org.project.controller.messages.Message;
 import org.project.model.ChatRoom;
 import org.project.model.dao.users.UserStatus;
 import org.project.model.dao.users.Users;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainDeligator implements Serializable {
     Users user;
+    HomeController homeController;
+
+    public HomeController getHomeController() {
+        return homeController;
+    }
+
+    public void setHomeController(HomeController homeController) {
+        this.homeController = homeController;
+    }
 
     public Users getUser() {
         return user;
@@ -26,7 +40,7 @@ public class MainDeligator implements Serializable {
     ServerConnectionController serverConnectionController;
 
     public MainDeligator() throws RemoteException, NotBoundException {
-        this.serverConnectionController = new ServerConnectionController("localhost", 1260);
+        this.serverConnectionController = new ServerConnectionController("127.0.0.1", 1260);
     }
     //Karima
 
@@ -177,8 +191,8 @@ public class MainDeligator implements Serializable {
         serverConnectionController.getServicesInterface().registerClient(clientImp);
     }
 
-    public void reciveMsg(Message newMsg) {
-
+    public void reciveMsg(Message newMsg, ChatRoom chatRoom) throws Exception {
+        homeController.reciveMsg(newMsg , chatRoom);
     }
 
     public ChatRoom requestChatRoom(ArrayList<Users> chatroomUsers) {
@@ -194,43 +208,13 @@ public class MainDeligator implements Serializable {
         return serverConnectionController.getServicesInterface().changeUserStatus(user , userStatus);
     }
 
+    public boolean notifyrecieveFile(Message newMsg, ChatRoom chatRoom) {
+        return homeController.notifyrecieveFile(newMsg, chatRoom);
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public void addChatRoom(ChatRoom chatRoomExist) throws IOException {
+        homeController.addChatRoom(chatRoomExist);
+    }
 
 
 //End Eman
@@ -267,32 +251,17 @@ public class MainDeligator implements Serializable {
 
     // shimaa
 
+    public void addUsersToFriedNotifications(List<String> contactList, Users user) throws RemoteException {
+        serverConnectionController.getServicesInterface().addUsersToFriedNotifications(contactList , user);
+    }
 
+    public List<String> getUsersList(int userId)  throws RemoteException{
+        return serverConnectionController.getServicesInterface().getUsersList(userId);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    }
+     public void recieveContactRequest(Users user) {
+        homeController.recieveContactRequest(user);
+    }
 
 
     // end shimaa
@@ -343,6 +312,51 @@ public class MainDeligator implements Serializable {
 
 
     //end mohamed
+
+    //iman
+    public boolean acceptRequest(Users currentUser, Users friend) {
+        try {
+            return serverConnectionController.getServicesInterface().acceptRequest(currentUser, friend);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public ArrayList<Users> updateNotifications(Users currentUser) {
+        try {
+            return serverConnectionController.getServicesInterface().getNotifications(currentUser);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ArrayList<Users> updateFriends(Users currentUser) {
+        try {
+            return serverConnectionController.getServicesInterface().getFriends(currentUser);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void updateRequestNotifications(ArrayList<Users> usersToUpdate) {
+        try {
+            serverConnectionController.getServicesInterface().notifyUpdatedNotifications(usersToUpdate);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean declineRequest(Users currentUser, Users friend) {
+        try {
+            return serverConnectionController.getServicesInterface().declineRequest(currentUser, friend);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
 
 }

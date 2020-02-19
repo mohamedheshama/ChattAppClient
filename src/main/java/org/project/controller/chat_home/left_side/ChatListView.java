@@ -25,7 +25,9 @@ public class ChatListView implements Initializable {
     @FXML
     public ListView chatsListView;
 
-    private ObservableList<Users> chatsObservableList;
+
+
+    public ObservableList<Users> chatsObservableList;
     Users user;
     ArrayList<ChatRoom> chatRooms;
     HomeController homeController;
@@ -67,7 +69,7 @@ public class ChatListView implements Initializable {
         }
     }*/
 
-    public void handle(MouseEvent event) throws IOException {
+    public void handle(MouseEvent event) throws Exception {
         Users friendUser = (Users) chatsListView.getSelectionModel().getSelectedItem();
         System.out.println("the user is " + friendUser);
         ArrayList<Users> chatroomUsers = new ArrayList<>();

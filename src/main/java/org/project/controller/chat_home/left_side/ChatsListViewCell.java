@@ -7,9 +7,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
+import org.project.controller.MainDeligator;
 import org.project.model.dao.users.UserStatus;
 import org.project.model.dao.users.Users;
 
+import java.awt.event.ActionEvent;
 import java.io.IOException;
 
 public class ChatsListViewCell extends ListCell<Users> {
@@ -17,6 +19,7 @@ public class ChatsListViewCell extends ListCell<Users> {
     public Label status;
     public AnchorPane pane;
     public Label name;
+
 
     @Override
     protected void updateItem(Users user, boolean empty) {
@@ -53,4 +56,5 @@ public class ChatsListViewCell extends ListCell<Users> {
             }
         }
     }
+
 }

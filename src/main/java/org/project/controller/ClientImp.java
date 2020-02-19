@@ -1,5 +1,6 @@
 package org.project.controller;
 
+import javafx.application.Platform;
 import org.project.controller.chat_home.HomeController;
 import org.project.controller.messages.Message;
 import org.project.model.ChatRoom;
@@ -13,11 +14,13 @@ import java.util.ArrayList;
 
 public class ClientImp extends UnicastRemoteObject implements ClientInterface {
     Users user;
+    MainDeligator mainDeligator;
     HomeController homeController;
 
-    public ClientImp(Users user, HomeController homeController) throws RemoteException {
+    public ClientImp(Users user, MainDeligator mainDeligator,HomeController homeController) throws RemoteException {
         this.user = user;
-        this.homeController = homeController;
+        this.mainDeligator = mainDeligator;
+        this.homeController=homeController;
     }
 
     @Override
@@ -36,21 +39,45 @@ public class ClientImp extends UnicastRemoteObject implements ClientInterface {
     @Override
     public void recieveMsg(Message newMsg, ChatRoom chatRoom) {
         try {
-            homeController.reciveMsg(newMsg, chatRoom);
+            mainDeligator.reciveMsg(newMsg, chatRoom);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public boolean notifyrecieveFile(Message newMsg, ChatRoom chatRoom) {
-       return homeController.notifyrecieveFile(newMsg, chatRoom);
+        return mainDeligator.notifyrecieveFile(newMsg, chatRoom);
     }
 
     @Override
     public void addChatRoom(ChatRoom chatRoomExist) {
         try {
-            homeController.addChatRoom(chatRoomExist);
+            mainDeligator.addChatRoom(chatRoomExist);
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void recieveContactRequest(Users user) throws RemoteException {
+        mainDeligator.recieveContactRequest(user);
+    }
+    @Override
+    public void recieveUpdatedNotifications(Users user) throws RemoteException {
+        try {
+            user.setFriends(homeController.updateFriends(user));
+            user.setRequest_notifications(homeController.updateNotifications(user));
+            Platform.runLater(() -> {
+                try {
+                    System.out.println(user.getRequest_notifications());
+
+                    homeController.getLeftSideController().setTabPane(user,homeController);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -62,8 +89,6 @@ public class ClientImp extends UnicastRemoteObject implements ClientInterface {
         }
         return null;
     }
-
-
 
 
 }

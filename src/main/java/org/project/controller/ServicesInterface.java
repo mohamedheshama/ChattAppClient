@@ -1,5 +1,7 @@
 package org.project.controller;
 
+import javafx.collections.ObservableList;
+import javafx.scene.control.ListView;
 import com.healthmarketscience.rmiio.RemoteInputStream;
 import org.project.controller.messages.Message;
 import org.project.model.ChatRoom;
@@ -10,6 +12,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public interface ServicesInterface extends Remote {
     public Users getUserData(String phoneNumber) throws RemoteException;
@@ -18,9 +21,9 @@ public interface ServicesInterface extends Remote {
 
     public Boolean checkUserLogin(String phoneNumber, String password) throws RemoteException;
 
-    public ArrayList<Users> getFriends(String phoneNumber) throws RemoteException;
+    public ArrayList<Users> getFriends(Users users) throws RemoteException;
 
-    public ArrayList<Users> getNotifications(String phoneNumber) throws RemoteException;
+    public ArrayList<Users> getNotifications(Users users) throws RemoteException;
 
     public void notifyUpdate(Users users) throws RemoteException;
 
@@ -107,7 +110,11 @@ public interface ServicesInterface extends Remote {
     //end amr
     //start iman
 
+    boolean acceptRequest(Users currentUser, Users friend) throws RemoteException;
 
+    boolean declineRequest(Users currentUser, Users friend) throws RemoteException;
+
+    public void notifyUpdatedNotifications(ArrayList<Users> users) throws RemoteException;
 
 
 
@@ -125,38 +132,10 @@ public interface ServicesInterface extends Remote {
     // end imaN
 
     //START SHIMAA
+    void addUsersToFriedNotifications(List<String> contactList, Users user) throws RemoteException;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    List<String> getUsersList(int userId) throws RemoteException;
+    void notifyRequestedContacts(List<String> ContactList, Users user) throws RemoteException;
 
     //END SHIMAA
 }

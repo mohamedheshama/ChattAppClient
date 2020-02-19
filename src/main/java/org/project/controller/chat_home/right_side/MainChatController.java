@@ -30,12 +30,14 @@ import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 import org.project.controller.MainDeligator;
 import org.project.controller.chat_home.HomeController;
+import org.project.controller.createXML.SaveXml;
 import org.project.controller.messages.Message;
 import org.project.controller.messages.MessageType;
 import org.project.controller.security.RSAEncryptionWithAES;
 import org.project.model.ChatRoom;
 import org.project.model.dao.users.Users;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -182,6 +184,13 @@ public class MainChatController implements Initializable {
             setTextFieldStyle();
         });
         setTextFieldStyle();
+
+        attachFileImgBtn.setOnMouseClicked(event -> {
+            SaveXml saveXml = new SaveXml();
+            String toUser = chatRoom.getUsers().get(0).getId() != mUser.getId() ? chatRoom.getUsers().get(0).getName() : chatRoom.getUsers().get(1).getName();
+            saveXml.writeXmlChat(chatRoom.getChatRoomMessage() , toUser , "output.xml");
+            System.out.println("DataSavedSuccessfully");
+        });
     }
 
     public String toRGBCode(Color color) {
@@ -252,8 +261,6 @@ public class MainChatController implements Initializable {
 
     public void reciveMsg(Message newMsg, ChatRoom chatRoom) throws Exception {
         String decryptedAESKeyString = rsaEncryptionWithAES.decryptAESKey(newMsg.getEncryptedAESKeyString(), newMsg.getPublicKey());
-
-        // Now decrypt data using the decrypted AES key!
         String decryptedText = rsaEncryptionWithAES.decryptTextUsingAES(newMsg.getMsg(), decryptedAESKeyString);
         newMsg.setMsg(decryptedText);
         if (newMsg.getUser().getId() == mUser.getId()) {
@@ -265,6 +272,7 @@ public class MainChatController implements Initializable {
                 showMessageIncommingNotification(newMsg);
             }
         }
+
     }
 
 
@@ -302,7 +310,12 @@ public class MainChatController implements Initializable {
 
     private void displayMsg(Message msg, Pos pos) {
         Platform.runLater(() -> {
-            showMsgsBox.getChildren().addAll(recipientChatLine(msg, pos));
+
+            try {
+                showMsgsBox.getChildren().addAll(recipientChatLine(msg, pos));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         });
 
     }
@@ -311,7 +324,7 @@ public class MainChatController implements Initializable {
         return ((Stage) stagePane.getScene().getWindow());
     }
 
-    public HBox recipientChatLine(Message msg, Pos pos) {
+    public HBox recipientChatLine(Message msg, Pos pos) throws Exception {
         HBox hb = new HBox();
         try {
             Label name = new Label(msg.getName());
@@ -519,10 +532,12 @@ return flage[0];
 
 
     //start AMR
-    public void displayMessagesFromArrList() {
+    public void displayMessagesFromArrList() throws Exception {
         Pos pos;
         System.out.println("chat room messages " + chatRoom.getChatRoomMessage());
         for (Message message : chatRoom.getChatRoomMessage()) {
+
+            //System.out.println(message.getMsg() + "               ..>" + "decryptedText");
             if (message.getUser().getId() == mUser.getId()) {
                 pos = Pos.TOP_RIGHT;
             } else {
@@ -535,7 +550,7 @@ return flage[0];
     }
 
     public ArrayList<Message> getMessagesFromArrayList() {
-        System.out.println("Messages are " + chatRoom.getChatRoomMessage() + "chat room id : " + chatRoom.getChatRoomId()   );
+        //System.out.println("Messages are " + chatRoom.getChatRoomMessage() + "chat room id : " + chatRoom.getChatRoomId()   );
         return chatRoom.getChatRoomMessage();
     }
 

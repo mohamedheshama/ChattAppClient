@@ -7,6 +7,7 @@ import org.project.model.dao.users.Users;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.List;
 
 public interface ClientInterface extends Remote {
     public Users getUser() throws RemoteException;
@@ -20,7 +21,7 @@ public interface ClientInterface extends Remote {
 
     public boolean notifyrecieveFile(Message newMsg, ChatRoom chatRoom) throws RemoteException;
 
-
+    void recieveUpdatedNotifications(Users user) throws RemoteException;
 
 
 
@@ -110,35 +111,7 @@ public interface ClientInterface extends Remote {
     //START SHIMAA
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    void recieveContactRequest(Users user) throws  RemoteException;;
 
 
     //END SHIMAA

@@ -1,48 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" fx:id="contactPane" alignment="TOP_CENTER" prefHeight="559.0"
-      prefWidth="746.0" style="-fx-background-color: aliceblue;" xmlns="http://javafx.com/javafx/10.0.2-internal"
-      fx:controller="org.project.controller.chat_home.right_side.AddContactController">
+
+<VBox fx:id="contactPane" alignment="TOP_CENTER" prefHeight="559.0" prefWidth="746.0" style="-fx-background-color: aliceblue;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.controller.chat_home.right_side.NewContactController">
    <children>
-      <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="63.0"
-            prefWidth="600.0" style="-fx-background-color: #eee;">
+      <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="63.0" prefWidth="600.0" style="-fx-background-color: #eee;">
          <children>
-            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="54.0"
-                   prefWidth="244.0" text="Add new contact ">
+            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="54.0" prefWidth="244.0" text="Add new contact ">
                <font>
-                  <Font name="System Bold" size="24.0"/>
+                  <Font name="System Bold" size="24.0" />
                </font>
                <graphic>
                   <ImageView fitHeight="43.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../images/user_mobile_phone.png"/>
+                        <Image url="@../../../images/user_mobile_phone.png" />
                      </image>
                   </ImageView>
                </graphic>
             </Label>
          </children>
       </HBox>
-      <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-            prefHeight="72.0" prefWidth="746.0" style="-fx-background-color: white;">
+      <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="72.0" prefWidth="746.0" style="-fx-background-color: white;">
          <children>
-            <JFXButton mnemonicParsing="false" onAction="#handleSaveBtn" prefHeight="35.0" prefWidth="82.0"
-                       ripplerFill="#a1e9ff" style="-fx-background-color: #0099cc; -fx-background-radius: 10;"
-                       text="Save" textFill="WHITE">
+            <JFXButton mnemonicParsing="false" onAction="#handleSaveBtn" prefHeight="35.0" prefWidth="82.0" ripplerFill="#a1e9ff" style="-fx-background-color: #0099cc; -fx-background-radius: 10;" text="Save" textFill="WHITE">
                <font>
-                  <Font name="System Bold" size="14.0"/>
+                  <Font name="System Bold" size="14.0" />
                </font>
             </JFXButton>
          </children>
          <padding>
-            <Insets left="20.0"/>
+            <Insets left="20.0" />
          </padding>
       </HBox>
       <VBox prefHeight="88.0" prefWidth="746.0" style="-fx-background-color: white;">
@@ -51,63 +43,58 @@
                <children>
                   <ImageView fitHeight="39.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../images/mobile-icon.png"/>
+                        <Image url="@../../../images/mobile-icon.png" />
                      </image>
                      <HBox.margin>
-                        <Insets right="8.0" top="5.0"/>
+                        <Insets right="8.0" top="5.0" />
                      </HBox.margin>
                   </ImageView>
                   <JFXTextField editable="false" prefHeight="30.0" prefWidth="38.0" promptText="+02">
                      <HBox.margin>
-                        <Insets right="5.0"/>
+                        <Insets />
                      </HBox.margin>
                      <font>
-                        <Font name="System Bold" size="14.0"/>
+                        <Font name="System Bold" size="14.0" />
                      </font>
                   </JFXTextField>
-                  <JFXTextField fx:id="phoneNoTxt" prefHeight="26.0" prefWidth="329.0" promptText="enter phone number">
+                  <JFXTextField fx:id="phoneNoTxt" onKeyPressed="#handleAutoComplete" prefHeight="26.0" prefWidth="329.0" promptText="enter phone number">
                      <font>
-                        <Font name="System Bold" size="14.0"/>
+                        <Font name="System Bold" size="14.0" />
                      </font>
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
                   </JFXTextField>
-                  <Pane prefHeight="47.0" prefWidth="233.0" HBox.hgrow="ALWAYS"/>
-                  <Button fx:id="addBtn" mnemonicParsing="false" onAction="#handleAddBtn" prefHeight="35.0"
-                          prefWidth="85.0"
-                          style="-fx-background-color: #0099cc; -fx-padding: 0; -fx-background-radius: 10;" text="+"
-                          textFill="WHITE">
+                  <Pane prefHeight="47.0" prefWidth="233.0" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="addBtn" mnemonicParsing="false" onAction="#handleAddBtn" prefHeight="35.0" prefWidth="85.0" style="-fx-background-color: #0099cc; -fx-padding: 0; -fx-background-radius: 10;" text="+" textFill="WHITE">
                      <font>
-                        <Font name="System Bold" size="24.0"/>
+                        <Font name="System Bold" size="24.0" />
                      </font>
                   </Button>
                </children>
                <padding>
-                  <Insets left="20.0" right="20.0" top="15.0"/>
+                  <Insets left="20.0" right="20.0" top="15.0" />
                </padding>
             </HBox>
-            <Label prefHeight="35.0" prefWidth="411.0" textFill="#e23838">
+            <Label fx:id="errorMessageLbl" prefHeight="35.0" prefWidth="411.0" textFill="#e23838">
                <font>
-                  <Font name="System Bold" size="14.0"/>
+                  <Font name="System Bold" size="14.0" />
                </font>
                <VBox.margin>
-                  <Insets left="60.0"/>
+                  <Insets left="60.0" />
                </VBox.margin>
             </Label>
          </children>
       </VBox>
-      <ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308"
-                  maxWidth="1.7976931348623157E308" prefHeight="339.0" prefWidth="746.0"
-                  style="-fx-background-color: #ffffff;">
+      <ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="339.0" prefWidth="746.0" style="-fx-background-color: #ffffff;" VBox.vgrow="ALWAYS">
          <content>
-            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="329.0"
-                  prefWidth="745.0" style="-fx-background-color: #ffffff; -fx-border-color: #0099cc;">
+            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="329.0" prefWidth="745.0" style="-fx-background-color: #ffffff; -fx-border-color: #0099cc;">
                <children>
-                  <ListView id="listview" fx:id="contactList" maxHeight="1.7976931348623157E308"
-                            maxWidth="1.7976931348623157E308" prefWidth="745.0" style="-fx-background-color: #a1e9ff;"
-                            VBox.vgrow="NEVER">
+                  <ListView id="listview" fx:id="contactList" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="346.0" prefWidth="743.0" style="-fx-background-color: #a1e9ff;" VBox.vgrow="NEVER">
 
 
                      <padding>
-                        <Insets left="20.0" right="20.0"/>
+                        <Insets left="20.0" right="20.0" />
                      </padding>
                   </ListView>
                </children>

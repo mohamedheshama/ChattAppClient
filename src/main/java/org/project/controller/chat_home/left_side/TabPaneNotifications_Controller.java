@@ -11,6 +11,8 @@ import javafx.scene.layout.BorderPane;
 import org.project.controller.chat_home.HomeController;
 import org.project.model.dao.users.Users;
 import java.net.URL;
+import java.rmi.RemoteException;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class TabPaneNotifications_Controller implements Initializable {
@@ -18,12 +20,14 @@ public class TabPaneNotifications_Controller implements Initializable {
     public BorderPane chatsTab;
     Users user;
     HomeController homeController;
-
+    RequestsListView requestsListView;
+    ChatListView chatListView;
     @FXML
     Tab tab1;
     @FXML
     Tab tab2;
-
+    @FXML
+    Tab tab3;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -39,14 +43,21 @@ public class TabPaneNotifications_Controller implements Initializable {
 
         chat.setPreserveRatio(true);
         //imageView.setStyle("-fx-image: url(notification-icon-png-2.png);");
+        ImageView contact = new ImageView();
+        contact.setImage(new Image(getClass().getResource("/org/project/images/chat2.png").toExternalForm()));
+        contact.setFitWidth(25);
 
+        contact.setPreserveRatio(true);
 
         tab2.setGraphic(notification);
         tab1.setGraphic(chat);
+        tab3.setGraphic(contact);
         tab1.setText("Chats");
         tab2.setText("Notifications");
+        tab3.setText("Contacts");
         tab1.setStyle("-fx-font-size: 10; -fx-text-alignment:Left");
-        tab2.setStyle("-fx-font-size: 10; -fx-text-alignment:Right");
+        tab2.setStyle("-fx-font-size: 10; -fx-text-alignment:Center");
+        tab3.setStyle("-fx-font-size: 10; -fx-text-alignment:Right");
 
     }
 
@@ -65,10 +76,21 @@ public class TabPaneNotifications_Controller implements Initializable {
     public void setRequestListView() throws Exception{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/left_side/RequestsListView.fxml"));
         BorderPane root = (BorderPane) loader.load();
-        RequestsListView requestsListView = loader.getController();
-        requestsListView.setRequestListView(user);
+        requestsListView = loader.getController();
+        requestsListView.setRequestListView(user,homeController,chatListView);
         tab2.setContent(root);
     }
+   /* public void setContactListView() throws Exception{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/left_side/tabpanecontacts_view.fxml"));
+        BorderPane root = (BorderPane) loader.load();
+        ContactListView contactListVIew = loader.getController();
+        contactListVIew.setContactListView(user,homeController);
+        tab3.setContent(root);
+    }*/
 
+
+    public void recieveContactRequest(Users user)  {
+       requestsListView.recieveContactRequest(user);
+    }
 }
 
