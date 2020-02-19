@@ -40,7 +40,7 @@ public class MainDeligator implements Serializable {
     ServerConnectionController serverConnectionController;
 
     public MainDeligator() throws RemoteException, NotBoundException {
-        this.serverConnectionController = new ServerConnectionController("10.145.7.12", 1260);
+        this.serverConnectionController = new ServerConnectionController("127.0.0.1", 1260);
     }
     //Karima
 
@@ -312,6 +312,51 @@ public class MainDeligator implements Serializable {
 
 
     //end mohamed
+
+    //iman
+    public boolean acceptRequest(Users currentUser, Users friend) {
+        try {
+            return serverConnectionController.getServicesInterface().acceptRequest(currentUser, friend);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public ArrayList<Users> updateNotifications(Users currentUser) {
+        try {
+            return serverConnectionController.getServicesInterface().getNotifications(currentUser);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ArrayList<Users> updateFriends(Users currentUser) {
+        try {
+            return serverConnectionController.getServicesInterface().getFriends(currentUser);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void updateRequestNotifications(ArrayList<Users> usersToUpdate) {
+        try {
+            serverConnectionController.getServicesInterface().notifyUpdatedNotifications(usersToUpdate);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean declineRequest(Users currentUser, Users friend) {
+        try {
+            return serverConnectionController.getServicesInterface().declineRequest(currentUser, friend);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
 
 }

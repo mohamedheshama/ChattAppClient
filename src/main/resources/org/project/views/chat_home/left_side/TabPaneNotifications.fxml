@@ -22,7 +22,6 @@
                 </Tab>
                 <Tab fx:id="tab3" style="-fx-background-color: lightblue;">
                     <AnchorPane>
-                        <fx:include fx:id="contactsTab" source="tabpanecontacts_view.fxml"/>
                     </AnchorPane>
                 </Tab>
             </tabs>

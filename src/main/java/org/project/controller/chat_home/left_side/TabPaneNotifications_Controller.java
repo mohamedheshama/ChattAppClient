@@ -21,6 +21,7 @@ public class TabPaneNotifications_Controller implements Initializable {
     Users user;
     HomeController homeController;
     RequestsListView requestsListView;
+    ChatListView chatListView;
     @FXML
     Tab tab1;
     @FXML
@@ -76,16 +77,16 @@ public class TabPaneNotifications_Controller implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/left_side/RequestsListView.fxml"));
         BorderPane root = (BorderPane) loader.load();
         requestsListView = loader.getController();
-        requestsListView.setRequestListView(user);
+        requestsListView.setRequestListView(user,homeController,chatListView);
         tab2.setContent(root);
     }
-    public void setContactListView() throws Exception{
+   /* public void setContactListView() throws Exception{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/left_side/tabpanecontacts_view.fxml"));
         BorderPane root = (BorderPane) loader.load();
         ContactListView contactListVIew = loader.getController();
         contactListVIew.setContactListView(user,homeController);
         tab3.setContent(root);
-    }
+    }*/
 
 
     public void recieveContactRequest(Users user)  {

@@ -25,7 +25,9 @@ public class ChatListView implements Initializable {
     @FXML
     public ListView chatsListView;
 
-    private ObservableList<Users> chatsObservableList;
+
+
+    public ObservableList<Users> chatsObservableList;
     Users user;
     ArrayList<ChatRoom> chatRooms;
     HomeController homeController;

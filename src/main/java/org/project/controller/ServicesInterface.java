@@ -21,9 +21,9 @@ public interface ServicesInterface extends Remote {
 
     public Boolean checkUserLogin(String phoneNumber, String password) throws RemoteException;
 
-    public ArrayList<Users> getFriends(String phoneNumber) throws RemoteException;
+    public ArrayList<Users> getFriends(Users users) throws RemoteException;
 
-    public ArrayList<Users> getNotifications(String phoneNumber) throws RemoteException;
+    public ArrayList<Users> getNotifications(Users users) throws RemoteException;
 
     public void notifyUpdate(Users users) throws RemoteException;
 
@@ -110,7 +110,11 @@ public interface ServicesInterface extends Remote {
     //end amr
     //start iman
 
+    boolean acceptRequest(Users currentUser, Users friend) throws RemoteException;
 
+    boolean declineRequest(Users currentUser, Users friend) throws RemoteException;
+
+    public void notifyUpdatedNotifications(ArrayList<Users> users) throws RemoteException;
 
 
 

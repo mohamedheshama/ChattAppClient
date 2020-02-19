@@ -51,7 +51,7 @@ public class LeftSideController implements Initializable {
         notificationsController.setUser(user,homeController);
         notificationsController.setRequestListView();
         notificationsController.setChatListView();
-        notificationsController.setContactListView();
+        //notificationsController.setContactListView();
         borderPane.setLeft(root);
     }
 

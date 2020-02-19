@@ -1,5 +1,7 @@
 package org.project.controller;
 
+import javafx.application.Platform;
+import org.project.controller.chat_home.HomeController;
 import org.project.controller.messages.Message;
 import org.project.model.ChatRoom;
 import org.project.model.dao.users.UserStatus;
@@ -13,10 +15,12 @@ import java.util.ArrayList;
 public class ClientImp extends UnicastRemoteObject implements ClientInterface {
     Users user;
     MainDeligator mainDeligator;
+    HomeController homeController;
 
-    public ClientImp(Users user, MainDeligator mainDeligator) throws RemoteException {
+    public ClientImp(Users user, MainDeligator mainDeligator,HomeController homeController) throws RemoteException {
         this.user = user;
         this.mainDeligator = mainDeligator;
+        this.homeController=homeController;
     }
 
     @Override
@@ -57,6 +61,25 @@ public class ClientImp extends UnicastRemoteObject implements ClientInterface {
     @Override
     public void recieveContactRequest(Users user) throws RemoteException {
         mainDeligator.recieveContactRequest(user);
+    }
+    @Override
+    public void recieveUpdatedNotifications(Users user) throws RemoteException {
+        try {
+            user.setFriends(homeController.updateFriends(user));
+            user.setRequest_notifications(homeController.updateNotifications(user));
+            Platform.runLater(() -> {
+                try {
+                    System.out.println(user.getRequest_notifications());
+
+                    homeController.getLeftSideController().setTabPane(user,homeController);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public Users findUserById(ArrayList<Users> friends, int id) {

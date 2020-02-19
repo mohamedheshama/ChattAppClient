@@ -14,7 +14,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 import org.project.controller.chat_home.HomeController;
-import org.project.controller.chat_home.left_side.ContactListViewCell;
+//import org.project.controller.chat_home.left_side.ContactListViewCell;
 import org.project.model.dao.users.Users;
 
 import java.net.URL;
@@ -94,7 +94,8 @@ public class NewContactController implements Initializable {
         contactList.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
             @Override
             public ListCell<String> call(ListView<String> ContactListView) {
-                return new ContactListViewCell();
+                return null;
+               // return new ContactListViewCell();
             }
 
         });

@@ -42,6 +42,11 @@ public class HomeController implements Initializable, Serializable {
     transient Stage stage;
     ClientImp clientImp;
     transient MainChatController mainChatController;
+
+    public LeftSideController getLeftSideController() {
+        return leftSideController;
+    }
+
     transient LeftSideController leftSideController;
 
     public String getPhoneNumber() {
@@ -60,7 +65,7 @@ public class HomeController implements Initializable, Serializable {
     }
 
     private void initClient() throws RemoteException {
-        clientImp = new ClientImp(user, mainDeligator);
+        clientImp = new ClientImp(user, mainDeligator,this);
         System.out.println("in init clint");
         mainDeligator.registerClient(clientImp);
     }
@@ -168,8 +173,30 @@ public class HomeController implements Initializable, Serializable {
           leftSideController.recieveContactRequest(user);
     }
 
+
     // START AMR
 
 
     //END AMR
+
+    public boolean acceptRequest(Users currentUser, Users friend) {
+        return mainDeligator.acceptRequest(currentUser,friend);
+    }
+
+    public ArrayList<Users> updateNotifications(Users currentUser){
+        return mainDeligator.updateNotifications(currentUser);
+    }
+
+    public ArrayList<Users> updateFriends(Users currentUser) {
+        return mainDeligator.updateFriends(currentUser);
+    }
+
+
+    public void updateRequestNotifications(ArrayList<Users> usersToUpdate) {
+        mainDeligator.updateRequestNotifications(usersToUpdate);
+    }
+
+    public boolean declineRequest(Users currentUser, Users friend) {
+        return mainDeligator.declineRequest(currentUser,friend);
+    }
 }
