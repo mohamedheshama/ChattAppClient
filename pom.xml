@@ -61,6 +61,9 @@
     </dependencies>
     <build>
         <plugins>
+
+
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -89,10 +92,15 @@
                         <option>--add-exports javafx.graphics/com.sun.javafx.stage=com.jfoenix</option>
                         <option>--add-exports</option>
                         <option>--add-exports javafx.base/com.sun.javafx.event=com.jfoenix</option>
-
                     </options>
                     <mainClass>org.project.App</mainClass>
                 </configuration>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals> <goal>run</goal></goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
