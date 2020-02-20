@@ -32,7 +32,7 @@ public class UserIconController {
         choicebox.getItems().addAll("Online", "Busy", "Away");
         choicebox.setValue("Online");
         settings_icon.setImage(new Image(getClass().getResource("/org/project/images/settings.png").toExternalForm()));
-        settings.getItems().addAll("Update Profile","Logout");
+        settings.getItems().addAll("Update Profile","Save ChatSession","Logout");
         userName.setText(user.getName());
     }
 
