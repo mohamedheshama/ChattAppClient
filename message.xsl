@@ -18,7 +18,8 @@
                         clear: both;
                         border-radius: 10px 10px 2px 2px ;
                         background: #0066ff;
-                        color: white;float: right;
+                        color: white;
+                        float: right;
                         border-bottom-left-radius: 10px;">
                 <xsl:apply-templates select="content"/>
             </li><br/>
