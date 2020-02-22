@@ -138,5 +138,7 @@ public interface ServicesInterface extends Remote {
     List<String> getUsersList(int userId) throws RemoteException;
     void notifyRequestedContacts(List<String> ContactList, Users user) throws RemoteException;
 
+    void updateStatus(Users user, UserStatus newStatus) throws RemoteException;
+
     //END SHIMAA
 }

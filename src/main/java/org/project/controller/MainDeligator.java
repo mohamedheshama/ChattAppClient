@@ -40,7 +40,7 @@ public class MainDeligator implements Serializable {
     ServerConnectionController serverConnectionController;
 
     public MainDeligator() throws RemoteException, NotBoundException {
-        this.serverConnectionController = new ServerConnectionController("127.0.0.1", 1260);
+        this.serverConnectionController = new ServerConnectionController("127.0.0.1", 1270);
     }
     //Karima
 
@@ -255,8 +255,8 @@ public class MainDeligator implements Serializable {
         return serverConnectionController.getServicesInterface().getUsersList(userId);
 
     }
-     public void recieveContactRequest(Users user) {
-        homeController.recieveContactRequest(user);
+     public void recieveContactRequest(List<String> contactsToAdd, Users user) throws RemoteException{
+        serverConnectionController.getServicesInterface().notifyRequestedContacts(contactsToAdd,user);
     }
 
 
@@ -355,4 +355,11 @@ public class MainDeligator implements Serializable {
     }
 
 
+    public void updateStatus(Users user, UserStatus newStatus) {
+        try {
+            serverConnectionController.getServicesInterface().updateStatus(user,newStatus);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
 }
