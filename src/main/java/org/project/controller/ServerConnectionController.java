@@ -17,7 +17,7 @@ public class ServerConnectionController {
     // toDo define chat seerver interface
     public ServerConnectionController(String ip, int port) throws RemoteException, NotBoundException {
         this.port = port;
-        registry = LocateRegistry.getRegistry(ip, 1260);
+        registry = LocateRegistry.getRegistry(ip, 1270);
         servicesInterface = ((ServicesInterface) registry.lookup("ServerServices"));
     }
 

@@ -108,7 +108,7 @@ public class HomeController implements Initializable, Serializable {
         leftSideController = loader.getController();
         System.out.println("in initleftmethod" + user);
         leftSideController.setTabPane(user, this);
-        leftSideController.setUserIcon(user);
+        leftSideController.setUserIcon(user,this);
         leftSideController.setMainDeligator(mainDeligator);
         leftSideController.setHomeController(this);
         borderBaneStage.setLeft(root);
@@ -171,8 +171,8 @@ public class HomeController implements Initializable, Serializable {
         return mainDeligator.getUsersList(userId);
     }
 
-    public void recieveContactRequest(Users user)  {
-          leftSideController.recieveContactRequest(user);
+    public void recieveContactRequest(List<String> conatactsToAdd,Users user) throws RemoteException  {
+          mainDeligator.recieveContactRequest(conatactsToAdd,user);
     }
 
 
@@ -200,5 +200,9 @@ public class HomeController implements Initializable, Serializable {
 
     public boolean declineRequest(Users currentUser, Users friend) {
         return mainDeligator.declineRequest(currentUser,friend);
+    }
+
+    public void updateStatus(Users user, UserStatus newStatus) {
+        mainDeligator.updateStatus(user,newStatus);
     }
 }

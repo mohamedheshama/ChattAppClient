@@ -3,6 +3,7 @@ package org.project.controller.chat_home.left_side;
 ;
 
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ListCell;
@@ -41,14 +42,19 @@ public class RequestsListView {
     }
 
     public void recieveContactRequest(Users user) {
+        Platform.runLater(() -> {
+            try {
+                System.out.println(user.getRequest_notifications());
+
+                homeController.getLeftSideController().setTabPane(user,homeController);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
 
     }
-  /*  @FXML
-    public void Accept(ActionEvent event){
-        mainDeligator.acceptFriendRequest();
-        Users acceptedUser= (Users) requestListView.getSelectionModel().getSelectedItem();
-        requestsObservableList.remove(acceptedUser);
-    }*/
+
 
 }
 
