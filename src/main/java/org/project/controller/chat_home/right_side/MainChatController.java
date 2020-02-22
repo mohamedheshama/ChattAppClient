@@ -188,12 +188,7 @@ public class MainChatController implements Initializable {
         });
         setTextFieldStyle();
 
-        attachFileImgBtn.setOnMouseClicked(event -> {
-            SaveXml saveXml = new SaveXml();
-            String toUser = chatRoom.getUsers().get(0).getId() != mUser.getId() ? chatRoom.getUsers().get(0).getName() : chatRoom.getUsers().get(1).getName();
-            saveXml.writeXmlChat(chatRoom.getChatRoomMessage() , toUser , "output.xml");
-            System.out.println("DataSavedSuccessfully");
-        });
+
     }
 
     public String toRGBCode(Color color) {
@@ -371,7 +366,6 @@ public class MainChatController implements Initializable {
 // strart HEND
 
 
-
     public void sendFile() throws RemoteException,IOException, NotBoundException {
 
         FileChooser SaveFileChooser = new FileChooser();
@@ -390,13 +384,12 @@ public class MainChatController implements Initializable {
             newMsg.setFontWeight(getFontWeight().name());
             homeController.sendMsg(newMsg, chatRoom);
             msgTxtField.setText("");
-            fileBtnLoad.setOnAction(new EventHandler<ActionEvent>() {
-                @Override public void handle(ActionEvent e) {
-                    fileSendAccepted(file);
-                }
+            attachFileImgBtn.setOnMouseClicked(mouseEvent -> {
+                fileSendAccepted(file);
             });
         }
     }
+
     public void fileSendAccepted(File file){
         new Thread( new RMIFileTransfer(file , mUser.getId() , chatRoom , mainDeligator)).start();
     }
