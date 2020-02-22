@@ -3,10 +3,16 @@ package org.project.controller.update_user;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
+import javafx.stage.FileChooser;
 import org.project.App;
 import org.project.controller.MainDeligator;
 import org.project.controller.ServicesInterface;
@@ -15,6 +21,9 @@ import org.project.model.dao.users.Gender;
 import org.project.model.dao.users.UserStatus;
 import org.project.model.dao.users.Users;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.rmi.NotBoundException;
@@ -22,6 +31,7 @@ import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 
 public class UpdateController implements Initializable, UpdateInterface {
+
     ServicesInterface obj;
     /* @FXML upd_phoneNumError
      private RadioButton male;
@@ -30,6 +40,7 @@ public class UpdateController implements Initializable, UpdateInterface {
      static char gender;
  */
     Users existUser;
+    public Circle upd_image;
 
     /*
         @FXML
@@ -41,6 +52,7 @@ public class UpdateController implements Initializable, UpdateInterface {
     MainDeligator mainDeligator;
     LoginController logincontroller;
     String user_phone_number;
+    byte [] imageBytes=null;
     private boolean upd_checkConfirmPass;
     @FXML
     private JFXTextField upd_phone_num;
@@ -159,6 +171,7 @@ public class UpdateController implements Initializable, UpdateInterface {
         existUser.setGender(Gender.Female);
         existUser.setStatus(UserStatus.Available);
         existUser.setBio(upd_bio.getText());
+        existUser.setDisplayPicture(imageBytes);
         if (userDataValid()) {
             System.out.println("update is done");
             mainDeligator.updateUser(existUser);
@@ -174,6 +187,27 @@ public class UpdateController implements Initializable, UpdateInterface {
     public boolean userDataValid() {
         return userPhoneNumber() && validateUserName() && validateEmail() && upd_checkConfirmPass;
     }
+
+    public void chooseImg(MouseEvent event) {
+        FileChooser fileChooser = new FileChooser();
+
+        fileChooser.getExtensionFilters().addAll(new javafx.stage.FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg"));
+        File file = fileChooser.showOpenDialog(null);
+        if (file != null) {
+            System.out.println(file.getPath());
+            String path = file.toURI().toString();
+            Image image1 = new Image(path);
+            System.out.println(image1);
+            upd_image.setFill(new ImagePattern(image1));
+            BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image1, null);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            try {
+                javax.imageio.ImageIO.write(bufferedImage, "jpg", baos);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            imageBytes= baos.toByteArray();
+        }
 /*
     public  boolean checkGender(ToggleGroup genders){
 
@@ -193,4 +227,5 @@ public class UpdateController implements Initializable, UpdateInterface {
 */
 
 
+    }
 }
