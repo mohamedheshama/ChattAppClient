@@ -1,13 +1,13 @@
 package org.project.controller;
 
-import javafx.collections.ObservableList;
-import javafx.scene.control.ListView;
 import com.healthmarketscience.rmiio.RemoteInputStream;
 import org.project.controller.messages.Message;
 import org.project.model.ChatRoom;
 import org.project.model.dao.users.UserStatus;
 import org.project.model.dao.users.Users;
 
+import java.io.IOException;
+import java.rmi.NotBoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
@@ -34,14 +34,15 @@ public interface ServicesInterface extends Remote {
     public ChatRoom requestChatRoom(ArrayList<Users> chatroomUsers) throws RemoteException;
 
     public boolean changeUserStatus(Users user, UserStatus userStatus) throws RemoteException;
-    public boolean fileNotifyUser(Message newMsg, ChatRoom chatRoom) throws RemoteException;
+    public void fileNotifyUser(Message newMsg, ChatRoom chatRoom,int userSendFileId) throws RemoteException;
     // check if phone number exists, update online users
     // start hend
 
 
 
-    public void sendFile( Message newMsg, RemoteInputStream remoteFileData)throws RemoteException;
+    public void sendFile( String newMsg, RemoteInputStream remoteFileData,ChatRoom chatRoom,int userSendFileId)throws RemoteException , IOException, NotBoundException;
 
+//public  void sendAcceptToServer(boolean check);
 
 
 
@@ -136,6 +137,9 @@ public interface ServicesInterface extends Remote {
 
     List<String> getUsersList(int userId) throws RemoteException;
     void notifyRequestedContacts(List<String> ContactList, Users user) throws RemoteException;
+
+    public ArrayList<Users> getUserOnlineFriends(Users user) throws RemoteException;
+    void updateStatus(Users user, UserStatus newStatus) throws RemoteException;
 
     //END SHIMAA
 }

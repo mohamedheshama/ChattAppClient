@@ -1,7 +1,5 @@
 package org.project.controller;
 
-import javafx.collections.ObservableList;
-import javafx.scene.control.ListView;
 import com.healthmarketscience.rmiio.RemoteInputStream;
 import org.project.controller.chat_home.HomeController;
 import org.project.controller.messages.Message;
@@ -40,7 +38,7 @@ public class MainDeligator implements Serializable {
     ServerConnectionController serverConnectionController;
 
     public MainDeligator() throws RemoteException, NotBoundException {
-        this.serverConnectionController = new ServerConnectionController("127.0.0.1", 1260);
+        this.serverConnectionController = new ServerConnectionController("127.0.0.1", 1270);
     }
     //Karima
 
@@ -113,8 +111,8 @@ public class MainDeligator implements Serializable {
         }
     }
 
-    public void sendFile( Message newMsg, RemoteInputStream remoteFileData)throws RemoteException {
-        serverConnectionController.getServicesInterface().sendFile(newMsg,remoteFileData);
+    public void sendFile( String newMsg, RemoteInputStream remoteFileData,ChatRoom chatRoom,int userId) throws IOException, NotBoundException {
+        serverConnectionController.getServicesInterface().sendFile(newMsg,remoteFileData,chatRoom,userId);
 
     }
 
@@ -167,9 +165,9 @@ public class MainDeligator implements Serializable {
        }
 
        */
-    public boolean fileNotifyUser(Message newMsg, ChatRoom chatRoom) throws RemoteException {
+   /* public boolean fileNotifyUser(Message newMsg, ChatRoom chatRoom) throws RemoteException {
        return serverConnectionController.getServicesInterface().fileNotifyUser(newMsg, chatRoom);
-    }
+    }*/
 
 
     //End Hend
@@ -206,10 +204,6 @@ public class MainDeligator implements Serializable {
 
     public boolean changeUserStatus(Users user, UserStatus userStatus) throws RemoteException {
         return serverConnectionController.getServicesInterface().changeUserStatus(user , userStatus);
-    }
-
-    public boolean notifyrecieveFile(Message newMsg, ChatRoom chatRoom) {
-        return homeController.notifyrecieveFile(newMsg, chatRoom);
     }
 
     public void addChatRoom(ChatRoom chatRoomExist) throws IOException {
@@ -259,8 +253,8 @@ public class MainDeligator implements Serializable {
         return serverConnectionController.getServicesInterface().getUsersList(userId);
 
     }
-     public void recieveContactRequest(Users user) {
-        homeController.recieveContactRequest(user);
+     public void recieveContactRequest(List<String> contactsToAdd, Users user) throws RemoteException{
+        serverConnectionController.getServicesInterface().notifyRequestedContacts(contactsToAdd,user);
     }
 
 
@@ -358,5 +352,17 @@ public class MainDeligator implements Serializable {
         return false;
     }
 
+    public ArrayList<Users> getUserOnlineFriends(Users user) throws RemoteException {
+        //return null;
+        return serverConnectionController.getServicesInterface().getUserOnlineFriends(user);
+    }
 
+
+    public void updateStatus(Users user, UserStatus newStatus) {
+        try {
+            serverConnectionController.getServicesInterface().updateStatus(user,newStatus);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
 }

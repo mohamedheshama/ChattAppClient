@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ClientImp extends UnicastRemoteObject implements ClientInterface {
     Users user;
@@ -45,9 +46,6 @@ public class ClientImp extends UnicastRemoteObject implements ClientInterface {
         }
     }
 
-    public boolean notifyrecieveFile(Message newMsg, ChatRoom chatRoom) {
-        return mainDeligator.notifyrecieveFile(newMsg, chatRoom);
-    }
 
     @Override
     public void addChatRoom(ChatRoom chatRoomExist) {
@@ -60,7 +58,17 @@ public class ClientImp extends UnicastRemoteObject implements ClientInterface {
 
     @Override
     public void recieveContactRequest(Users user) throws RemoteException {
-        mainDeligator.recieveContactRequest(user);
+        user.setRequest_notifications(homeController.updateNotifications(user));
+        Platform.runLater(() -> {
+            try {
+                System.out.println(user.getRequest_notifications());
+
+                homeController.getLeftSideController().setTabPane(user,homeController);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
     }
     @Override
     public void recieveUpdatedNotifications(Users user) throws RemoteException {
@@ -89,6 +97,10 @@ public class ClientImp extends UnicastRemoteObject implements ClientInterface {
         }
         return null;
     }
+
+
+
+
 
 
 }

@@ -1,7 +1,5 @@
 package org.project.controller.chat_home.right_side;
 
-import com.healthmarketscience.rmiio.RemoteInputStreamServer;
-import com.healthmarketscience.rmiio.SimpleRemoteInputStream;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXColorPicker;
 import com.jfoenix.controls.JFXComboBox;
@@ -10,13 +8,19 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.*;
+import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
@@ -37,11 +41,8 @@ import org.project.controller.security.RSAEncryptionWithAES;
 import org.project.model.ChatRoom;
 import org.project.model.dao.users.Users;
 
-import javax.swing.*;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.rmi.NotBoundException;
@@ -49,6 +50,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -60,7 +62,7 @@ public class MainChatController implements Initializable {
     @FXML
     private VBox showMsgsBox;
     @FXML
-    AnchorPane stagePane;
+    VBox stagePane;
     @FXML
     private ImageView attachFileImgBtn;
     @FXML
@@ -82,7 +84,8 @@ public class MainChatController implements Initializable {
 
     Users mUser;
     HomeController homeController;
-
+    ImageView loadFile=new ImageView();
+    JFXButton fileBtnLoad=new JFXButton();
     public ChatRoom getChatRoom() {
         return chatRoom;
     }
@@ -259,10 +262,7 @@ public class MainChatController implements Initializable {
 
 
 
-    public void reciveMsg(Message newMsg, ChatRoom chatRoom) throws Exception {
-        String decryptedAESKeyString = rsaEncryptionWithAES.decryptAESKey(newMsg.getEncryptedAESKeyString(), newMsg.getPublicKey());
-        String decryptedText = rsaEncryptionWithAES.decryptTextUsingAES(newMsg.getMsg(), decryptedAESKeyString);
-        newMsg.setMsg(decryptedText);
+    public void reciveMsg(Message newMsg, ChatRoom chatRoom) {
         if (newMsg.getUser().getId() == mUser.getId()) {
             displayMsg(newMsg, Pos.TOP_RIGHT);
         } else {
@@ -346,7 +346,14 @@ public class MainChatController implements Initializable {
             //imageView.setPreserveRatio(true);
             hb.setAlignment(pos);
             vb.getChildren().add(name);
-            //vb.getChildren().add(imageView);
+            if(msg.getType().equals(MessageType.NOTIFICATION)){
+                System.out.println("tesssssssssssssssssst");
+
+                loadFile.setImage(new Image(getClass().getResource("/org/project/images/download.png").toExternalForm()));
+                fileBtnLoad.setGraphic(loadFile);
+
+                vb.getChildren().add(fileBtnLoad);
+            }
             vb.setSpacing(2);
             hb.getChildren().add(vb);
             hb.getChildren().add(text);
@@ -363,167 +370,54 @@ public class MainChatController implements Initializable {
 
 // strart HEND
 
-    public boolean notifyrecieveFile(Message newMsg, ChatRoom chatRoom) {
-       // if (newMsg.getUser().getId() == mUser.getId()) {
-         //   displayNotifyForFile(newMsg);
-       // } else {
-            if (chatRoom.getChatRoomId().equals(this.chatRoom.getChatRoomId())) {
-                if(displayNotifyForFile(newMsg)){
-                    return true;
-                }
-            } else {
-                showMessageIncommingNotification(newMsg);
-                return true;
-            }
-        //}
-        return false;
-    }
 
-    public void sendFile() throws IOException, NotBoundException {
 
-        // Message message, File file, ChatRoom chatRoom
+    public void sendFile() throws RemoteException,IOException, NotBoundException {
+
         FileChooser SaveFileChooser = new FileChooser();
-        // Stage stage= (Stage) showMsgsBox.getScene().getWindow();
-
         File file = SaveFileChooser.showOpenDialog(getStage());
-        String path = file.getAbsolutePath();
-        Message newMsg = new Message();
-        msgTxtField.setText(file.getName());
-        newMsg.setMsg(msgTxtField.getText());
-        newMsg.setType(MessageType.USER);
-        newMsg.setFontFamily(fontFamily);
-        newMsg.setTextFill(colorPicked);
-        newMsg.setFontSize(sizePicked);
-        newMsg.setUser(mUser);
-        newMsg.setChatId(chatRoom.getChatRoomId());
-        newMsg.setFontWeight(getFontWeight().name());
-        homeController.sendMsg(newMsg, chatRoom);
-        msgTxtField.setText("");
-      if(homeController.fileNotifyUser(newMsg, chatRoom)){
-          InputStream inputStream = new FileInputStream(file.getAbsolutePath());
-          RemoteInputStreamServer remoteFileData = new SimpleRemoteInputStream(inputStream);
-          mainDeligator.sendFile(newMsg, remoteFileData);
-      }
-
-
-
-
-
-
-
+        if(file!=null) {
+            String path = file.getAbsolutePath();
+            Message newMsg = new Message();
+            msgTxtField.setText(file.getName());
+            newMsg.setMsg(msgTxtField.getText());
+            newMsg.setType(MessageType.NOTIFICATION);
+            newMsg.setFontFamily(fontFamily);
+            newMsg.setTextFill(colorPicked);
+            newMsg.setFontSize(sizePicked);
+            newMsg.setUser(mUser);
+            newMsg.setChatId(chatRoom.getChatRoomId());
+            newMsg.setFontWeight(getFontWeight().name());
+            homeController.sendMsg(newMsg, chatRoom);
+            msgTxtField.setText("");
+            fileBtnLoad.setOnAction(new EventHandler<ActionEvent>() {
+                @Override public void handle(ActionEvent e) {
+                    fileSendAccepted(file);
+                }
+            });
+        }
     }
+    public void fileSendAccepted(File file){
+        new Thread( new RMIFileTransfer(file , mUser.getId() , chatRoom , mainDeligator)).start();
+    }
+    private void displayNotifyForFile() {
+    AtomicBoolean check=new AtomicBoolean();
 
-    private boolean displayNotifyForFile(Message msg) {
-        final boolean[] flage = {true};
-
-        Platform.runLater(() -> {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Confirmation Recive File ");
+         Thread thread = new Thread(()->{
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Confirmation Received File");
             alert.setHeaderText("Look,There is a File Coming");
             alert.setContentText("Are you ok with this?");
-
             Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == ButtonType.OK){
-                flage[0] =true;
-            } else {
-                flage[0]=false;
-            }
 
 
-
-
-
-
-
-           // showMsgsBox.getChildren().addAll(alertFile(msg));
         });
-return flage[0];
-    }
+       Platform.runLater(thread);
 
-/*
-    public VBox alertFile(Message msg){
 
-        VBox vb = new VBox();
-        try {
-            Label name = new Label(msg.getTextFill());
-            // ImageView imageView = new ImageView();
-            System.out.println(msg.getTextFill() + "  >");
-            Text text = new Text(msg.getMsg());
-            text.setFill(Color.valueOf(msg.getTextFill()));
-            text.setStyle("-fx-font-family: \"" + msg.getFontFamily() + "\"; "
-                    + ";" + "-fx-font-size: " + msg.getFontSize()
-                    + ";" + " -fx-font-weight:" + msg.getFontWeight()
-                    + ";" + " -fx-font-style:" + FontPosture.REGULAR);
-            Button acceptBtn=new Button("accept");
-            Button rejectBtn=new Button("reject");
-           // VBox vb = new VBox();
-            //BufferedImage image = javax.imageio.ImageIO.read(new ByteArrayInputStream(msg.getUser().getDisplayPicture()));
-            //Image card = SwingFXUtils.toFXImage(image, null);
-            //imageView.setImage(card);
-            //imageView.setFitWidth(15);
-            //imageView.setPreserveRatio(true);
-            vb.getChildren().add(acceptBtn);
-            vb.getChildren().add(rejectBtn);
-            //vb.getChildren().add(imageView);
-            vb.setSpacing(2);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return vb;
 
 
     }
-
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -536,8 +430,6 @@ return flage[0];
         Pos pos;
         System.out.println("chat room messages test" + chatRoom.getChatRoomMessage());
         for (Message message : chatRoom.getChatRoomMessage()) {
-
-            //System.out.println(message.getMsg() + "               ..>" + "decryptedText");
             if (message.getUser().getId() == mUser.getId()) {
                 pos = Pos.TOP_RIGHT;
             } else {
@@ -558,4 +450,16 @@ return flage[0];
     // END AMR
 
 
+    public void CreateGroupBtnHandler(MouseEvent mouseEvent) throws IOException {
+        //set scene of Group_chat.fxml
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/right_side/Group_Chat.fxml"));
+        Parent root = loader.load();
+        AddGroupChat addGroupChat = loader.getController();
+        addGroupChat.setChatRoom(chatRoom);
+        addGroupChat.setUser(mUser);
+        addGroupChat.setHomeController(homeController);
+        // todo pass the Arraylist of the current chat room to tha page
+        homeController.getBorderBaneStage().setCenter(root);
+
+    }
 }

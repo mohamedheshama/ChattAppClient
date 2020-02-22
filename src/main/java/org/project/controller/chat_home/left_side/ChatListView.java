@@ -14,7 +14,6 @@ import org.project.model.ChatRoom;
 import org.project.model.dao.users.UserStatus;
 import org.project.model.dao.users.Users;
 
-import java.io.IOException;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -29,7 +28,7 @@ public class ChatListView implements Initializable {
 
     public ObservableList<Users> chatsObservableList;
     Users user;
-    ArrayList<ChatRoom> chatRooms;
+    //ArrayList<ChatRoom> chatRooms;
     HomeController homeController;
     ChatRoom currentChatRoom;
 
@@ -86,14 +85,15 @@ public class ChatListView implements Initializable {
 
     private boolean addChatRoom(ChatRoom chatRoom) {
         if(!isChatRoomExist(chatRoom)){
-            chatRooms.add(chatRoom);
+            //chatRooms.add(chatRoom);
+            homeController.getChatRooms().add(chatRoom);
             return true;
         }
         return false;
     }
 
     private boolean isChatRoomExist(ChatRoom chatRoom) {
-        return chatRooms.stream().map(ChatRoom::getChatRoomId).filter(s -> s.equals(chatRoom.getChatRoomId())).count() > 0;
+        return homeController.getChatRooms().stream().map(ChatRoom::getChatRoomId).filter(s -> s.equals(chatRoom.getChatRoomId())).count() > 0;
     }
 
     private ChatRoom requestChatRoom(ArrayList<Users> chatroomUsers) {
@@ -125,7 +125,7 @@ public class ChatListView implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        chatRooms = new ArrayList<>();
+        /*chatRooms = new ArrayList<>();*/
     }
 
     // TODO ====> IMAN // accept and decline Friend request (HIGH PERIORITY)

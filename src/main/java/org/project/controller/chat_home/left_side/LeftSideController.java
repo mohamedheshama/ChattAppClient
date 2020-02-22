@@ -55,12 +55,13 @@ public class LeftSideController implements Initializable {
         borderPane.setLeft(root);
     }
 
-    public void setUserIcon(Users user) throws Exception {
+    public void setUserIcon(Users user,HomeController homeController) throws Exception {
         System.out.println("in user pane " + user);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/left_side/UserIcon.fxml"));
         Pane root = (Pane) loader.load();
         UserIconController userIconController = loader.getController();
-        userIconController.setUser(user);
+        System.out.println("home controller inside left side"+homeController);
+        userIconController.setUser(user,homeController);
 
         //userIconController.setHomeController(homeController);
         borderPane.setTop(root);

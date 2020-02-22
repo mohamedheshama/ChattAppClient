@@ -19,7 +19,7 @@
                </font>
             </Label>
             <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-            <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="GroupBtn" fitHeight="40.0" fitWidth="40.0"  onMouseClicked="#CreateGroupBtnHandler" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../images/add_group_members_btn.png" />
                </image>
@@ -74,7 +74,7 @@
                      </font>
                   </TextArea>
                   <StackPane prefHeight="48.0" prefWidth="6.0" />
-                  <ImageView id="attachFileImgBtn" fx:id="attachFileImgBtn" fitHeight="23.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView id="attachFileImgBtn" fx:id="attachFileImgBtn" fitHeight="23.0" fitWidth="23.0" onMouseClicked="#sendFile" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/attach_file_icon.png" />
                      </image>
