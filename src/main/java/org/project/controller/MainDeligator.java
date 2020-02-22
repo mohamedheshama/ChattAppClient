@@ -1,7 +1,5 @@
 package org.project.controller;
 
-import javafx.collections.ObservableList;
-import javafx.scene.control.ListView;
 import com.healthmarketscience.rmiio.RemoteInputStream;
 import org.project.controller.chat_home.HomeController;
 import org.project.controller.messages.Message;
@@ -352,6 +350,11 @@ public class MainDeligator implements Serializable {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public ArrayList<Users> getUserOnlineFriends(Users user) throws RemoteException {
+        //return null;
+        return serverConnectionController.getServicesInterface().getUserOnlineFriends(user);
     }
 
 

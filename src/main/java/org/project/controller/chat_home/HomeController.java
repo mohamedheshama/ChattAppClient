@@ -1,6 +1,5 @@
 package org.project.controller.chat_home;
 
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -17,7 +16,6 @@ import org.project.model.ChatRoom;
 import org.project.model.dao.users.UserStatus;
 import org.project.model.dao.users.Users;
 
-import javax.swing.text.html.ListView;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
@@ -25,7 +23,6 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class HomeController implements Initializable, Serializable {
 
@@ -71,7 +68,7 @@ public class HomeController implements Initializable, Serializable {
         mainDeligator.registerClient(clientImp);
     }
 
-    private Users getUserData(String phoneNumber) throws RemoteException {
+    public Users getUserData(String phoneNumber) throws RemoteException {
         return mainDeligator.login(phoneNumber);
     }
 
@@ -108,7 +105,7 @@ public class HomeController implements Initializable, Serializable {
         leftSideController = loader.getController();
         System.out.println("in initleftmethod" + user);
         leftSideController.setTabPane(user, this);
-        leftSideController.setUserIcon(user,this);
+        leftSideController.setUserIcon(user, this);
         leftSideController.setMainDeligator(mainDeligator);
         leftSideController.setHomeController(this);
         borderBaneStage.setLeft(root);
@@ -123,7 +120,7 @@ public class HomeController implements Initializable, Serializable {
     }*/
 
 
-    public void openChatRoom(ChatRoom chatRoom, boolean isChatRoomExist) throws IOException {
+    public void openChatRoom(ChatRoom chatRoom, boolean isChatRoomExist) throws Exception {
         System.out.println("in open chat room");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/right_side/main_chat.fxml"));
         Parent root = loader.load();
@@ -171,8 +168,8 @@ public class HomeController implements Initializable, Serializable {
         return mainDeligator.getUsersList(userId);
     }
 
-    public void recieveContactRequest(List<String> conatactsToAdd,Users user) throws RemoteException  {
-          mainDeligator.recieveContactRequest(conatactsToAdd,user);
+    public void recieveContactRequest(Users user)  {
+          leftSideController.recieveContactRequest(user);
     }
 
 
@@ -204,5 +201,9 @@ public class HomeController implements Initializable, Serializable {
 
     public void updateStatus(Users user, UserStatus newStatus) {
         mainDeligator.updateStatus(user,newStatus);
+    }
+
+    public ArrayList<Users> getUserOnlineFriends(Users user) throws RemoteException {
+        return mainDeligator.getUserOnlineFriends(user);
     }
 }

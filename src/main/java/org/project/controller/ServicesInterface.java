@@ -1,7 +1,5 @@
 package org.project.controller;
 
-import javafx.collections.ObservableList;
-import javafx.scene.control.ListView;
 import com.healthmarketscience.rmiio.RemoteInputStream;
 import org.project.controller.messages.Message;
 import org.project.model.ChatRoom;
@@ -138,6 +136,7 @@ public interface ServicesInterface extends Remote {
     List<String> getUsersList(int userId) throws RemoteException;
     void notifyRequestedContacts(List<String> ContactList, Users user) throws RemoteException;
 
+    public ArrayList<Users> getUserOnlineFriends(Users user) throws RemoteException;
     void updateStatus(Users user, UserStatus newStatus) throws RemoteException;
 
     //END SHIMAA
