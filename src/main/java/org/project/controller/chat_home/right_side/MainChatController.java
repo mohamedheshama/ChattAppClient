@@ -372,7 +372,8 @@ public class MainChatController implements Initializable {
 
 
 
-    public void sendFile() throws IOException, NotBoundException {
+    public void sendFile() throws RemoteException,IOException, NotBoundException {
+
         FileChooser SaveFileChooser = new FileChooser();
         File file = SaveFileChooser.showOpenDialog(getStage());
         if(file!=null) {

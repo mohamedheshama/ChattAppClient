@@ -6,6 +6,8 @@ import org.project.model.ChatRoom;
 import org.project.model.dao.users.UserStatus;
 import org.project.model.dao.users.Users;
 
+import java.io.IOException;
+import java.rmi.NotBoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
@@ -38,7 +40,7 @@ public interface ServicesInterface extends Remote {
 
 
 
-    public void sendFile( String newMsg, RemoteInputStream remoteFileData,ChatRoom chatRoom,int userSendFileId)throws RemoteException;
+    public void sendFile( String newMsg, RemoteInputStream remoteFileData,ChatRoom chatRoom,int userSendFileId)throws RemoteException , IOException, NotBoundException;
 
 //public  void sendAcceptToServer(boolean check);
 

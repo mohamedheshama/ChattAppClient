@@ -6,10 +6,8 @@ import org.project.controller.MainDeligator;
 import org.project.model.ChatRoom;
 import org.project.model.dao.users.Users;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.*;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
 public class RMIFileTransfer extends Thread {
@@ -31,6 +29,10 @@ public class RMIFileTransfer extends Thread {
             RemoteInputStreamServer remoteFileData = new SimpleRemoteInputStream(inputStream);
             mainDeligator.sendFile(file.getName(), remoteFileData, chatRoom, userId);
         } catch (FileNotFoundException | RemoteException e) {
+            e.printStackTrace();
+        } catch (NotBoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
 

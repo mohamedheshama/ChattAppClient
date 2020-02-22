@@ -111,7 +111,7 @@ public class MainDeligator implements Serializable {
         }
     }
 
-    public void sendFile( String newMsg, RemoteInputStream remoteFileData,ChatRoom chatRoom,int userId)throws RemoteException {
+    public void sendFile( String newMsg, RemoteInputStream remoteFileData,ChatRoom chatRoom,int userId) throws IOException, NotBoundException {
         serverConnectionController.getServicesInterface().sendFile(newMsg,remoteFileData,chatRoom,userId);
 
     }
