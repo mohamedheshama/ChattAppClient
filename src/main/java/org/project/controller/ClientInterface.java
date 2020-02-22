@@ -7,6 +7,7 @@ import org.project.model.dao.users.Users;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.List;
 
 public interface ClientInterface extends Remote {
@@ -19,7 +20,9 @@ public interface ClientInterface extends Remote {
     void addChatRoom(ChatRoom chatRoomExist) throws RemoteException;
     // start hend
 
-    public boolean notifyrecieveFile(Message newMsg, ChatRoom chatRoom) throws RemoteException;
+    //public void notifyrecieveFile(Message newMsg, ChatRoom chatRoom, int userSendFileId) throws RemoteException;
+   // public void sendAccept(boolean check);
+
 
     void recieveUpdatedNotifications(Users user) throws RemoteException;
 

@@ -25,6 +25,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class HomeController implements Initializable, Serializable {
 
@@ -65,7 +66,7 @@ public class HomeController implements Initializable, Serializable {
     }
 
     private void initClient() throws RemoteException {
-        clientImp = new ClientImp(user, mainDeligator,this);
+        clientImp = new ClientImp(user, mainDeligator , this);
         System.out.println("in init clint");
         mainDeligator.registerClient(clientImp);
     }
@@ -117,12 +118,12 @@ public class HomeController implements Initializable, Serializable {
         mainDeligator.sendMsg(newMsg, chatRoom);
     }
 
-    public boolean fileNotifyUser(Message newMsg, ChatRoom chatRoom) throws RemoteException {
+    /*public boolean fileNotifyUser(Message newMsg, ChatRoom chatRoom) throws RemoteException {
         return mainDeligator.fileNotifyUser(newMsg, chatRoom);
-    }
+    }*/
 
 
-    public void openChatRoom(ChatRoom chatRoom, boolean isChatRoomExist) throws Exception {
+    public void openChatRoom(ChatRoom chatRoom, boolean isChatRoomExist) throws IOException {
         System.out.println("in open chat room");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/right_side/main_chat.fxml"));
         Parent root = loader.load();
@@ -145,9 +146,10 @@ public class HomeController implements Initializable, Serializable {
         mainChatController.reciveMsg(newMsg, chatRoom);
     }
 
-    public boolean notifyrecieveFile(Message newMsg, ChatRoom chatRoom) {
-      return   mainChatController.notifyrecieveFile(newMsg, chatRoom);
-    }
+   /* public void notifyrecieveFile(Message newMsg, ChatRoom chatRoom, int userSendFileId) {
+     // return
+              mainChatController.notifyrecieveFile(newMsg, chatRoom,userSendFileId);
+    }*/
 
     public ChatRoom requestChatRoom(ArrayList<Users> chatroomUsers) {
         return mainDeligator.requestChatRoom(chatroomUsers);
