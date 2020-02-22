@@ -72,8 +72,10 @@ public class RequestListViewCell extends ListCell<Users> {
                         BufferedImage image = null;
                         System.out.println("inside tag"+user.getName()+" "+user.getDisplayPicture());
                         image = javax.imageio.ImageIO.read(new ByteArrayInputStream(user.getDisplayPicture()));
-                        Image card = SwingFXUtils.toFXImage(image, null);
-                        requestPicture.setFill(new ImagePattern(card));
+                        if (image != null){
+                            Image card = SwingFXUtils.toFXImage(image, null);
+                            requestPicture.setFill(new ImagePattern(card));
+                        }
                     }
                 } catch (SQLException e) {
                     e.printStackTrace();
