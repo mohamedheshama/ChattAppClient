@@ -34,6 +34,15 @@ public class HomeController implements Initializable, Serializable {
     @FXML
     private transient BorderPane borderBaneStage;
     transient MainDeligator mainDeligator;
+
+    public ArrayList<ChatRoom> getChatRooms() {
+        return chatRooms;
+    }
+
+    public void setChatRooms(ArrayList<ChatRoom> chatRooms) {
+        this.chatRooms = chatRooms;
+    }
+
     ArrayList<ChatRoom> chatRooms = new ArrayList<>();
     Users user;
     String phoneNumber;

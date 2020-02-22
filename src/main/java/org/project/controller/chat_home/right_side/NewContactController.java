@@ -138,7 +138,7 @@ public class NewContactController implements Initializable {
                     System.out.println(phoneNo);
                 }
                 homeController.addUsersToFriedNotifications(contactRequestList, user);
-                homeController.recieveContactRequest(contactRequestList,user);
+                homeController.recieveContactRequest(user);
                 contactListViewCell.clear();
                 contactRequestList.clear();
                 errorMessageLbl.setText("");

@@ -176,7 +176,7 @@ public class AddGroupChat implements Initializable {
         autoCompletionBinding = TextFields.bindAutoCompletion(phoneNoTxt, onlineFriendsStrings);
     }
 
-    public void handleStartBtn(ActionEvent event) throws RemoteException {
+    public void handleStartBtn(ActionEvent event) throws Exception {
         //GroupContactList
         ArrayList<Users> groupUsers = new ArrayList<>();
         for (String item : GroupContactList.getItems()) {
@@ -186,8 +186,23 @@ public class AddGroupChat implements Initializable {
         }
         //chatRoom.getUsers().addAll(groupUsers);
         groupUsers.addAll(getChatRoom().getUsers());
-        homeController.requestChatRoom(groupUsers);
+        ChatRoom currentChatRoom = homeController.requestChatRoom(groupUsers);
+        boolean isChatRoomAdded = addChatRoom(currentChatRoom);
+        if(!isChatRoomAdded){
+            homeController.openChatRoom(currentChatRoom , isChatRoomAdded);
+        }
+        homeController.openChatRoom(currentChatRoom , isChatRoomAdded);
+    }
+    private boolean addChatRoom(ChatRoom chatRoom) {
+        if(!isChatRoomExist(chatRoom)){
+            homeController.getChatRooms().add(chatRoom);
+            return true;
+        }
+        return false;
+    }
 
+    private boolean isChatRoomExist(ChatRoom chatRoom) {
+        return homeController.getChatRooms().stream().map(ChatRoom::getChatRoomId).filter(s -> s.equals(chatRoom.getChatRoomId())).count() > 0;
     }
 
 
