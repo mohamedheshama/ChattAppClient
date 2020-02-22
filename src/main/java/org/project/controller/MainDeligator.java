@@ -113,8 +113,8 @@ public class MainDeligator implements Serializable {
         }
     }
 
-    public void sendFile( Message newMsg, RemoteInputStream remoteFileData)throws RemoteException {
-        serverConnectionController.getServicesInterface().sendFile(newMsg,remoteFileData);
+    public void sendFile( String newMsg, RemoteInputStream remoteFileData,ChatRoom chatRoom,int userId)throws RemoteException {
+        serverConnectionController.getServicesInterface().sendFile(newMsg,remoteFileData,chatRoom,userId);
 
     }
 
@@ -167,9 +167,9 @@ public class MainDeligator implements Serializable {
        }
 
        */
-    public boolean fileNotifyUser(Message newMsg, ChatRoom chatRoom) throws RemoteException {
+   /* public boolean fileNotifyUser(Message newMsg, ChatRoom chatRoom) throws RemoteException {
        return serverConnectionController.getServicesInterface().fileNotifyUser(newMsg, chatRoom);
-    }
+    }*/
 
 
     //End Hend
@@ -206,10 +206,6 @@ public class MainDeligator implements Serializable {
 
     public boolean changeUserStatus(Users user, UserStatus userStatus) throws RemoteException {
         return serverConnectionController.getServicesInterface().changeUserStatus(user , userStatus);
-    }
-
-    public boolean notifyrecieveFile(Message newMsg, ChatRoom chatRoom) {
-        return homeController.notifyrecieveFile(newMsg, chatRoom);
     }
 
     public void addChatRoom(ChatRoom chatRoomExist) throws IOException {

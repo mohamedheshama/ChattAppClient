@@ -74,7 +74,7 @@
                      </font>
                   </TextArea>
                   <StackPane prefHeight="48.0" prefWidth="6.0" />
-                  <ImageView id="attachFileImgBtn" fx:id="attachFileImgBtn" fitHeight="23.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView id="attachFileImgBtn" fx:id="attachFileImgBtn" fitHeight="23.0" fitWidth="23.0" onMouseClicked="#sendFile" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/attach_file_icon.png" />
                      </image>
