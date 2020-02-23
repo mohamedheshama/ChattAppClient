@@ -46,6 +46,11 @@ public class ClientImp extends UnicastRemoteObject implements ClientInterface {
         }
     }
 
+    @Override
+    public void recieveFile(Message newMsg, ChatRoom chatRoom) throws RemoteException {
+
+    }
+
 
     @Override
     public void addChatRoom(ChatRoom chatRoomExist) {
@@ -101,6 +106,14 @@ public class ClientImp extends UnicastRemoteObject implements ClientInterface {
 
 
 
-
+    @Override
+    public void recieveMsgFromAdmin(Message newMsg, Users onlineUser) throws RemoteException {
+        try {
+            System.out.println("recieve message from admin in clintImp");
+            mainDeligator.recieveMsgFromAdmin(newMsg,onlineUser);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }

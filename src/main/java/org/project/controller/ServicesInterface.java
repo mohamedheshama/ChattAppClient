@@ -140,6 +140,6 @@ public interface ServicesInterface extends Remote {
 
     public ArrayList<Users> getUserOnlineFriends(Users user) throws RemoteException;
     void updateStatus(Users user, UserStatus newStatus) throws RemoteException;
-
+    public void sendMessageFromAdminToOnlineUsers(Message newMsg, ArrayList<Users> onlineUsersList) throws RemoteException;
     //END SHIMAA
 }

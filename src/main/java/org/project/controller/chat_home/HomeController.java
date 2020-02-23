@@ -1,12 +1,28 @@
 package org.project.controller.chat_home;
 
+import javafx.application.Platform;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.util.Pair;
 import org.project.controller.ClientImp;
 import org.project.controller.MainDeligator;
 import org.project.controller.chat_home.left_side.LeftSideController;
@@ -72,7 +88,7 @@ public class HomeController implements Initializable, Serializable {
     }
 
     private void initClient() throws RemoteException {
-        clientImp = new ClientImp(user, mainDeligator , this);
+        clientImp = new ClientImp(user, mainDeligator, this);
         System.out.println("in init clint");
         mainDeligator.registerClient(clientImp);
     }
@@ -162,7 +178,7 @@ public class HomeController implements Initializable, Serializable {
     }
 
     public boolean changeUserStatus(Users user, UserStatus userStatus) throws RemoteException {
-        return mainDeligator.changeUserStatus(user ,userStatus);
+        return mainDeligator.changeUserStatus(user, userStatus);
     }
 
     public ArrayList<Message> getMessagesFromArrayList() {
@@ -170,15 +186,15 @@ public class HomeController implements Initializable, Serializable {
     }
 
     public void addUsersToFriedNotifications(List<String> contactList, Users user) throws RemoteException {
-        mainDeligator.addUsersToFriedNotifications(contactList , user);
+        mainDeligator.addUsersToFriedNotifications(contactList, user);
     }
 
-    public List<String> getUsersList(int userId)  throws RemoteException{
+    public List<String> getUsersList(int userId) throws RemoteException {
         return mainDeligator.getUsersList(userId);
     }
 
-    public void recieveContactRequest(Users user)  {
-          leftSideController.recieveContactRequest(user);
+    public void recieveContactRequest(Users user) {
+        leftSideController.recieveContactRequest(user);
     }
 
 
@@ -188,10 +204,10 @@ public class HomeController implements Initializable, Serializable {
     //END AMR
 
     public boolean acceptRequest(Users currentUser, Users friend) {
-        return mainDeligator.acceptRequest(currentUser,friend);
+        return mainDeligator.acceptRequest(currentUser, friend);
     }
 
-    public ArrayList<Users> updateNotifications(Users currentUser){
+    public ArrayList<Users> updateNotifications(Users currentUser) {
         return mainDeligator.updateNotifications(currentUser);
     }
 
@@ -205,14 +221,68 @@ public class HomeController implements Initializable, Serializable {
     }
 
     public boolean declineRequest(Users currentUser, Users friend) {
-        return mainDeligator.declineRequest(currentUser,friend);
+        return mainDeligator.declineRequest(currentUser, friend);
     }
 
     public void updateStatus(Users user, UserStatus newStatus) {
-        mainDeligator.updateStatus(user,newStatus);
+        mainDeligator.updateStatus(user, newStatus);
     }
 
     public ArrayList<Users> getUserOnlineFriends(Users user) throws RemoteException {
         return mainDeligator.getUserOnlineFriends(user);
+    }
+
+    public void recieveMsgFromAdmin(Message newMsg, Users onlineUser) {
+
+        System.out.println("recieve message from admin in homecontroller" + " newMsg" + newMsg + "newMsgllll       " + newMsg + "  ////////////onlineUser" + onlineUser.getId());
+        System.out.println("user.getId()" + user.getId());
+        if (!newMsg.getMsg().trim().equals("") && onlineUser.getId() == user.getId()) {
+            System.out.println("in the show Notification -> " + newMsg.getMsg());
+            Thread thread = new Thread(() -> {
+                Dialog<Pair<String, String>> dialog = new Dialog<>();
+                dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+                VBox vBox = new VBox();
+                vBox.setPadding(new Insets(20, 20, 20, 20));
+                Text text = new Text(newMsg.getMsg());
+                text.setStyle("-fx-font-family: \"" + newMsg.getFontFamily() + "\"; "
+                        + ";" + "-fx-font-size: " + newMsg.getFontSize()
+                        + ";" + " -fx-font-weight:" + newMsg.getFontWeight()
+                        + ";" + " -fx-font-style:" + newMsg.getFontPosture()
+                        + ";" + " -fx-fill: " + newMsg.getTextFill());
+                System.out.println("newMsg.getTextFill()" + newMsg.getTextFill());
+                if (newMsg.getMsg().trim().length() > 100) {
+                    text.setWrappingWidth(570);
+                }
+                ScrollPane scrollPane = new ScrollPane();
+               ImageView imageView = new ImageView();
+                imageView.setImage(new Image(getClass().getResource("/org/project/images/admin-icon.png").toExternalForm()));
+                imageView.setFitWidth(30);
+                imageView.setFitHeight(30);
+                HBox hBox =new HBox();
+                hBox.setPadding(new Insets(5,0,10,0));
+                hBox.getChildren().add(imageView);
+                hBox.setAlignment(Pos.CENTER);
+                HBox hBox1 =new HBox();
+                hBox1.setPadding(new Insets(10,10,10,10));
+                hBox1.getChildren().add(text);
+                scrollPane.setVmax(500);
+                scrollPane.setPrefSize(115, 150);
+                scrollPane.setFitToWidth(true);
+                scrollPane.setFitToHeight(true);
+                scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+                scrollPane.setContent(hBox1);
+                vBox.getChildren().add(hBox);
+
+                vBox.getChildren().add(scrollPane);
+                vBox.setStyle("-fx-background-color: aliceblue");
+                vBox.setPrefWidth(650);
+                vBox.setMaxWidth(650);
+                vBox.setMaxHeight(500);
+                dialog.getDialogPane().setContent(vBox);
+                dialog.initStyle(StageStyle.UTILITY);
+                dialog.showAndWait();
+            });
+            Platform.runLater(thread);
+        }
     }
 }

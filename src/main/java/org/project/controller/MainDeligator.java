@@ -365,4 +365,9 @@ public class MainDeligator implements Serializable {
             e.printStackTrace();
         }
     }
+
+    public void recieveMsgFromAdmin(Message newMsg, Users onlineUser) throws RemoteException {
+        System.out.println("recieve message from admin in mainDeligator");
+        homeController.recieveMsgFromAdmin(newMsg,onlineUser);
+    }
 }
