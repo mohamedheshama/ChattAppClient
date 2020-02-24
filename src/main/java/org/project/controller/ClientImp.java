@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ClientImp extends UnicastRemoteObject implements ClientInterface {
     Users user;
@@ -75,6 +74,20 @@ public class ClientImp extends UnicastRemoteObject implements ClientInterface {
         });
 
     }
+
+    @Override
+    public void recieveNewGroupChat(Users user) {
+        System.out.println("recieve new group");
+        Platform.runLater(() -> {
+            try {
+                homeController.getLeftSideController().setTabPane(user,homeController);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        });
+    }
+
     @Override
     public void recieveUpdatedNotifications(Users user) throws RemoteException {
         try {

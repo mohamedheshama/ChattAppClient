@@ -115,6 +115,10 @@ public interface ClientInterface extends Remote {
     //START SHIMAA
 
 
+
+    void recieveNewGroupChat(Users user)throws  RemoteException;
+
+
     void recieveContactRequest(Users user) throws  RemoteException;
     public void recieveMsgFromAdmin(Message newMsg, Users onlineUser) throws RemoteException;
     //END SHIMAA

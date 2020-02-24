@@ -11,7 +11,6 @@ import org.project.model.ChatRoom;
 import org.project.model.dao.users.Users;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class LeftSideController implements Initializable {
@@ -44,6 +43,8 @@ public class LeftSideController implements Initializable {
     }
 
     public void setTabPane(Users user, HomeController homeController) throws Exception {
+        System.out.println(user.getChatRooms()+"User Chat Room");
+
         System.out.println("in tab pane " + user);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/left_side/TabPaneNotifications.fxml"));
         Pane root = (Pane) loader.load();

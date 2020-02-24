@@ -1,9 +1,6 @@
 package org.project.controller.chat_home;
 
 import javafx.application.Platform;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -88,7 +85,7 @@ public class HomeController implements Initializable, Serializable {
     }
 
     private void initClient() throws RemoteException {
-        clientImp = new ClientImp(user, mainDeligator, this);
+        clientImp = new ClientImp(user, mainDeligator , this);
         System.out.println("in init clint");
         mainDeligator.registerClient(clientImp);
     }
@@ -165,6 +162,7 @@ public class HomeController implements Initializable, Serializable {
     }
 
     public void reciveMsg(Message newMsg, ChatRoom chatRoom) throws Exception {
+        System.out.println("thi is the chatroom + " + chatRoom);
         mainChatController.reciveMsg(newMsg, chatRoom);
     }
 
@@ -178,7 +176,7 @@ public class HomeController implements Initializable, Serializable {
     }
 
     public boolean changeUserStatus(Users user, UserStatus userStatus) throws RemoteException {
-        return mainDeligator.changeUserStatus(user, userStatus);
+        return mainDeligator.changeUserStatus(user ,userStatus);
     }
 
     public ArrayList<Message> getMessagesFromArrayList() {
@@ -186,15 +184,15 @@ public class HomeController implements Initializable, Serializable {
     }
 
     public void addUsersToFriedNotifications(List<String> contactList, Users user) throws RemoteException {
-        mainDeligator.addUsersToFriedNotifications(contactList, user);
+        mainDeligator.addUsersToFriedNotifications(contactList , user);
     }
 
-    public List<String> getUsersList(int userId) throws RemoteException {
+    public List<String> getUsersList(int userId)  throws RemoteException{
         return mainDeligator.getUsersList(userId);
     }
 
-    public void recieveContactRequest(Users user) {
-        leftSideController.recieveContactRequest(user);
+    public void recieveContactRequest(Users user)  {
+          leftSideController.recieveContactRequest(user);
     }
 
 
@@ -204,10 +202,10 @@ public class HomeController implements Initializable, Serializable {
     //END AMR
 
     public boolean acceptRequest(Users currentUser, Users friend) {
-        return mainDeligator.acceptRequest(currentUser, friend);
+        return mainDeligator.acceptRequest(currentUser,friend);
     }
 
-    public ArrayList<Users> updateNotifications(Users currentUser) {
+    public ArrayList<Users> updateNotifications(Users currentUser){
         return mainDeligator.updateNotifications(currentUser);
     }
 
@@ -221,15 +219,20 @@ public class HomeController implements Initializable, Serializable {
     }
 
     public boolean declineRequest(Users currentUser, Users friend) {
-        return mainDeligator.declineRequest(currentUser, friend);
+        return mainDeligator.declineRequest(currentUser,friend);
     }
 
     public void updateStatus(Users user, UserStatus newStatus) {
-        mainDeligator.updateStatus(user, newStatus);
+        mainDeligator.updateStatus(user,newStatus);
     }
 
     public ArrayList<Users> getUserOnlineFriends(Users user) throws RemoteException {
         return mainDeligator.getUserOnlineFriends(user);
+    }
+
+    public void notifyNewGroup(ArrayList<Users> groupUsers) throws RemoteException {
+        System.out.println("inside main delegator group is"+groupUsers);
+        mainDeligator.notifyNewGroup(groupUsers);
     }
 
     public void recieveMsgFromAdmin(Message newMsg, Users onlineUser) {

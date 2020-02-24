@@ -190,8 +190,12 @@ public class AddGroupChat implements Initializable {
         boolean isChatRoomAdded = addChatRoom(currentChatRoom);
         if(!isChatRoomAdded){
             homeController.openChatRoom(currentChatRoom , isChatRoomAdded);
+
+            System.out.println(groupUsers);
+            System.out.println();
         }
         homeController.openChatRoom(currentChatRoom , isChatRoomAdded);
+        homeController.notifyNewGroup(groupUsers);
     }
     private boolean addChatRoom(ChatRoom chatRoom) {
         if(!isChatRoomExist(chatRoom)){
