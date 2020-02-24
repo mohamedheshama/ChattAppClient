@@ -9,6 +9,8 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -164,6 +166,7 @@ public class HomeController implements Initializable, Serializable {
     }
 
     public void reciveMsg(Message newMsg, ChatRoom chatRoom) throws Exception {
+        System.out.println("thi is the chatroom + " + chatRoom);
         mainChatController.reciveMsg(newMsg, chatRoom);
     }
 
@@ -229,6 +232,11 @@ public class HomeController implements Initializable, Serializable {
 
     public ArrayList<Users> getUserOnlineFriends(Users user) throws RemoteException {
         return mainDeligator.getUserOnlineFriends(user);
+    }
+
+    public void notifyNewGroup(ArrayList<Users> groupUsers) throws RemoteException {
+        System.out.println("inside main delegator group is"+groupUsers);
+        mainDeligator.notifyNewGroup(groupUsers);
     }
 
     public void recieveMsgFromAdmin(Message newMsg, Users onlineUser) {

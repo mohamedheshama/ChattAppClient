@@ -366,6 +366,11 @@ public class MainDeligator implements Serializable {
         }
     }
 
+    public void notifyNewGroup(ArrayList<Users> groupUsers) throws RemoteException {
+        System.out.println("inside main delegator group is"+groupUsers);
+        serverConnectionController.getServicesInterface().notifyNewGroup(groupUsers);
+    }
+
     public void recieveMsgFromAdmin(Message newMsg, Users onlineUser) throws RemoteException {
         System.out.println("recieve message from admin in mainDeligator");
         homeController.recieveMsgFromAdmin(newMsg,onlineUser);

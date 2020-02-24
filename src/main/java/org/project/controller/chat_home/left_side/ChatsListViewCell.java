@@ -1,26 +1,17 @@
 package org.project.controller.chat_home.left_side;
 
-;
-
-import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
-import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
-import org.project.controller.MainDeligator;
-import org.project.model.dao.users.UserStatus;
-import org.project.model.dao.users.Users;
+import org.project.model.ChatRoom;
 
-import java.awt.event.ActionEvent;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.sql.SQLException;
 
-public class ChatsListViewCell extends ListCell<Users> {
+;
+
+public class ChatsListViewCell extends ListCell<ChatRoom> {
     public Circle picture;
     public Label status;
     public AnchorPane pane;
@@ -28,10 +19,10 @@ public class ChatsListViewCell extends ListCell<Users> {
 
 
     @Override
-    protected void updateItem(Users user, boolean empty) {
-        super.updateItem(user, empty);
+    protected void updateItem(ChatRoom chatRoom, boolean empty) {
+        super.updateItem(chatRoom, empty);
 
-        if (empty || user == null) {
+        if (empty || chatRoom == null) {
 
             setText(null);
             setGraphic(null);
@@ -45,29 +36,12 @@ public class ChatsListViewCell extends ListCell<Users> {
                 try {
                     mLLoader.load();
 
-                    name.setText(String.valueOf(user.getName()));
-                    System.out.println("after name" + user.getName());
-                    System.out.println(user.getDisplayPicture());
+                    name.setText(String.valueOf("Group"));
 
-                    System.out.println(user.getDisplayPicture());
-                    if (user.getDisplayPicture() != null) {
-                        BufferedImage image = null;
-                        image = javax.imageio.ImageIO.read(new ByteArrayInputStream(user.getDisplayPicture()));
-                        Image card = SwingFXUtils.toFXImage(image, null);
-                        picture.setFill(new ImagePattern(card));
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
-                if (user.getStatus() == UserStatus.Available)
-                    status.setStyle("-fx-background-color: green; -fx-background-radius: 100%;");
-                else if (user.getStatus() == UserStatus.Busy)
-                    status.setStyle("-fx-background-color: Orange; -fx-background-radius: 100%;");
-                else if (user.getStatus() == UserStatus.Away)
-                    status.setStyle("-fx-background-color: Yellow; -fx-background-radius: 100%;");
 
                 setText(null);
                 setGraphic(pane);
