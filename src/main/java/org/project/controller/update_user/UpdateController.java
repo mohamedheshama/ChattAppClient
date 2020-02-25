@@ -61,7 +61,7 @@ public class UpdateController implements Initializable, UpdateInterface {
     MainDeligator mainDeligator;
     LoginController logincontroller;
     String user_phone_number;
-    byte [] imageBytes=null;
+    byte [] imageBytes;
     private boolean upd_checkConfirmPass;
     @FXML
     private JFXTextField upd_phone_num;
@@ -175,6 +175,7 @@ public class UpdateController implements Initializable, UpdateInterface {
 
     @FXML
     public boolean validateEmail() {
+        System.out.println(upd_userEmail.getText() + "this is where the null pointer is and i don't  know why");
         if (!upd_userEmail.getText().matches("^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$")) {
             upd_userEmail.setStyle("-fx-border: 0px 0px 2px 0px ; -fx-border-color: #f60");
             upd_emailError.setText("E-mail Is Not Valid");
@@ -229,6 +230,8 @@ public class UpdateController implements Initializable, UpdateInterface {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }else{
+            System.out.println("user is not valid");
         }
 
     }
@@ -255,6 +258,7 @@ public class UpdateController implements Initializable, UpdateInterface {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            imageBytes = new byte[baos.size()];
             imageBytes= baos.toByteArray();
         }
 /*
