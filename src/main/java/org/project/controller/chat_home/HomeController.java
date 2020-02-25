@@ -273,7 +273,7 @@ public class HomeController implements Initializable, Serializable {
         VBox vBox = new VBox();
         vBox.setPadding(new Insets(20, 20, 20, 20));
         Text text = new Text(newMsg.getMsg());
-        text.setStyle("-fx-font-family: " + newMsg.getFontFamily()
+        text.setStyle("-fx-font-family:  \"" + newMsg.getFontFamily() + "\" "
                 + ";" + "-fx-font-size: " + newMsg.getFontSize()
                 + ";" + " -fx-font-weight:" + newMsg.getFontWeight()
                 + ";" + " -fx-font-style:" + newMsg.getFontPosture()
