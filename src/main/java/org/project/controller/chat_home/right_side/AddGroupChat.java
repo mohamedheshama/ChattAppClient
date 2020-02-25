@@ -66,6 +66,7 @@ public class AddGroupChat implements Initializable {
     public void setHomeController(HomeController homeController) throws RemoteException {
         this.homeController = homeController;
         OnlineFriends = getUserOnlineFriends();
+        System.out.println("onlint friends are : " + OnlineFriends);
         if (OnlineFriends != null) {
             onlineFriendsStrings = new ArrayList<>();
             for (Users onlineFriend : OnlineFriends) {
@@ -90,8 +91,6 @@ public class AddGroupChat implements Initializable {
 
                 if (validatePhoneNo(phoneNumber) && !isPhoneNoAdded(phoneNumber)) {
                     System.out.println(phoneNumber);
-
-                    System.out.println("this is supposed to be the first element to be added to the GroupContactlist");
                     contactListViewCell.add(phoneNumber);
                     GroupContactList.setItems(contactListViewCell);
                     errorMessageLbl.setText("");
@@ -173,6 +172,7 @@ public class AddGroupChat implements Initializable {
         if (autoCompletionBinding != null) {
             autoCompletionBinding.dispose();
         }
+        System.out.println("Online users are " + onlineFriendsStrings);
         autoCompletionBinding = TextFields.bindAutoCompletion(phoneNoTxt, onlineFriendsStrings);
     }
 

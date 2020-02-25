@@ -269,7 +269,12 @@ public class MainChatController implements Initializable {
             displayMsg(newMsg, Pos.TOP_RIGHT);
         } else {
             if (chatRoom.getChatRoomId().equals(this.chatRoom.getChatRoomId())) {
-                displayMsg(newMsg, Pos.TOP_LEFT);
+                if (getStage().isShowing()){
+                    displayMsg(newMsg, Pos.TOP_LEFT);
+                }else {
+                    showMessageIncommingNotification(newMsg);
+                }
+
             } else {
                 showMessageIncommingNotification(newMsg);
             }
@@ -280,7 +285,6 @@ public class MainChatController implements Initializable {
 
     private void showMessageIncommingNotification(Message newMsg) {
         System.out.println("in the show Notification -> " + newMsg.getMsg());
-
         Platform.runLater(() -> {
             Notifications notificationBuilder = Notifications.create()
                     .title("Announcement")
@@ -295,6 +299,7 @@ public class MainChatController implements Initializable {
                         }
                     });
             notificationBuilder.darkStyle();
+            getStage().show();
             getStage().requestFocus();
             AudioClip clip = null;
             try {
@@ -463,8 +468,8 @@ public class MainChatController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/right_side/Group_Chat.fxml"));
         Parent root = loader.load();
         AddGroupChat addGroupChat = loader.getController();
-        addGroupChat.setChatRoom(chatRoom);
         addGroupChat.setUser(mUser);
+        addGroupChat.setChatRoom(chatRoom);
         addGroupChat.setHomeController(homeController);
         // todo pass the Arraylist of the current chat room to tha page
         homeController.getBorderBaneStage().setCenter(root);

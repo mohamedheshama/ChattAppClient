@@ -13,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import org.project.App;
 import org.project.controller.chat_home.HomeController;
 import org.project.controller.chat_home.right_side.MainChatController;
 import org.project.model.dao.users.UserStatus;
@@ -23,6 +24,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.net.UnknownServiceException;
+import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
@@ -83,6 +85,16 @@ public class UserIconController {
             if(option.equals("Update Profile")){
                 try {
                     homeController.setSceneForUpdateUser();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }else if (option.equals(("Logout"))){
+                try {
+                    if (homeController.logout(this.user)){
+                       homeController.switchToLoginPage();
+                    }
+                } catch (RemoteException e) {
+                    e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

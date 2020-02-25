@@ -92,6 +92,11 @@ public class ClientImp extends UnicastRemoteObject implements ClientInterface {
     }
 
     @Override
+    public void notifyUserLoggedOut(Users user) throws RemoteException {
+        mainDeligator.notifyUserLoggedOut(user);
+    }
+
+    @Override
     public void recieveUpdatedNotifications(Users user) throws RemoteException {
         try {
             user.setFriends(homeController.updateFriends(user));

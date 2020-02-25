@@ -1,6 +1,8 @@
 package org.project.controller;
 
 import com.healthmarketscience.rmiio.RemoteInputStream;
+import javafx.application.Platform;
+import org.project.App;
 import org.project.controller.chat_home.HomeController;
 import org.project.controller.messages.Message;
 import org.project.model.ChatRoom;
@@ -379,5 +381,13 @@ public class MainDeligator implements Serializable {
     public void recieveMsgFromAdmin(Message newMsg, Users onlineUser) throws RemoteException {
         System.out.println("recieve message from admin in mainDeligator");
         homeController.recieveMsgFromAdmin(newMsg,onlineUser);
+    }
+
+    public boolean logout(Users user) throws RemoteException {
+        return serverConnectionController.getServicesInterface().logout(user);
+    }
+
+    public void notifyUserLoggedOut(Users user) {
+        homeController.notifyUserLoggedOut(user);
     }
 }

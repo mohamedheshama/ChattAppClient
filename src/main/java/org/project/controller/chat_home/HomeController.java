@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.ScrollPane;
@@ -27,6 +28,7 @@ import org.project.controller.ClientImp;
 import org.project.controller.MainDeligator;
 import org.project.controller.chat_home.left_side.LeftSideController;
 import org.project.controller.chat_home.right_side.MainChatController;
+import org.project.controller.login.LoginController;
 import org.project.controller.messages.Message;
 import org.project.model.ChatRoom;
 import org.project.model.dao.users.UserStatus;
@@ -322,5 +324,49 @@ public class HomeController implements Initializable, Serializable {
     }
 
 
+    public boolean logout(Users user) throws RemoteException {
+        return mainDeligator.logout(user);
+    }
 
+    public void switchToLoginPage() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/login_view.fxml"));
+        Parent root = loader.load();
+        LoginController loginController = loader.getController();
+        getStage().setScene(new Scene(root));
+    }
+
+    public void notifyUserLoggedOut(Users user) {
+        Thread thread = new Thread(() -> {
+            Message message = new Message();
+            message.setUser(user);
+            message.setMsg(user.getName() + " is logged of");
+            message.setFontSize(14);
+            message.setFontWeight("BOLD");
+            message.setFontFamily("Arial");
+            message.setTextFill("green");
+            VBox announcementVbox = drawAnnouncementVbox(message);
+            Notifications notificationBuilder = Notifications.create()
+                    .title("Announcement")
+                    .graphic(announcementVbox)
+                    .hideAfter(Duration.seconds(60))
+                    .position(Pos.BOTTOM_RIGHT)
+                    .onAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent event) {
+                            System.out.println("announcement has been clicked");
+                        }
+                    });
+            notificationBuilder.darkStyle();
+            getStage().requestFocus();
+            AudioClip clip = null;
+            try {
+                clip = new AudioClip(getClass().getResource("/org/project/sounds/notification.wav").toURI().toString());
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+            clip.play();
+            notificationBuilder.show();
+        });
+        Platform.runLater(thread);
+    }
 }

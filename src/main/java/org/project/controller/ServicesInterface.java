@@ -144,5 +144,7 @@ public interface ServicesInterface extends Remote {
 
     void notifyNewGroup(ArrayList<Users> groupUsers, ChatRoom currentChatRoom) throws RemoteException;
 
+    boolean logout(Users user) throws RemoteException;
+
     //END SHIMAA
 }

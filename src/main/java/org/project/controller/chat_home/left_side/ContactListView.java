@@ -44,6 +44,7 @@ public class ContactListView implements Initializable {
         this.user = user;
         this.homeController = homeController;
         friendsObservableList = FXCollections.observableArrayList(user.getFriends());
+        //   friendsObservableList = FXCollections.observableArrayList(user.getFriends().stream().filter(users ->user.getStatus().toString().equals("Offline")).collect(Collectors.toList()));
         contactList.setItems(friendsObservableList);
         contactList.setCellFactory(chatListView -> new ChatsListViewCell());
         contactList.setCellFactory(new Callback<ListView<Users>, ListCell<Users>>() {
