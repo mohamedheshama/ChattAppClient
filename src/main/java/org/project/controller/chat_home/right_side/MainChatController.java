@@ -37,6 +37,9 @@ import org.project.controller.chat_home.HomeController;
 import org.project.controller.createXML.SaveXml;
 import org.project.controller.messages.Message;
 import org.project.controller.messages.MessageType;
+import org.project.controller.messages.voiceMessage.VoicePlayback;
+import org.project.controller.messages.voiceMessage.VoiceRecorder;
+import org.project.controller.messages.voiceMessage.VoiceUtil;
 import org.project.controller.security.RSAEncryptionWithAES;
 import org.project.model.ChatRoom;
 import org.project.model.dao.users.Users;
@@ -91,7 +94,11 @@ public class MainChatController implements Initializable {
     }
 
     ChatRoom chatRoom;
+    @FXML ImageView microphoneImageView;
     MainDeligator mainDeligator;
+    Image microphoneActiveImage = new Image(getClass().getResource("/org/project/images/birthday.png").toExternalForm());
+    Image microphoneInactiveImage = new Image(getClass().getResource("/org/project/images/birthday.png").toExternalForm());
+
 
     public void setHomeController(HomeController homeController) {
         this.homeController = homeController;
@@ -241,7 +248,7 @@ public class MainChatController implements Initializable {
         Message newMsg = new Message();
         newMsg.setMsg(encryptedText);
         chatRoom.getChatRoomMessage().add(newMsg);
-        System.out.println("chat room id : "+chatRoom.getChatRoomId()+" message is " +chatRoom.getChatRoomMessage());
+        //System.out.println("chat room id : "+chatRoom.getChatRoomId()+" message is " +chatRoom.getChatRoomMessage());
         newMsg.setType(MessageType.USER);
         newMsg.setFontFamily(fontFamily);
         newMsg.setTextFill(colorPicked);
@@ -307,6 +314,11 @@ public class MainChatController implements Initializable {
         Platform.runLater(() -> {
 
             try {
+                if (msg.getType() == MessageType.VOICE){
+                    ImageView imageview = new ImageView(new Image((getClass().getResource("/org/project/images/birthday.png").toExternalForm())));
+                    showMsgsBox.getChildren().addAll(recipientChatLine(msg, pos));
+                    VoicePlayback.playAudio(msg.getVoiceMsg());
+                }
                 showMsgsBox.getChildren().addAll(recipientChatLine(msg, pos));
             } catch (Exception e) {
                 e.printStackTrace();
@@ -385,14 +397,12 @@ public class MainChatController implements Initializable {
             homeController.sendMsg(newMsg, chatRoom);
             msgTxtField.setText("");
             fileBtnLoad.setOnMouseClicked(mouseEvent -> {
-                System.out.println("the file is + " + file);
                 fileSendAccepted(file);
             });
         }
     }
 
     public void fileSendAccepted(File file){
-        System.out.println("in th fileSendAccepted");
         new Thread( new RMIFileTransfer(file , mUser.getId() , chatRoom , mainDeligator)).start();
     }
     private void displayNotifyForFile() {
@@ -456,5 +466,36 @@ public class MainChatController implements Initializable {
         // todo pass the Arraylist of the current chat room to tha page
         homeController.getBorderBaneStage().setCenter(root);
 
+    }
+
+    public void recordVoiceMessage(MouseEvent event) {
+        if (VoiceUtil.isRecording()) {
+            Platform.runLater(() -> {
+                        microphoneImageView.setImage(microphoneInactiveImage);
+                    }
+            );
+            VoiceUtil.setRecording(false);
+        } else {
+            Platform.runLater(() -> {
+                        microphoneImageView.setImage(microphoneActiveImage);
+
+                    }
+            );
+            VoiceRecorder.captureAudio(this);
+        }
+    }
+
+    public void sendVoiceMessage(byte[] audio) throws RemoteException {
+        Message createMessage = new Message();
+        createMessage.setName(mUser.getName());
+        createMessage.setUser(mUser);
+        createMessage.setType(MessageType.VOICE);
+        createMessage.setVoiceMsg(audio);
+        createMessage.setPublicKey(rsaEncryptionWithAES.getPublicKey());
+        createMessage.setEncryptedAESKeyString(rsaEncryptionWithAES.getEncryptedAESKeyString());
+        createMessage.setChatId(chatRoom.getChatRoomId());
+        createMessage.setFontWeight(getFontWeight().name());
+        homeController.sendMsg(createMessage, chatRoom);
+        msgTxtField.setText("");
     }
 }

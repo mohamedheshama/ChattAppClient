@@ -1,0 +1,10 @@
+<!DOCTYPE myMessages [
+        <!ELEMENT myMessages (message)*>
+        <!ELEMENT message (from|to|content|color|fontSize|fontWeight)*>
+        <!ELEMENT from (#PCDATA)>
+        <!ELEMENT to (#PCDATA)>
+        <!ELEMENT content (#PCDATA)>
+        <!ELEMENT color (#PCDATA)>
+        <!ELEMENT fontSize (#PCDATA)>
+        <!ELEMENT fontWeight (#PCDATA)>
+        ]>
