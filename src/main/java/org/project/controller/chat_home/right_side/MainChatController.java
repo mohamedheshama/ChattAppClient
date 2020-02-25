@@ -384,7 +384,7 @@ public class MainChatController implements Initializable {
             newMsg.setFontWeight(getFontWeight().name());
             homeController.sendMsg(newMsg, chatRoom);
             msgTxtField.setText("");
-            attachFileImgBtn.setOnMouseClicked(mouseEvent -> {
+            fileBtnLoad.setOnMouseClicked(mouseEvent -> {
                 fileSendAccepted(file);
             });
         }

@@ -152,7 +152,9 @@ public class MainDeligator implements Serializable {
 
 
 
+
     public void updateUser(Users existUser) throws RemoteException {
+
         serverConnectionController.getServicesInterface().notifyUpdate(existUser);
 
 

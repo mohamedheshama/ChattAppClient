@@ -215,4 +215,15 @@ public class HomeController implements Initializable, Serializable {
     public ArrayList<Users> getUserOnlineFriends(Users user) throws RemoteException {
         return mainDeligator.getUserOnlineFriends(user);
     }
+
+    public void setSceneForUpdateUser() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/update_info_view.fxml"));
+        Parent root = loader.load();
+        borderBaneStage.setCenter(root);
+
+
+    }
+
+
+
 }

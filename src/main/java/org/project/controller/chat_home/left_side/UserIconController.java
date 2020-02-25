@@ -4,15 +4,21 @@ package org.project.controller.chat_home.left_side;
 
 import com.jfoenix.controls.JFXComboBox;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import org.project.controller.chat_home.HomeController;
+import org.project.controller.chat_home.right_side.MainChatController;
+import org.project.model.ChatRoom;
 import org.project.model.dao.users.UserStatus;
 import org.project.model.dao.users.Users;
 
@@ -34,6 +40,9 @@ public class UserIconController {
     public Label userName;
     public Label status;
     public HomeController homeController;
+    public MainChatController mainChatController;
+    private transient BorderPane borderBaneStage;
+
 
     public void setUser(Users user, HomeController homeController) {
         this.user = user;
@@ -45,30 +54,39 @@ public class UserIconController {
         settings_icon.setImage(new Image(getClass().getResource("/org/project/images/settings.png").toExternalForm()));
         settings.getItems().addAll("Update Profile","Save ChatSession","Logout");
         userName.setText(user.getName());
-        try {
+        /*try {
             if (user.getDisplayPicture() != null) {
-                BufferedImage image = null;
-                image = javax.imageio.ImageIO.read(new ByteArrayInputStream(user.getDisplayPicture()));
-                Image card = SwingFXUtils.toFXImage(image, null);
-                Userimage.setFill(new ImagePattern(card));
+                System.out.println("befooooor" + user.getDisplayPicture());
+               // Image card = new Image(new ByteArrayInputStream(user.getDisplayPicture()));
+                //System.out.println("afterrrrrrrrrrrrrrrrrrr" + card);
+                //Userimage.setFill(new ImagePattern(card));
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        }*/
         setStatus();
-        System.out.println(user.getRequest_notifications());
+        //System.out.println(user.getRequest_notifications());
         choicebox.setOnAction(event -> {
             UserStatus newStatus=UserStatus.valueOf(choicebox.getSelectionModel().getSelectedItem().toString());
-            System.out.println(newStatus);
-            System.out.println(user);
-            System.out.println(homeController);
+           // System.out.println(newStatus);
+           // System.out.println(user);
+          //  System.out.println(homeController);
             user.setStatus(newStatus);
             homeController.updateStatus(user,newStatus);
             homeController.updateRequestNotifications(user.getFriends());
             choicebox.setValue(user.getStatus());
             setStatus();
+        });
+
+        settings.setOnAction(actionEvent -> {
+            String option=settings.getSelectionModel().getSelectedItem().toString();
+            if(option.equals("Update Profile")){
+                try {
+                    homeController.setSceneForUpdateUser();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         });
 
 
