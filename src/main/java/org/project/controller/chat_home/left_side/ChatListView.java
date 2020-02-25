@@ -26,26 +26,24 @@ public class ChatListView implements Initializable {
 
 
 
-    public ObservableList<Users> chatsObservableList;
+    public ObservableList<ChatRoom> chatsObservableList;
     Users user;
     //ArrayList<ChatRoom> chatRooms;
     HomeController homeController;
     ChatRoom currentChatRoom;
 
-    public void displayUpdatedFriendStatus(ArrayList<Users> friends) {
-        chatsObservableList = FXCollections.observableArrayList(friends);
-    }
+
 
     public void setChatsListView(Users user, HomeController homeController) {
         System.out.println("from setChatListView" + user);
         this.user = user;
         this.homeController = homeController;
-        chatsObservableList = FXCollections.observableArrayList(user.getFriends());
+        chatsObservableList = FXCollections.observableArrayList(user.getChatRooms());
         chatsListView.setItems(chatsObservableList);
         chatsListView.setCellFactory(chatListView -> new ChatsListViewCell());
-        chatsListView.setCellFactory(new Callback<javafx.scene.control.ListView<Users>, ListCell<Users>>() {
+        chatsListView.setCellFactory(new Callback<javafx.scene.control.ListView<ChatRoom>, ListCell<ChatRoom>>() {
             @Override
-            public ListCell<Users> call(javafx.scene.control.ListView<Users> UserListView) {
+            public ListCell<ChatRoom> call(javafx.scene.control.ListView<ChatRoom> UserListView) {
                 return new ChatsListViewCell();
             }
         });

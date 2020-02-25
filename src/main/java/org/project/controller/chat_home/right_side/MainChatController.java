@@ -385,12 +385,14 @@ public class MainChatController implements Initializable {
             homeController.sendMsg(newMsg, chatRoom);
             msgTxtField.setText("");
             fileBtnLoad.setOnMouseClicked(mouseEvent -> {
+                System.out.println("the file is + " + file);
                 fileSendAccepted(file);
             });
         }
     }
 
     public void fileSendAccepted(File file){
+        System.out.println("in th fileSendAccepted");
         new Thread( new RMIFileTransfer(file , mUser.getId() , chatRoom , mainDeligator)).start();
     }
     private void displayNotifyForFile() {
