@@ -136,6 +136,7 @@ public class UpdateController implements Initializable, UpdateInterface {
         } catch (SQLException | IOException e) {
             e.printStackTrace();
         }*/
+        System.out.println("reached here");
         List<String> collect = Arrays.asList(Locale.getAvailableLocales()).stream().map(Locale::getDisplayCountry).filter(s -> !s.isEmpty()).sorted().collect(Collectors.toList());
         ObservableList<String> AllCountries = FXCollections.observableArrayList(collect);
         System.out.println(collect);

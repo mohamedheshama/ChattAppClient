@@ -198,8 +198,8 @@ public class HomeController implements Initializable, Serializable {
         return mainDeligator.getUsersList(userId);
     }
 
-    public void recieveContactRequest(Users user)  {
-          leftSideController.recieveContactRequest(user);
+    public void recieveContactRequest(List<String> conatactsToAdd,Users user) throws RemoteException  {
+        mainDeligator.recieveContactRequest(conatactsToAdd,user);
     }
 
 
