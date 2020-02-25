@@ -10,9 +10,11 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import org.project.controller.chat_home.HomeController;
+import org.project.controller.chat_home.right_side.MainChatController;
 import org.project.model.dao.users.UserStatus;
 import org.project.model.dao.users.Users;
 
@@ -34,6 +36,9 @@ public class UserIconController {
     public Label userName;
     public Label status;
     public HomeController homeController;
+    public MainChatController mainChatController;
+    private transient BorderPane borderBaneStage;
+
 
     public void setUser(Users user, HomeController homeController) {
         this.user = user;
@@ -71,6 +76,17 @@ public class UserIconController {
             homeController.updateRequestNotifications(user.getFriends());
             choicebox.setValue(user.getStatus());
             setStatus();
+        });
+
+        settings.setOnAction(actionEvent -> {
+            String option=settings.getSelectionModel().getSelectedItem().toString();
+            if(option.equals("Update Profile")){
+                try {
+                    homeController.setSceneForUpdateUser();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         });
 
 
