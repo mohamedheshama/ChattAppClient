@@ -18,6 +18,7 @@ import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 
 public class ChatListView implements Initializable {
@@ -26,26 +27,24 @@ public class ChatListView implements Initializable {
 
 
 
-    public ObservableList<Users> chatsObservableList;
+    public ObservableList<ChatRoom> chatsObservableList;
     Users user;
     //ArrayList<ChatRoom> chatRooms;
     HomeController homeController;
     ChatRoom currentChatRoom;
 
-    public void displayUpdatedFriendStatus(ArrayList<Users> friends) {
-        chatsObservableList = FXCollections.observableArrayList(friends);
-    }
+
 
     public void setChatsListView(Users user, HomeController homeController) {
-        System.out.println("from setChatListView" + user);
+        System.out.println("from setChatListView user chat rooms are" + user.getChatRooms());
         this.user = user;
         this.homeController = homeController;
-        chatsObservableList = FXCollections.observableArrayList(user.getFriends());
+        chatsObservableList = FXCollections.observableArrayList(user.getChatRooms().stream().filter(chatRoom -> chatRoom.getUsers().size()>2).collect(Collectors.toList()));
         chatsListView.setItems(chatsObservableList);
         chatsListView.setCellFactory(chatListView -> new ChatsListViewCell());
-        chatsListView.setCellFactory(new Callback<javafx.scene.control.ListView<Users>, ListCell<Users>>() {
+        chatsListView.setCellFactory(new Callback<javafx.scene.control.ListView<ChatRoom>, ListCell<ChatRoom>>() {
             @Override
-            public ListCell<Users> call(javafx.scene.control.ListView<Users> UserListView) {
+            public ListCell<ChatRoom> call(javafx.scene.control.ListView<ChatRoom> UserListView) {
                 return new ChatsListViewCell();
             }
         });
@@ -69,18 +68,11 @@ public class ChatListView implements Initializable {
     }*/
 
     public void handle(MouseEvent event) throws Exception {
-        Users friendUser = (Users) chatsListView.getSelectionModel().getSelectedItem();
-        System.out.println("the user is " + friendUser);
-        ArrayList<Users> chatroomUsers = new ArrayList<>();
-        chatroomUsers.add(friendUser);
-        chatroomUsers.add(this.user);
-        currentChatRoom = requestChatRoom(chatroomUsers);
-        boolean isChatRoomAdded = addChatRoom(currentChatRoom);
-        if(!isChatRoomAdded){
-            homeController.openChatRoom(currentChatRoom , isChatRoomAdded);
-        }
-        homeController.openChatRoom(currentChatRoom , isChatRoomAdded);
+        ChatRoom groupChatRoom = (ChatRoom) chatsListView.getSelectionModel().getSelectedItem();
 
+        currentChatRoom = requestChatRoom(groupChatRoom.getUsers());
+        boolean isChatRoomAdded = addChatRoom(currentChatRoom);
+        homeController.openChatRoom(currentChatRoom , isChatRoomAdded);
     }
 
     private boolean addChatRoom(ChatRoom chatRoom) {

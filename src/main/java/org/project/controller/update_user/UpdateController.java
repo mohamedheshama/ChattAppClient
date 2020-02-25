@@ -1,13 +1,16 @@
 package org.project.controller.update_user;
 
-import com.jfoenix.controls.JFXPasswordField;
-import com.jfoenix.controls.JFXRadioButton;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -21,17 +24,23 @@ import org.project.model.dao.users.Gender;
 import org.project.model.dao.users.UserStatus;
 import org.project.model.dao.users.Users;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class UpdateController implements Initializable, UpdateInterface {
 
+    public ToggleGroup gender;
     ServicesInterface obj;
     /* @FXML upd_phoneNumError
      private RadioButton male;
@@ -78,6 +87,10 @@ public class UpdateController implements Initializable, UpdateInterface {
     private JFXPasswordField upd_userPasswordConfirm;
     @FXML
     private Label upd_passError;
+    @FXML
+    private ChoiceBox choicebox;
+    @FXML
+    private JFXDatePicker upd_birthDate ;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -99,15 +112,38 @@ public class UpdateController implements Initializable, UpdateInterface {
             e.printStackTrace();
         }
         System.out.println(existUser);
-        upd_bio.setText(existUser.getBio());
+
+        if(existUser.getDateOfBirth() !=null){
+            upd_birthDate.setValue(existUser.getDateOfBirth().toLocalDate());
+        }
+
+
         upd_phone_num.setText(existUser.getPhoneNumber());
         upd_userEmail.setText(existUser.getEmail());
         upd_username.setText(existUser.getName());
         upd_userPassword.setText(existUser.getPassword());
         upd_userPasswordConfirm.setText(existUser.getPassword());
 
+        //upd_birthDate.setValue(existUser.getDateOfBirth().toLocalDate());
+        /*try {
+            System.out.println(existUser.getDisplayPicture() + " ,msdn");
+            if (existUser.getDisplayPicture() != null) {
+                InputStream is=new ByteArrayInputStream(existUser.getDisplayPicture());
+                BufferedImage imag= ImageIO.read(is);
+                Image image = SwingFXUtils.toFXImage(imag, null);
+                upd_image.setClip(new ImageView(image));
+            }
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }*/
+        List<String> collect = Arrays.asList(Locale.getAvailableLocales()).stream().map(Locale::getDisplayCountry).filter(s -> !s.isEmpty()).sorted().collect(Collectors.toList());
+        ObservableList<String> AllCountries = FXCollections.observableArrayList(collect);
+        System.out.println(collect);
+        choicebox.setItems(AllCountries);
+        choicebox.setValue("Egypt");
 
-        //upd_username.setText(newUser.getName());
+
+
 
     }
 
@@ -155,7 +191,7 @@ public class UpdateController implements Initializable, UpdateInterface {
             upd_userPassword.setUnFocusColor(Color.GREEN);
             upd_checkConfirmPass = true;
         } else {
-            upd_userPasswordConfirm.setFocusColor(Color.DARKRED);
+             upd_userPasswordConfirm.setFocusColor(Color.DARKRED);
             upd_userPassword.setUnFocusColor(Color.DARKRED);
             upd_checkConfirmPass = false;
         }
@@ -168,10 +204,23 @@ public class UpdateController implements Initializable, UpdateInterface {
         existUser.setEmail(upd_userEmail.getText());
         existUser.setPassword(upd_userPassword.getText());
         existUser.setPhoneNumber(upd_phone_num.getText());
-        existUser.setGender(Gender.Female);
         existUser.setStatus(UserStatus.Available);
         existUser.setBio(upd_bio.getText());
         existUser.setDisplayPicture(imageBytes);
+        existUser.setCountry(choicebox.getSelectionModel().getSelectedItem().toString());
+        if (Date.valueOf(upd_birthDate.getValue()) !=null){
+            existUser.setDateOfBirth(Date.valueOf(upd_birthDate.getValue()));
+        }
+        gender.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+            @Override
+            public void changed(ObservableValue<? extends Toggle> ov, Toggle t, Toggle t1) {
+
+                RadioButton chk = (RadioButton)t1.getToggleGroup().getSelectedToggle(); // Cast object to radio button
+                System.out.println("Selected Radio Button - "+chk.getText());
+                existUser.setGender(Gender.valueOf(chk.getText()));
+                System.out.println(existUser.getGender() + "     ::::::    "  +Gender.valueOf(chk.getText()) );
+            }
+        });
         if (userDataValid()) {
             System.out.println("update is done");
             mainDeligator.updateUser(existUser);
@@ -225,6 +274,32 @@ public class UpdateController implements Initializable, UpdateInterface {
         return true;
     }
 */
+
+
+
+
+
+
+        // ChoiceBox c = new ChoiceBox(FXCollections.observableArrayList(st));
+
+        // add a listener
+        choicebox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+
+            // if the item of the list is changed
+            public void changed(ObservableValue ov, Number value, Number new_value) {
+
+                // set the text for the label to the selected item
+                choicebox.setValue(new_value.intValue());
+                System.out.println(new_value.intValue());
+                System.out.println("choice"+choicebox.getSelectionModel().getSelectedItem());
+
+                //l1.setText(st[new_value.intValue()] + " selected");
+            }
+        });
+
+        System.out.println("choice"+choicebox.getSelectionModel().getSelectedItem());
+
+
 
 
     }

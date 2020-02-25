@@ -38,7 +38,7 @@ public class MainDeligator implements Serializable {
     ServerConnectionController serverConnectionController;
 
     public MainDeligator() throws RemoteException, NotBoundException {
-        this.serverConnectionController = new ServerConnectionController("127.0.0.1", 1270);
+        this.serverConnectionController = new ServerConnectionController("127.0.0.1", 1260);
     }
     //Karima
 
@@ -152,7 +152,9 @@ public class MainDeligator implements Serializable {
 
 
 
+
     public void updateUser(Users existUser) throws RemoteException {
+
         serverConnectionController.getServicesInterface().notifyUpdate(existUser);
 
 
@@ -364,5 +366,18 @@ public class MainDeligator implements Serializable {
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+    }
+
+    public void notifyNewGroup(ArrayList<Users> groupUsers, ChatRoom currentChatRoom) throws RemoteException {
+        for (Users temp:groupUsers) {
+            System.out.println("inside main delegator,friends for: "+temp.getName()+" are -->"+temp.getFriends());
+
+        }
+        serverConnectionController.getServicesInterface().notifyNewGroup(groupUsers,currentChatRoom);
+    }
+
+    public void recieveMsgFromAdmin(Message newMsg, Users onlineUser) throws RemoteException {
+        System.out.println("recieve message from admin in mainDeligator");
+        homeController.recieveMsgFromAdmin(newMsg,onlineUser);
     }
 }

@@ -1,12 +1,28 @@
 package org.project.controller.chat_home;
 
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+import org.controlsfx.control.Notifications;
 import org.project.controller.ClientImp;
 import org.project.controller.MainDeligator;
 import org.project.controller.chat_home.left_side.LeftSideController;
@@ -18,6 +34,7 @@ import org.project.model.dao.users.Users;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -63,6 +80,7 @@ public class HomeController implements Initializable, Serializable {
     public void setPhoneNumber(String phoneNumber) throws Exception {
         this.phoneNumber = phoneNumber;
         user = getUserData(this.phoneNumber);
+        System.out.println("getting user data"+user);
         mainDeligator.setUser(user);
         mainDeligator.setHomeController(this);
         System.out.println(user);
@@ -135,6 +153,7 @@ public class HomeController implements Initializable, Serializable {
         Parent root = loader.load();
         mainChatController = loader.getController();
         mainChatController.setmUser(user);
+        System.out.println("inside homecontroller user "+user.getName()+" friends are-->"+user.getFriends());
         mainChatController.setHomeController(this);
         mainChatController.setChatRoom(chatRoom);
         borderBaneStage.setCenter(root);
@@ -145,10 +164,12 @@ public class HomeController implements Initializable, Serializable {
 
     public void addChatRoom(ChatRoom chatRoom) throws IOException {
         user.getChatRooms().add(chatRoom);
+        System.out.println("user chatrooms after adding new one"+ user.getChatRooms());
         System.out.println("here is your chat room " + chatRoom.getChatRoomId());
     }
 
     public void reciveMsg(Message newMsg, ChatRoom chatRoom) throws Exception {
+        System.out.println("thi is the chatroom + " + chatRoom);
         mainChatController.reciveMsg(newMsg, chatRoom);
     }
 
@@ -215,4 +236,91 @@ public class HomeController implements Initializable, Serializable {
     public ArrayList<Users> getUserOnlineFriends(Users user) throws RemoteException {
         return mainDeligator.getUserOnlineFriends(user);
     }
+
+    public void notifyNewGroup(ArrayList<Users> groupUsers, ChatRoom currentChatRoom) throws RemoteException {
+
+        mainDeligator.notifyNewGroup(groupUsers,currentChatRoom);
+    }
+
+    public void recieveMsgFromAdmin(Message newMsg, Users onlineUser) {
+
+        if (!newMsg.getMsg().trim().equals("") && onlineUser.getId() == user.getId()) {
+            Thread thread = new Thread(() -> {
+                VBox announcementVbox = drawAnnouncementVbox(newMsg);
+                Notifications notificationBuilder = Notifications.create()
+                        .title("Announcement")
+                        .graphic(announcementVbox)
+                        .hideAfter(Duration.seconds(60))
+                        .position(Pos.BOTTOM_RIGHT)
+                        .onAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent event) {
+                                System.out.println("announcement has been clicked");
+                            }
+                        });
+                notificationBuilder.darkStyle();
+                getStage().requestFocus();
+                AudioClip clip = null;
+                try {
+                    clip = new AudioClip(getClass().getResource("/org/project/sounds/notification.wav").toURI().toString());
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
+                clip.play();
+                notificationBuilder.show();
+            });
+            Platform.runLater(thread);
+        }
+    }
+
+    public VBox drawAnnouncementVbox(Message newMsg) {
+        VBox vBox = new VBox();
+        vBox.setPadding(new Insets(20, 20, 20, 20));
+        Text text = new Text(newMsg.getMsg());
+        text.setStyle("-fx-font-family: " + newMsg.getFontFamily()
+                + ";" + "-fx-font-size: " + newMsg.getFontSize()
+                + ";" + " -fx-font-weight:" + newMsg.getFontWeight()
+                + ";" + " -fx-font-style:" + newMsg.getFontPosture()
+                + ";" + " -fx-fill: " + newMsg.getTextFill());
+        if (newMsg.getMsg().trim().length() > 100) {
+            text.setWrappingWidth(570);
+        }
+        ScrollPane scrollPane = new ScrollPane();
+        ImageView imageView = new ImageView();
+        imageView.setImage(new Image(getClass().getResource("/org/project/images/admin-icon.png").toExternalForm()));
+        imageView.setFitWidth(30);
+        imageView.setFitHeight(30);
+        HBox hBox = new HBox();
+        hBox.setPadding(new Insets(5, 0, 10, 0));
+        hBox.getChildren().add(imageView);
+        hBox.setAlignment(Pos.CENTER);
+        HBox hBox1 = new HBox();
+        hBox1.setPadding(new Insets(10, 10, 10, 10));
+        hBox1.getChildren().add(text);
+        scrollPane.setVmax(500);
+        scrollPane.setPrefSize(115, 150);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setContent(hBox1);
+        vBox.getChildren().add(hBox);
+
+        vBox.getChildren().add(scrollPane);
+        vBox.setStyle("-fx-background-color: aliceblue");
+        vBox.setPrefWidth(650);
+        vBox.setMaxWidth(650);
+        vBox.setMaxHeight(500);
+        return vBox;
+    }
+
+    public void setSceneForUpdateUser() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/update_info_view.fxml"));
+        Parent root = loader.load();
+        borderBaneStage.setCenter(root);
+
+
+    }
+
+
+
 }

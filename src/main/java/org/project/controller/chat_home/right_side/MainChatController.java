@@ -244,9 +244,9 @@ public class MainChatController implements Initializable {
     }
 
     private void sendMsgToHomeController() throws Exception {
-        String encryptedText = rsaEncryptionWithAES.encryptTextUsingAES(msgTxtField.getText(), rsaEncryptionWithAES.getSecretAESKeyString());
+       // String encryptedText = rsaEncryptionWithAES.encryptTextUsingAES(msgTxtField.getText(), rsaEncryptionWithAES.getSecretAESKeyString());
         Message newMsg = new Message();
-        newMsg.setMsg(encryptedText);
+        newMsg.setMsg(msgTxtField.getText());
         chatRoom.getChatRoomMessage().add(newMsg);
         //System.out.println("chat room id : "+chatRoom.getChatRoomId()+" message is " +chatRoom.getChatRoomMessage());
         newMsg.setType(MessageType.USER);
@@ -433,15 +433,18 @@ public class MainChatController implements Initializable {
     //start AMR
     public void displayMessagesFromArrList() throws Exception {
         Pos pos;
-        System.out.println("chat room messages test" + chatRoom.getChatRoomMessage());
-        for (Message message : chatRoom.getChatRoomMessage()) {
-            if (message.getUser().getId() == mUser.getId()) {
-                pos = Pos.TOP_RIGHT;
-            } else {
-                pos = Pos.TOP_LEFT;
-                // todo set alignment to left nad display message
+//        System.out.println("chat room messages test" + chatRoom.getChatRoomMessage());
+        if (chatRoom.getChatRoomMessage() != null){
+            for (Message message : chatRoom.getChatRoomMessage()) {
+                if (message.getUser().getId() == mUser.getId()) {
+                    pos = Pos.TOP_RIGHT;
+                } else {
+                    pos = Pos.TOP_LEFT;
+                    // todo set alignment to left nad display message
+                }
+                displayMsg(message , pos);
             }
-            displayMsg(message , pos);
+
         }
 
     }
