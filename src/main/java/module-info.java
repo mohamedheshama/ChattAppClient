@@ -12,6 +12,7 @@ module org.project {
     requires java.base;
     requires org.controlsfx.controls;
     requires rmiio;
+    requires java.xml.bind;
 
     opens org.project to javafx.fxml;
     opens org.project.controller.update_user to javafx.fxml;
@@ -30,5 +31,9 @@ module org.project {
     opens org.project.controller.chat_home to javafx.fxml;
     exports org.project.model;
     exports org.project.controller.update_user to javafx.fxml;
+    exports org.project.controller.messages.jaxb;
+    exports org.project.controller.messages;
+    opens org.project.controller.messages.jaxb;
+    opens org.project.controller.messages;
 
 }
