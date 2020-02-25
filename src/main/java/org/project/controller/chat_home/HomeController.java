@@ -253,13 +253,7 @@ public class HomeController implements Initializable, Serializable {
                         .title("Announcement")
                         .graphic(announcementVbox)
                         .hideAfter(Duration.seconds(60))
-                        .position(Pos.BOTTOM_RIGHT)
-                        .onAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent event) {
-                                System.out.println("announcement has been clicked");
-                            }
-                        });
+                        .position(Pos.BOTTOM_RIGHT);
                 notificationBuilder.darkStyle();
                 getStage().requestFocus();
                 AudioClip clip = null;
