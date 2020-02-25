@@ -36,7 +36,7 @@ public class ChatsListViewCell extends ListCell<ChatRoom> {
                 try {
                     mLLoader.load();
 
-                    name.setText(String.valueOf("Group"));
+                    name.setText(chatRoom.getChatRoomId());
 
                 } catch (IOException e) {
                     e.printStackTrace();

@@ -29,6 +29,8 @@ public class RequestsListView {
         System.out.println(chatListView);
         this.user=user;
         this.homeController=homeController;
+        System.out.println("user notifications"+user.getName()+": "+user.getRequest_notifications());
+
         requestsObservableList = FXCollections.observableArrayList(user.getRequest_notifications());
         requestListView.setItems(requestsObservableList);
         requestListView.setCellFactory(requestListView -> new RequestListViewCell(homeController,user,chatListView));
@@ -44,7 +46,6 @@ public class RequestsListView {
     public void recieveContactRequest(Users user) {
         Platform.runLater(() -> {
             try {
-                System.out.println(user.getRequest_notifications());
 
                 homeController.getLeftSideController().setTabPane(user,homeController);
             } catch (Exception e) {
