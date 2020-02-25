@@ -99,13 +99,13 @@ public class ClientImp extends UnicastRemoteObject implements ClientInterface {
     @Override
     public void recieveUpdatedNotifications(Users user) throws RemoteException {
         try {
-            user.setFriends(homeController.updateFriends(user));
-            user.setRequest_notifications(homeController.updateNotifications(user));
+            this.user.setFriends(homeController.updateFriends(user));
+            this.user.setRequest_notifications(homeController.updateNotifications(this.user));
             Platform.runLater(() -> {
                 try {
-                    System.out.println(user.getRequest_notifications());
+                    System.out.println("from updated notifications user is "+this.user.getName()+this.user.getRequest_notifications());
 
-                    homeController.getLeftSideController().setTabPane(user,homeController);
+                    homeController.getLeftSideController().setTabPane(this.user,homeController);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

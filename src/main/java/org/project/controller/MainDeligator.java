@@ -257,7 +257,7 @@ public class MainDeligator implements Serializable {
         return serverConnectionController.getServicesInterface().getUsersList(userId);
 
     }
-     public void recieveContactRequest(List<String> contactsToAdd, Users user) throws RemoteException{
+    public void recieveContactRequest(List<String> contactsToAdd, Users user) throws RemoteException{
         serverConnectionController.getServicesInterface().notifyRequestedContacts(contactsToAdd,user);
     }
 
