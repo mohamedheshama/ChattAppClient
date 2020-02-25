@@ -1,22 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXDatePicker?>
-<?import com.jfoenix.controls.JFXPasswordField?>
-<?import com.jfoenix.controls.JFXRadioButton?>
-<?import com.jfoenix.controls.JFXTextField?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.shape.Circle?>
-<?import javafx.scene.text.Font?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.controller.update_user.UpdateController">
+<AnchorPane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.controller.update_user.UpdateController">
     <children>
         <Pane prefHeight="582.0" prefWidth="476.0" style="-fx-background-color: #fff;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
@@ -89,15 +81,15 @@
                 <JFXButton fx:id="chane_upd" buttonType="RAISED" layoutX="388.0" layoutY="542.0" mnemonicParsing="false" onAction="#changeUpd" prefHeight="26.0" prefWidth="80.0" ripplerFill="#0099cc" style="-fx-background-color: #0066ff;" text="Change" textFill="WHITE" />
                 <HBox layoutX="84.0" layoutY="466.0" prefHeight="22.0" prefWidth="310.0">
                     <children>
-                        <JFXDatePicker fx:id="upd_birthday" defaultColor="#1a2120" prefHeight="28.0" prefWidth="399.0" promptText="Birthday" />
+                        <JFXDatePicker fx:id="upd_birthDate" defaultColor="#1a2120" prefHeight="28.0" prefWidth="399.0" promptText="Birthday" />
                     </children>
                 </HBox>
-                <JFXRadioButton fx:id="upd_male" layoutX="82.0" layoutY="513.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="94.0" text="Male" viewOrder="1.0">
+                <JFXRadioButton fx:id="upd_male" layoutX="86.0" layoutY="546.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="94.0" text="Male" viewOrder="1.0">
                     <toggleGroup>
                         <ToggleGroup fx:id="gender" />
                     </toggleGroup>
                 </JFXRadioButton>
-                <JFXRadioButton fx:id="upd_female" layoutX="214.0" layoutY="513.0" mnemonicParsing="false" selected="true" text="Female" toggleGroup="$gender" />
+                <JFXRadioButton fx:id="upd_female" layoutX="210.0" layoutY="546.0" mnemonicParsing="false" selected="true" text="Female" toggleGroup="$gender" />
                 <Circle fx:id="upd_image" fill="#172029" layoutX="226.0" layoutY="87.0" onMouseClicked="#chooseImg" radius="57.0" stroke="#d2d1d1" strokeType="INSIDE" />
                 <Circle fill="#1bc54b" layoutX="274.0" layoutY="122.0" radius="8.0" stroke="#f3f5f3" strokeType="INSIDE" />
                 <HBox layoutX="86.0" layoutY="237.0" prefHeight="31.0" prefWidth="314.0">
@@ -116,6 +108,7 @@
                 <Label fx:id="upd_nameError" layoutX="109.0" layoutY="300.0" textFill="#da0808" />
                 <Label fx:id="upd_emailError" layoutX="100.0" layoutY="347.0" textFill="#dd0a0a" />
                 <Label fx:id="upd_phoneNumError" layoutX="109.0" layoutY="221.0" textFill="#df0a0a" />
+            <ChoiceBox fx:id="choicebox" layoutX="84.0" layoutY="509.0" prefHeight="25.0" prefWidth="309.0" style="-fx-background-color: transparent;" />
 
 
             </children>
