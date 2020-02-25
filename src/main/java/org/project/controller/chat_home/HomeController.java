@@ -76,6 +76,7 @@ public class HomeController implements Initializable, Serializable {
     public void setPhoneNumber(String phoneNumber) throws Exception {
         this.phoneNumber = phoneNumber;
         user = getUserData(this.phoneNumber);
+        System.out.println("getting user data"+user);
         mainDeligator.setUser(user);
         mainDeligator.setHomeController(this);
         System.out.println(user);
@@ -148,6 +149,7 @@ public class HomeController implements Initializable, Serializable {
         Parent root = loader.load();
         mainChatController = loader.getController();
         mainChatController.setmUser(user);
+        System.out.println("inside homecontroller user "+user.getName()+" friends are-->"+user.getFriends());
         mainChatController.setHomeController(this);
         mainChatController.setChatRoom(chatRoom);
         borderBaneStage.setCenter(root);
@@ -158,6 +160,7 @@ public class HomeController implements Initializable, Serializable {
 
     public void addChatRoom(ChatRoom chatRoom) throws IOException {
         user.getChatRooms().add(chatRoom);
+        System.out.println("user chatrooms after adding new one"+ user.getChatRooms());
         System.out.println("here is your chat room " + chatRoom.getChatRoomId());
     }
 
@@ -230,9 +233,9 @@ public class HomeController implements Initializable, Serializable {
         return mainDeligator.getUserOnlineFriends(user);
     }
 
-    public void notifyNewGroup(ArrayList<Users> groupUsers) throws RemoteException {
-        System.out.println("inside main delegator group is"+groupUsers);
-        mainDeligator.notifyNewGroup(groupUsers);
+    public void notifyNewGroup(ArrayList<Users> groupUsers, ChatRoom currentChatRoom) throws RemoteException {
+
+        mainDeligator.notifyNewGroup(groupUsers,currentChatRoom);
     }
 
     public void recieveMsgFromAdmin(Message newMsg, Users onlineUser) {

@@ -184,19 +184,19 @@ public class AddGroupChat implements Initializable {
             if (user != null)
                     groupUsers.add(user);
         }
+
         //chatRoom.getUsers().addAll(groupUsers);
         groupUsers.addAll(getChatRoom().getUsers());
+        System.out.println("from the AddGroupChat the length of users iis " + groupUsers.size());
         ChatRoom currentChatRoom = homeController.requestChatRoom(groupUsers);
         boolean isChatRoomAdded = addChatRoom(currentChatRoom);
-        if(!isChatRoomAdded){
-            homeController.openChatRoom(currentChatRoom , isChatRoomAdded);
-
-            System.out.println(groupUsers);
-            System.out.println();
-        }
         homeController.openChatRoom(currentChatRoom , isChatRoomAdded);
-        homeController.notifyNewGroup(groupUsers);
+        if(isChatRoomAdded){
+            homeController.notifyNewGroup(groupUsers,currentChatRoom);
+        }
+
     }
+
     private boolean addChatRoom(ChatRoom chatRoom) {
         if(!isChatRoomExist(chatRoom)){
             homeController.getChatRooms().add(chatRoom);

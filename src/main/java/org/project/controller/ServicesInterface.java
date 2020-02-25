@@ -142,7 +142,7 @@ public interface ServicesInterface extends Remote {
     void updateStatus(Users user, UserStatus newStatus) throws RemoteException;
     public void sendMessageFromAdminToOnlineUsers(Message newMsg, ArrayList<Users> onlineUsersList) throws RemoteException;
 
-    void notifyNewGroup(ArrayList<Users> groupUsers) throws RemoteException;
+    void notifyNewGroup(ArrayList<Users> groupUsers, ChatRoom currentChatRoom) throws RemoteException;
 
     //END SHIMAA
 }

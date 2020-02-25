@@ -46,6 +46,8 @@ public class UserIconController {
         settings.getItems().addAll("Update Profile","Save ChatSession","Logout");
         userName.setText(user.getName());
         try {
+            System.out.println("user display picture"+user.getDisplayPicture());
+
             if (user.getDisplayPicture() != null) {
                 BufferedImage image = null;
                 image = javax.imageio.ImageIO.read(new ByteArrayInputStream(user.getDisplayPicture()));

@@ -76,11 +76,14 @@ public class ClientImp extends UnicastRemoteObject implements ClientInterface {
     }
 
     @Override
-    public void recieveNewGroupChat(Users user) {
-        System.out.println("recieve new group");
+    public void recieveNewGroupChat(Users user,ChatRoom currentRoom ) {
+        //this.user.getChatRooms().add(currentRoom);
+        System.out.println("inside recieve new group for"+user.getName()+"  chat rooms are:"+user.getChatRooms());
+        System.out.println("inside recieve new group for"+user.getName()+"  friends are:"+user.getFriends());
+
         Platform.runLater(() -> {
             try {
-                homeController.getLeftSideController().setTabPane(user,homeController);
+                homeController.getLeftSideController().setTabPane(this.user,homeController);
             } catch (Exception e) {
                 e.printStackTrace();
             }

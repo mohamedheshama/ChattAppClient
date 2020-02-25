@@ -77,9 +77,9 @@ public class ContactListView implements Initializable {
         chatroomUsers.add(this.user);
         currentChatRoom = requestChatRoom(chatroomUsers);
         boolean isChatRoomAdded = addChatRoom(currentChatRoom);
-        if(!isChatRoomAdded){
-            homeController.openChatRoom(currentChatRoom , isChatRoomAdded);
-        }
+//        if(!isChatRoomAdded){
+//            homeController.openChatRoom(currentChatRoom , isChatRoomAdded);
+//        }
         homeController.openChatRoom(currentChatRoom , isChatRoomAdded);
 
     }

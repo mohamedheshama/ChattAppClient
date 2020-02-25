@@ -116,7 +116,7 @@ public interface ClientInterface extends Remote {
 
 
 
-    void recieveNewGroupChat(Users user)throws  RemoteException;
+    void recieveNewGroupChat(Users user, ChatRoom currentChatRoom)throws  RemoteException;
 
 
     void recieveContactRequest(Users user) throws  RemoteException;
