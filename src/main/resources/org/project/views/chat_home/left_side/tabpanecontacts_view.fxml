@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="549.0" prefWidth="325.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.controller.chat_home.left_side.ContactListView">
+    <center>
+        <ListView fx:id="contactList" onMouseClicked="#handle" prefHeight="491.0" prefWidth="326.0" style="-fx-background-color: white;" stylesheets="@../../../styles/chat-home/left-side/Styling.css" />
+    </center>
+   <top>
+      <Button fx:id="newContactBtn" mnemonicParsing="false" onAction="#handleNewContact" prefHeight="42.0" prefWidth="118.0" style="-fx-background-color: #0099cc; -fx-text-fill: #ffffff;" text="New Contact" textFill="WHITE" BorderPane.alignment="CENTER">
+
+         <BorderPane.margin>
+            <Insets bottom="5.0" top="5.0" />
+         </BorderPane.margin>
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Button>
+   </top>
+</BorderPane>

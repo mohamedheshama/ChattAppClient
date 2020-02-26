@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Circle?>
 
-<AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="76.0" prefWidth="329.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" >
+<AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="76.0" prefWidth="329.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox layoutX="-1.0" prefHeight="76.0" prefWidth="330.0">
          <children>
@@ -24,7 +24,7 @@
                         <String fx:value="font-style" />
                         <String fx:value="label" />
                      </styleClass></Label>
-                  <JFXButton fx:id="Accept" layoutX="93.0" layoutY="26.0"  stylesheets="@../../../styles/chat-home/left-side/Styling.css" text="Accept" />
+                  <JFXButton fx:id="Accept" layoutX="93.0" layoutY="26.0" stylesheets="@../../../styles/chat-home/left-side/Styling.css" text="Accept" />
                   <JFXButton fx:id="Decline" layoutX="163.0" layoutY="26.0" stylesheets="@../../../styles/chat-home/left-side/Styling.css" text="Decline" />
                </children>
             </Pane>

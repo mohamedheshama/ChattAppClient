@@ -17,6 +17,7 @@ public class LeftSideController implements Initializable {
     public BorderPane borderPane;
     MainDeligator mainDeligator;
     HomeController homeController;
+    TabPaneNotifications_Controller notificationsController;
     ChatRoom chatRoom;
     Users user;
 
@@ -42,27 +43,37 @@ public class LeftSideController implements Initializable {
     }
 
     public void setTabPane(Users user, HomeController homeController) throws Exception {
+        System.out.println(user.getChatRooms()+"User Chat Room");
+
         System.out.println("in tab pane " + user);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/left_side/TabPaneNotifications.fxml"));
         Pane root = (Pane) loader.load();
-        TabPaneNotifications_Controller notificationsController = loader.getController();
+        notificationsController = loader.getController();
         notificationsController.setUser(user,homeController);
         notificationsController.setRequestListView();
         notificationsController.setChatListView();
+        notificationsController.setContactListView();
         borderPane.setLeft(root);
     }
 
-    public void setUserIcon(Users user) throws Exception {
+    public void setUserIcon(Users user,HomeController homeController) throws Exception {
         System.out.println("in user pane " + user);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/left_side/UserIcon.fxml"));
         Pane root = (Pane) loader.load();
         UserIconController userIconController = loader.getController();
-        userIconController.setUser(user);
+        System.out.println("home controller inside left side"+homeController);
+        userIconController.setUser(user,homeController);
+
+        //userIconController.setHomeController(homeController);
         borderPane.setTop(root);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+    }
+
+    public void recieveContactRequest(Users user) {
+         notificationsController.recieveContactRequest(user);
     }
 }

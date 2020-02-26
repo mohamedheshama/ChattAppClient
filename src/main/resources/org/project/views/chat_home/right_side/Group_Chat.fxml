@@ -7,11 +7,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox fx:id="contactPane" alignment="TOP_CENTER" prefHeight="559.0" prefWidth="746.0" style="-fx-background-color: aliceblue;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.controller.chat_home.right_side.NewContactController">
+<VBox fx:id="contactPane" alignment="TOP_CENTER" prefHeight="559.0" prefWidth="746.0" style="-fx-background-color: aliceblue;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.controller.chat_home.right_side.AddGroupChat">
    <children>
       <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="63.0" prefWidth="600.0" style="-fx-background-color: #eee;">
          <children>
-            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="54.0" prefWidth="244.0" text="Add new contact ">
+            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="83.0" prefWidth="244.0" text="Add Participants">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
@@ -27,7 +27,7 @@
       </HBox>
       <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="72.0" prefWidth="746.0" style="-fx-background-color: white;">
          <children>
-            <JFXButton mnemonicParsing="false" onAction="#handleSaveBtn" prefHeight="35.0" prefWidth="82.0" ripplerFill="#a1e9ff" style="-fx-background-color: #0099cc; -fx-background-radius: 10;" text="Save" textFill="WHITE">
+            <JFXButton fx:id="startbtn" mnemonicParsing="false" onAction="#handleStartBtn" prefHeight="35.0" prefWidth="82.0" ripplerFill="#a1e9ff" style="-fx-background-color: #0099cc; -fx-background-radius: 10;" text="Start" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -90,13 +90,7 @@
          <content>
             <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="329.0" prefWidth="745.0" style="-fx-background-color: #ffffff; -fx-border-color: #0099cc;">
                <children>
-                  <ListView id="listview" fx:id="contactList" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="346.0" prefWidth="743.0" style="-fx-background-color: #a1e9ff;" VBox.vgrow="NEVER">
-
-
-                     <padding>
-                        <Insets left="20.0" right="20.0" />
-                     </padding>
-                  </ListView>
+                  <ListView fx:id="GroupContactList" prefHeight="335.0" prefWidth="742.0" />
                </children>
             </VBox>
          </content>

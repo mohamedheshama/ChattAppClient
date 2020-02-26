@@ -4,6 +4,7 @@ package org.project.controller.chat_home.left_side;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
@@ -13,34 +14,37 @@ import org.project.model.ChatRoom;
 import org.project.model.dao.users.UserStatus;
 import org.project.model.dao.users.Users;
 
-import java.io.IOException;
+import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 
-public class ChatListView {
+public class ChatListView implements Initializable {
     @FXML
     public ListView chatsListView;
 
-    private ObservableList<Users> chatsObservableList;
-    Users user;
-    ChatRoom chatRoom;
-    HomeController homeController;
 
-    public void displayUpdatedFriendStatus(ArrayList<Users> friends) {
-        chatsObservableList = FXCollections.observableArrayList(friends);
-    }
+
+    public ObservableList<ChatRoom> chatsObservableList;
+    Users user;
+    //ArrayList<ChatRoom> chatRooms;
+    HomeController homeController;
+    ChatRoom currentChatRoom;
+
+
 
     public void setChatsListView(Users user, HomeController homeController) {
-        System.out.println("from setChatListView" + user);
+        System.out.println("from setChatListView user chat rooms are" + user.getChatRooms());
         this.user = user;
         this.homeController = homeController;
-        chatsObservableList = FXCollections.observableArrayList(user.getFriends());
+        chatsObservableList = FXCollections.observableArrayList(user.getChatRooms().stream().filter(chatRoom -> chatRoom.getUsers().size()>2).collect(Collectors.toList()));
         chatsListView.setItems(chatsObservableList);
         chatsListView.setCellFactory(chatListView -> new ChatsListViewCell());
-        chatsListView.setCellFactory(new Callback<javafx.scene.control.ListView<Users>, ListCell<Users>>() {
+        chatsListView.setCellFactory(new Callback<javafx.scene.control.ListView<ChatRoom>, ListCell<ChatRoom>>() {
             @Override
-            public ListCell<Users> call(javafx.scene.control.ListView<Users> UserListView) {
+            public ListCell<ChatRoom> call(javafx.scene.control.ListView<ChatRoom> UserListView) {
                 return new ChatsListViewCell();
             }
         });
@@ -63,15 +67,25 @@ public class ChatListView {
         }
     }*/
 
-    public void handle(MouseEvent event) throws IOException {
-        System.out.println("user ----> " + user.getChatRooms());
-        Users friendUser = (Users) chatsListView.getSelectionModel().getSelectedItem();
-        ArrayList<Users> chatroomUsers = new ArrayList<>();
-        chatroomUsers.add(friendUser);
-        System.out.println(friendUser.getChatRooms() + " this is th chat rooms in my fried");
-        chatroomUsers.add(this.user);
-        ChatRoom chatRoom = requestChatRoom(chatroomUsers);
-        homeController.openChatRoom(chatRoom);
+    public void handle(MouseEvent event) throws Exception {
+        ChatRoom groupChatRoom = (ChatRoom) chatsListView.getSelectionModel().getSelectedItem();
+
+        currentChatRoom = requestChatRoom(groupChatRoom.getUsers());
+        boolean isChatRoomAdded = addChatRoom(currentChatRoom);
+        homeController.openChatRoom(currentChatRoom , isChatRoomAdded);
+    }
+
+    private boolean addChatRoom(ChatRoom chatRoom) {
+        if(!isChatRoomExist(chatRoom)){
+            //chatRooms.add(chatRoom);
+            homeController.getChatRooms().add(chatRoom);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isChatRoomExist(ChatRoom chatRoom) {
+        return homeController.getChatRooms().stream().map(ChatRoom::getChatRoomId).filter(s -> s.equals(chatRoom.getChatRoomId())).count() > 0;
     }
 
     private ChatRoom requestChatRoom(ArrayList<Users> chatroomUsers) {
@@ -99,6 +113,11 @@ public class ChatListView {
 
 
 
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        /*chatRooms = new ArrayList<>();*/
     }
 
     // TODO ====> IMAN // accept and decline Friend request (HIGH PERIORITY)

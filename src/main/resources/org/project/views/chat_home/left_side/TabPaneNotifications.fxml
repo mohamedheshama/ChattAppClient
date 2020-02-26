@@ -20,6 +20,10 @@
                         <fx:include fx:id="requestsTab" source="RequestsListView.fxml"/>
                     </AnchorPane>
                 </Tab>
+                <Tab fx:id="tab3" style="-fx-background-color: lightblue;">
+                    <AnchorPane>
+                    </AnchorPane>
+                </Tab>
             </tabs>
         </JFXTabPane>
     </children>

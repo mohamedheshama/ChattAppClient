@@ -44,6 +44,7 @@
     -fx-pref-height: 50;
     -fx-alignment: Right;
     -fx-padding: 0 0 0 0;
+
 }
 
 .jfx-tab-pane {
@@ -59,6 +60,7 @@
     -fx-text-fill: white;
     -fx-font-size: 15px;
     -fx-font-family: "Arial Rounded MT Bold";
+
     /* all the same except this newly added one */
 }
 

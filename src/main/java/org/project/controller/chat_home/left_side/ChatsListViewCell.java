@@ -1,28 +1,28 @@
 package org.project.controller.chat_home.left_side;
 
-;
-
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
-import org.project.model.dao.users.UserStatus;
-import org.project.model.dao.users.Users;
+import org.project.model.ChatRoom;
 
 import java.io.IOException;
 
-public class ChatsListViewCell extends ListCell<Users> {
+;
+
+public class ChatsListViewCell extends ListCell<ChatRoom> {
     public Circle picture;
     public Label status;
     public AnchorPane pane;
     public Label name;
 
-    @Override
-    protected void updateItem(Users user, boolean empty) {
-        super.updateItem(user, empty);
 
-        if (empty || user == null) {
+    @Override
+    protected void updateItem(ChatRoom chatRoom, boolean empty) {
+        super.updateItem(chatRoom, empty);
+
+        if (empty || chatRoom == null) {
 
             setText(null);
             setGraphic(null);
@@ -35,16 +35,13 @@ public class ChatsListViewCell extends ListCell<Users> {
 
                 try {
                     mLLoader.load();
+
+                    name.setText(chatRoom.getChatRoomId());
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                name.setText(String.valueOf(user.getName()));
-                if (user.getStatus() == UserStatus.Available)
-                    status.setStyle("-fx-background-color: green; -fx-background-radius: 100%;");
-                else if (user.getStatus() == UserStatus.Busy)
-                    status.setStyle("-fx-background-color: Orange; -fx-background-radius: 100%;");
-                else if (user.getStatus() == UserStatus.Away)
-                    status.setStyle("-fx-background-color: Yellow; -fx-background-radius: 100%;");
+
 
                 setText(null);
                 setGraphic(pane);
@@ -53,4 +50,5 @@ public class ChatsListViewCell extends ListCell<Users> {
             }
         }
     }
+
 }

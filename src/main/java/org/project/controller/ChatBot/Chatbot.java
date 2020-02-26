@@ -51,9 +51,6 @@ Chatbot chatbot=new Chatbot();
         String s=scanner.nextLine();
         sendResponse(s);
 
-
-
-
     }
 
 

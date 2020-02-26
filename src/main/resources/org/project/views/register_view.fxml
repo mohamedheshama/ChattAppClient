@@ -1,132 +1,101 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.*?>
-<?import javafx.geometry.Insets?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.Cursor?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" id="testID" fx:id="background" maxHeight="608.0" maxWidth="600.0"
-            minHeight="400.0"
-            minWidth="200.0" prefHeight="608.0" prefWidth="590.0"
-            style="-fx-background-color: #000; -fx-background-size: cover,auto; -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0);"
-            xmlns="http://javafx.com/javafx/10.0.2-internal"
-            fx:controller="org.project.controller.register.RegisterController">
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="testID" fx:id="background" maxHeight="608.0" maxWidth="600.0" minHeight="400.0" minWidth="200.0" prefHeight="608.0" prefWidth="590.0" style="-fx-background-color: #000; -fx-background-image: url(&quot;src/main/resources/org/project/images/background.jpeg&quot;).toExternalForm(); -fx-background-size: cover,auto; -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0);" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.controller.register.RegisterController">
     <children>
-        <AnchorPane layoutX="145.0" layoutY="87.0" maxHeight="600.0" maxWidth="600.0" minHeight="400.0" minWidth="200.0"
-                    opacity="0.96" prefHeight="475.0" prefWidth="200.0"
-                    style="-fx-background-color: #fff; -fx-background-radius: 20px; -fx-border-radius: 20px; -fx-border-width: 1px; -fx-border-color: #999; -fx-background-color: rgba(0,0,0,0.15);"
-                    AnchorPane.bottomAnchor="53.80000000000001" AnchorPane.leftAnchor="145.0"
-                    AnchorPane.rightAnchor="102.0" AnchorPane.topAnchor="87.0">
+        <AnchorPane layoutX="145.0" layoutY="87.0" maxHeight="600.0" maxWidth="600.0" minHeight="400.0" minWidth="200.0" opacity="0.96" prefHeight="475.0" prefWidth="200.0" style="-fx-background-color: #fff; -fx-background-radius: 20px; -fx-border-radius: 20px; -fx-border-width: 1px; -fx-border-color: #999; -fx-background-color: rgba(0,0,0,0.15);" AnchorPane.bottomAnchor="53.80000000000001" AnchorPane.leftAnchor="145.0" AnchorPane.rightAnchor="102.0" AnchorPane.topAnchor="87.0">
             <children>
-                <JFXTextField fx:id="phone_num" focusColor="#fafbfd" layoutX="53.0" layoutY="119.0"
-                              onKeyTyped="#userPhoneNumber" prefHeight="26.0" prefWidth="274.0"
-                              promptText="Phone number" style="-fx-text-fill: #fff;" unFocusColor="#675858"/>
-                <JFXTextField editable="false" focusColor="WHITE" layoutX="14.0" layoutY="118.0" prefHeight="26.0"
-                              prefWidth="33.0" style="-fx-color: #fff;" text="20 +"/>
-                <Label layoutX="14.0" layoutY="71.0" prefHeight="22.0" prefWidth="191.0" text="Create account"
-                       textFill="WHITE">
+                <JFXTextField fx:id="phone_num" focusColor="#fafbfd" layoutX="53.0" layoutY="119.0" onKeyTyped="#userPhoneNumber" prefHeight="26.0" prefWidth="274.0" promptText="Phone number" style="-fx-text-fill: #fff;" unFocusColor="#675858" />
+                <JFXTextField editable="false" focusColor="WHITE" layoutX="14.0" layoutY="118.0" prefHeight="26.0" prefWidth="33.0" style="-fx-color: #fff;" text="20 +" />
+                <Label layoutX="14.0" layoutY="71.0" prefHeight="22.0" prefWidth="191.0" text="Create account" textFill="WHITE">
                     <font>
-                        <Font name="Book Antiqua Bold Italic" size="24.0"/>
+                        <Font name="Book Antiqua Bold Italic" size="24.0" />
                     </font>
                 </Label>
-                <ImageView fitHeight="78.0" fitWidth="91.0" layoutX="126.0" layoutY="6.0" opacity="0.98"
-                           pickOnBounds="true" preserveRatio="true"
-                           style="-fx-border-radius: 20px; -fx-border-width: 5px;">
+                <ImageView fitHeight="78.0" fitWidth="91.0" layoutX="126.0" layoutY="6.0" opacity="0.98" pickOnBounds="true" preserveRatio="true" style="-fx-border-radius: 20px; -fx-border-width: 5px;">
                     <image>
-                        <Image url="@../images/logo.png"/>
+                        <Image url="@../images/logo.png" />
                     </image>
                 </ImageView>
                 <HBox layoutX="12.0" layoutY="166.0" prefHeight="26.0" prefWidth="314.0" style="-fx-text-fill: #fff;">
                     <children>
                         <ImageView fitHeight="26.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../images/person.png"/>
+                                <Image url="@../images/person.png" />
                             </image>
                             <HBox.margin>
-                                <Insets top="8.0"/>
+                                <Insets top="8.0" />
                             </HBox.margin>
                         </ImageView>
-                        <JFXTextField fx:id="username" focusColor="#f9fafd" onKeyTyped="#validateUserName"
-                                      prefHeight="8.0" prefWidth="295.0" promptText="User name"
-                                      style="-fx-text-fill: #fff;" unFocusColor="#675858"/>
+                        <JFXTextField fx:id="username" focusColor="#f9fafd" onKeyTyped="#validateUserName" prefHeight="8.0" prefWidth="295.0" promptText="User name" style="-fx-text-fill: #fff;" unFocusColor="#675858" />
                     </children>
                 </HBox>
                 <HBox layoutX="12.0" layoutY="211.0" prefHeight="31.0" prefWidth="314.0">
                     <children>
                         <ImageView fitHeight="26.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../images/email.png"/>
+                                <Image url="@../images/email.png" />
                             </image>
                             <HBox.margin>
-                                <Insets top="11.0"/>
+                                <Insets top="11.0" />
                             </HBox.margin>
                         </ImageView>
-                        <JFXTextField fx:id="userEmail" focusColor="WHITE" onKeyTyped="#validateEmail" prefHeight="11.0"
-                                      prefWidth="295.0" promptText="E-mail" style="-fx-text-fill: #fff;"
-                                      unFocusColor="#675858"/>
+                        <JFXTextField fx:id="userEmail" focusColor="WHITE" onKeyTyped="#validateEmail" prefHeight="11.0" prefWidth="295.0" promptText="E-mail" style="-fx-text-fill: #fff;" unFocusColor="#675858" />
                     </children>
                 </HBox>
                 <HBox layoutX="12.0" layoutY="253.0" prefHeight="26.0" prefWidth="314.0">
                     <children>
                         <ImageView fitHeight="26.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../images/password.png"/>
+                                <Image url="@../images/password.png" />
                             </image>
                             <HBox.margin>
-                                <Insets top="8.0"/>
+                                <Insets top="8.0" />
                             </HBox.margin>
                         </ImageView>
-                        <JFXPasswordField fx:id="userPassword" focusColor="WHITE"
-                                         onKeyTyped="#validatePasswordMatch" prefHeight="26.0" prefWidth="299.0"
-                                          promptText="Password" style="-fx-text-fill: #fff;" unFocusColor="#675858"/>
+                        <JFXPasswordField fx:id="userPassword" focusColor="WHITE" onKeyTyped="#validatePasswordMatch" prefHeight="26.0" prefWidth="299.0" promptText="Password" style="-fx-text-fill: #fff;" unFocusColor="#675858" />
                     </children>
                 </HBox>
                 <HBox layoutX="14.0" layoutY="292.0" prefHeight="26.0" prefWidth="314.0">
                     <children>
                         <ImageView fitHeight="26.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../images/password.png"/>
+                                <Image url="@../images/password.png" />
                             </image>
                             <HBox.margin>
-                                <Insets top="8.0"/>
+                                <Insets top="8.0" />
                             </HBox.margin>
                         </ImageView>
-                        <JFXPasswordField fx:id="userPasswordConfirm" focusColor="WHITE"
-                                          onKeyTyped="#validatePasswordMatch" prefHeight="26.0" prefWidth="299.0"
-                                          promptText="Confirm Password" style="-fx-text-fill: #fff;"
-                                          unFocusColor="#675858"/>
+                        <JFXPasswordField fx:id="userPasswordConfirm" focusColor="WHITE" onKeyTyped="#validatePasswordMatch" prefHeight="26.0" prefWidth="299.0" promptText="Confirm Password" style="-fx-text-fill: #fff;" unFocusColor="#675858" />
                     </children>
                 </HBox>
-
-                <ChoiceBox fx:id="choicebox" layoutX="50.0" layoutY="344.0" prefHeight="28.0" prefWidth="71.0" style="-fx-background-color: llaliceblue;" />
-
-                <JFXCheckBox layoutX="15.0" layoutY="380.0" mnemonicParsing="false" text="i accept the "/>
-                <Label layoutX="101.0" layoutY="380.0" prefHeight="18.0" prefWidth="172.0"
-                       text=" Terms of Use &amp; Privacy Policy " textFill="#1eac50"/>
-                <JFXButton fx:id="registBtn" buttonType="RAISED" layoutX="47.0" layoutY="420.0" mnemonicParsing="false"
-                           onMouseClicked="#register" prefHeight="26.0" prefWidth="221.0" ripplerFill="#0099cc"
-                           style="-fx-background-color: #0066ff;" text="Register Now " textFill="WHITE"/>
-                <Label fx:id="phoneNumError" layoutX="53.0" layoutY="146.0" textFill="#d70909"/>
-                <Label fx:id="nameError" layoutX="33.0" layoutY="194.0" textFill="#c70e0e"/>
-                <Label fx:id="emailError" layoutX="31.0" layoutY="234.0" textFill="#d50e0e"/>
-                <Label fx:id="passError" layoutX="33.0" layoutY="284.0" textFill="#d70d0d"/>
+                <JFXCheckBox layoutX="15.0" layoutY="344.0" mnemonicParsing="false" text="i accept the " />
+                <Label layoutX="101.0" layoutY="345.0" prefHeight="18.0" prefWidth="172.0" text=" Terms of Use &amp; Privacy Policy " textFill="#1eac50" />
+                <JFXButton fx:id="registBtn" buttonType="RAISED" layoutX="47.0" layoutY="386.0" mnemonicParsing="false" onMouseClicked="#register" prefHeight="26.0" prefWidth="221.0" ripplerFill="#0099cc" style="-fx-background-color: #0066ff;" text="Register Now " textFill="WHITE" />
+                <Label fx:id="phoneNumError" layoutX="53.0" layoutY="146.0" textFill="#d70909" />
+                <Label fx:id="nameError" layoutX="33.0" layoutY="194.0" textFill="#c70e0e" />
+                <Label fx:id="emailError" layoutX="31.0" layoutY="234.0" textFill="#d50e0e" />
+                <Label fx:id="passError" layoutX="33.0" layoutY="284.0" textFill="#d70d0d" />
             </children>
             <cursor>
-                <Cursor fx:constant="H_RESIZE"/>
+                <Cursor fx:constant="H_RESIZE" />
             </cursor>
         </AnchorPane>
-        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="198.0" layoutY="14.0" prefHeight="58.0"
-               prefWidth="237.0" text="Speak" textAlignment="CENTER" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="198.0" layoutY="14.0" prefHeight="58.0" prefWidth="237.0" text="Speak" textAlignment="CENTER" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
             <font>
-                <Font name="Berlin Sans FB Demi Bold" size="48.0"/>
+                <Font name="Berlin Sans FB Demi Bold" size="48.0" />
             </font>
         </Label>
-        <Label alignment="CENTER" layoutX="155.0" layoutY="573.0" prefHeight="18.0" prefWidth="324.0"
-               text="\@2020 Speak Chat  . All rights reserved,Design by ITI" textFill="WHITE">
+        <Label alignment="CENTER" layoutX="155.0" layoutY="573.0" prefHeight="18.0" prefWidth="324.0" text="\@2020 Speak Chat  . All rights reserved,Design by ITI" textFill="WHITE">
             <font>
-                <Font size="11.0"/>
+                <Font size="11.0" />
             </font>
         </Label>
     </children>
