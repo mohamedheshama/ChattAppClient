@@ -51,6 +51,7 @@ import java.net.URL;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -99,7 +100,6 @@ public class MainChatController implements Initializable {
     Image microphoneActiveImage = new Image(getClass().getResource("/org/project/images/birthday.png").toExternalForm());
     Image microphoneInactiveImage = new Image(getClass().getResource("/org/project/images/birthday.png").toExternalForm());
 
-
     public void setHomeController(HomeController homeController) {
         this.homeController = homeController;
     }
@@ -118,6 +118,8 @@ public class MainChatController implements Initializable {
     public ImageView getAttachFileImgBtn() {
         return attachFileImgBtn;
     }
+
+    File file ;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -360,10 +362,8 @@ public class MainChatController implements Initializable {
             vb.getChildren().add(name);
             if(msg.getType().equals(MessageType.NOTIFICATION)){
                 System.out.println("tesssssssssssssssssst");
-
                 loadFile.setImage(new Image(getClass().getResource("/org/project/images/download.png").toExternalForm()));
                 fileBtnLoad.setGraphic(loadFile);
-
                 vb.getChildren().add(fileBtnLoad);
             }
             vb.setSpacing(2);
@@ -375,8 +375,26 @@ public class MainChatController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        fileBtnLoad.setOnMouseClicked(mouseEvent -> {
+            try {
+                Users users = null;
+                for (Users user : chatRoom.getUsers()) {
+                    if (user.getId() != mUser.getId()){
+                        users = user;
+                        break;
+                    }
+                }
 
+                fileSendAccepted(users);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        });
         return hb;
+    }
+
+    private void fileSendAccepted(Users users) throws RemoteException {
+        homeController.fileSendAccepted(users);
     }
 
 
@@ -384,13 +402,13 @@ public class MainChatController implements Initializable {
 
 
     public void sendFile() throws RemoteException,IOException, NotBoundException {
-
+        System.out.println("this user is : " + mUser.getName());
         FileChooser SaveFileChooser = new FileChooser();
-        File file = SaveFileChooser.showOpenDialog(getStage());
+        file = SaveFileChooser.showOpenDialog(getStage());
         if(file!=null) {
             String path = file.getAbsolutePath();
             Message newMsg = new Message();
-            msgTxtField.setText(file.getName());
+            msgTxtField.setText(file.getName()+ new Date());
             newMsg.setMsg(msgTxtField.getText());
             newMsg.setType(MessageType.NOTIFICATION);
             newMsg.setFontFamily(fontFamily);
@@ -401,35 +419,8 @@ public class MainChatController implements Initializable {
             newMsg.setFontWeight(getFontWeight().name());
             homeController.sendMsg(newMsg, chatRoom);
             msgTxtField.setText("");
-            fileBtnLoad.setOnMouseClicked(mouseEvent -> {
-                fileSendAccepted(file);
-            });
         }
     }
-
-    public void fileSendAccepted(File file){
-        new Thread( new RMIFileTransfer(file , mUser.getId() , chatRoom , mainDeligator)).start();
-    }
-    private void displayNotifyForFile() {
-    AtomicBoolean check=new AtomicBoolean();
-
-         Thread thread = new Thread(()->{
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Confirmation Received File");
-            alert.setHeaderText("Look,There is a File Coming");
-            alert.setContentText("Are you ok with this?");
-            Optional<ButtonType> result = alert.showAndWait();
-
-
-        });
-       Platform.runLater(thread);
-
-
-
-
-    }
-
-
 
 
     // END HEND
@@ -505,5 +496,13 @@ public class MainChatController implements Initializable {
         createMessage.setFontWeight(getFontWeight().name());
         homeController.sendMsg(createMessage, chatRoom);
         msgTxtField.setText("");
+    }
+
+    public void sendFileToReceiver() {
+        if (file != null) {
+            Thread thread = new Thread(new RMIFileTransfer(file, mUser.getId(), chatRoom, mainDeligator));
+            thread.setDaemon(true);
+            thread.start();
+        }
     }
 }

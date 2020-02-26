@@ -390,4 +390,12 @@ public class MainDeligator implements Serializable {
     public void notifyUserLoggedOut(Users user) {
         homeController.notifyUserLoggedOut(user);
     }
+
+    public void fileSendAccepted(Users users) throws RemoteException {
+        serverConnectionController.getServicesInterface().fileSendAccepted(users);
+    }
+
+    public void sendFileToReceiver() {
+        homeController.sendFileToReceiver();
+    }
 }
