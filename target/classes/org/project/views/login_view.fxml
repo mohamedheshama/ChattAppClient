@@ -10,8 +10,8 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="596.0" prefWidth="593.0"
-            style="-fx-background-color: #09c; -fx-background-size: cover,auto; -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0); -fx-background-image: url(https://www.thinkwithgoogle.com/feature/travel-customer-journey-in-2020/public/img/hero1.65a76bc3.jpg);"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="596.0" prefWidth="593.0" fx:id="mainPane"
+            style="-fx-background-color: #09c; -fx-background-size: cover,auto; -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0);"
             xmlns="http://javafx.com/javafx/10.0.2-internal"
             fx:controller="org.project.controller.login.LoginController">
    <children>
@@ -72,8 +72,8 @@
                   <Font size="19.0"/>
                </font>
             </JFXButton>
-            <Label fx:id="new_user_register_label" layoutX="215.0" layoutY="402.0" text="New User Register"
-                   underline="true"/>
+            <Label fx:id="new_user_register_label" layoutX="215.0" layoutY="402.0" onMouseClicked="#registerNewUser"
+                   text="New User Register" underline="true"/>
             <Label fx:id="error_msg_password_label" layoutX="40.0" layoutY="229.0" prefHeight="17.0" prefWidth="196.0"
                    text="Wrong password ! please try again.." textFill="#d72828" visible="false"/>
             <Label fx:id="error_msg_phone_label" layoutX="52.0" layoutY="178.0" prefHeight="17.0" prefWidth="132.0"

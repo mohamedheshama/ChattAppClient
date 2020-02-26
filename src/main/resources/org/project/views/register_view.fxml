@@ -99,10 +99,13 @@
                                           unFocusColor="#675858"/>
                     </children>
                 </HBox>
-                <JFXCheckBox layoutX="15.0" layoutY="344.0" mnemonicParsing="false" text="i accept the "/>
-                <Label layoutX="101.0" layoutY="345.0" prefHeight="18.0" prefWidth="172.0"
+
+                <ChoiceBox fx:id="choicebox" layoutX="50.0" layoutY="344.0" prefHeight="28.0" prefWidth="71.0" style="-fx-background-color: llaliceblue;" />
+
+                <JFXCheckBox layoutX="15.0" layoutY="380.0" mnemonicParsing="false" text="i accept the "/>
+                <Label layoutX="101.0" layoutY="380.0" prefHeight="18.0" prefWidth="172.0"
                        text=" Terms of Use &amp; Privacy Policy " textFill="#1eac50"/>
-                <JFXButton fx:id="registBtn" buttonType="RAISED" layoutX="47.0" layoutY="386.0" mnemonicParsing="false"
+                <JFXButton fx:id="registBtn" buttonType="RAISED" layoutX="47.0" layoutY="420.0" mnemonicParsing="false"
                            onMouseClicked="#register" prefHeight="26.0" prefWidth="221.0" ripplerFill="#0099cc"
                            style="-fx-background-color: #0066ff;" text="Register Now " textFill="WHITE"/>
                 <Label fx:id="phoneNumError" layoutX="53.0" layoutY="146.0" textFill="#d70909"/>

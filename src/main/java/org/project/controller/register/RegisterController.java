@@ -3,8 +3,13 @@ package org.project.controller.register;
 
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.paint.Color;
@@ -19,7 +24,11 @@ import java.net.URL;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class RegisterController implements Initializable {
 
@@ -47,6 +56,10 @@ public class RegisterController implements Initializable {
     private JFXPasswordField userPasswordConfirm;
     @FXML
     private Label passError;
+    @FXML
+    private ChoiceBox choicebox;
+
+
     Users newUser;
     MainDeligator mainDeligator;
 
@@ -60,6 +73,36 @@ public class RegisterController implements Initializable {
         } catch (NotBoundException e) {
             e.printStackTrace();
         }
+
+        List<String> collect = Arrays.asList(Locale.getAvailableLocales()).stream().map(Locale::getDisplayCountry).filter(s -> !s.isEmpty()).sorted().collect(Collectors.toList());
+        ObservableList<String> AllCountries = FXCollections.observableArrayList(collect);
+        System.out.println(collect);
+        choicebox.setItems(AllCountries);
+        choicebox.setValue("Egypt");
+
+        // ChoiceBox c = new ChoiceBox(FXCollections.observableArrayList(st));
+
+        // add a listener
+        choicebox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+
+            // if the item of the list is changed
+            public void changed(ObservableValue ov, Number value, Number new_value) {
+
+                // set the text for the label to the selected item
+                choicebox.setValue(new_value.intValue());
+                System.out.println(new_value.intValue());
+                System.out.println("choice"+choicebox.getSelectionModel().getSelectedItem());
+
+                //l1.setText(st[new_value.intValue()] + " selected");
+            }
+        });
+
+        System.out.println("choice"+choicebox.getSelectionModel().getSelectedItem());
+
+
+
+
+
     }
 
 
@@ -152,6 +195,8 @@ public class RegisterController implements Initializable {
             newUser.setPhoneNumber(phone_num.getText());
             newUser.setGender(Gender.Female);
             newUser.setStatus(UserStatus.Available);
+            System.out.println("country"+(choicebox.getSelectionModel().getSelectedItem().toString()));
+            newUser.setCountry(choicebox.getSelectionModel().getSelectedItem().toString());
             mainDeligator.registerUser(newUser);
 
 

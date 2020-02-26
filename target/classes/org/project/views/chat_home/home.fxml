@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml"
+<?import javafx.scene.layout.BorderPane?>
+<BorderPane xmlns:fx="http://javafx.com/fxml"
             xmlns="http://javafx.com/javafx"
             fx:controller="org.project.controller.chat_home.HomeController"
-            prefHeight="400.0" prefWidth="600.0">
-
-</AnchorPane>
+            fx:id="borderBaneStage">
+</BorderPane>

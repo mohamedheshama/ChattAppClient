@@ -3,8 +3,13 @@ package org.project.controller.update_user;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import org.project.App;
@@ -19,7 +24,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class UpdateController implements Initializable, UpdateInterface {
     ServicesInterface obj;
@@ -66,7 +75,8 @@ public class UpdateController implements Initializable, UpdateInterface {
     private JFXPasswordField upd_userPasswordConfirm;
     @FXML
     private Label upd_passError;
-
+    @FXML
+    private ChoiceBox choicebox;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         logincontroller = new LoginController();
@@ -93,6 +103,43 @@ public class UpdateController implements Initializable, UpdateInterface {
         upd_username.setText(existUser.getName());
         upd_userPassword.setText(existUser.getPassword());
         upd_userPasswordConfirm.setText(existUser.getPassword());
+        choicebox.setValue(existUser.getCountry());
+
+
+
+        List<String> collect = Arrays.asList(Locale.getAvailableLocales()).stream().map(Locale::getDisplayCountry).filter(s -> !s.isEmpty()).sorted().collect(Collectors.toList());
+        ObservableList<String> AllCountries = FXCollections.observableArrayList(collect);
+        System.out.println(collect);
+        choicebox.setItems(AllCountries);
+        //choicebox.setValue("Egypt");
+
+        // ChoiceBox c = new ChoiceBox(FXCollections.observableArrayList(st));
+
+        // add a listener
+        choicebox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+
+            // if the item of the list is changed
+            public void changed(ObservableValue ov, Number value, Number new_value) {
+
+                // set the text for the label to the selected item
+                choicebox.setValue(new_value.intValue());
+                System.out.println(new_value.intValue());
+                System.out.println("choice"+choicebox.getSelectionModel().getSelectedItem());
+
+                //l1.setText(st[new_value.intValue()] + " selected");
+            }
+        });
+
+        System.out.println("choice"+choicebox.getSelectionModel().getSelectedItem());
+
+
+
+
+
+
+
+
+
 
 
         //upd_username.setText(newUser.getName());
@@ -159,6 +206,7 @@ public class UpdateController implements Initializable, UpdateInterface {
         existUser.setGender(Gender.Female);
         existUser.setStatus(UserStatus.Available);
         existUser.setBio(upd_bio.getText());
+        existUser.setCountry(choicebox.getSelectionModel().getSelectedItem().toString());
         if (userDataValid()) {
             System.out.println("update is done");
             mainDeligator.updateUser(existUser);

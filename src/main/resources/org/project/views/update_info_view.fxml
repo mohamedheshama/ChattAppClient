@@ -108,6 +108,9 @@
                 </JFXRadioButton>
                 <JFXRadioButton fx:id="upd_female" layoutX="214.0" layoutY="513.0" mnemonicParsing="false"
                                 selected="true" text="Female" toggleGroup="$gender"/>
+                <ChoiceBox fx:id="choicebox" layoutX="100.0" layoutY="540.0" prefHeight="28.0" prefWidth="71.0" style="-fx-background-color: llaliceblue;" />
+
+
                 <Circle fx:id="upd_image" fill="#172029" layoutX="226.0" layoutY="87.0" radius="57.0" stroke="#d2d1d1"
                         strokeType="INSIDE"/>
                 <Circle fill="#1bc54b" layoutX="274.0" layoutY="122.0" radius="8.0" stroke="#f3f5f3"
