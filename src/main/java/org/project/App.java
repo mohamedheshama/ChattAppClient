@@ -41,8 +41,6 @@ public class App extends Application {
             javax.swing.SwingUtilities.invokeLater(this::addAppToTray);
         });
         // out stage will be translucent, so give it a transparent style.
-        //stage.initStyle(StageStyle.TRANSPARENT);
-
         stage.show();
     }
 
@@ -80,14 +78,17 @@ public class App extends Application {
             java.awt.TrayIcon trayIcon = new java.awt.TrayIcon(image);
 
             // if the user double-clicks on the tray icon, show the main app stage.
-            trayIcon.addActionListener(event -> Platform.runLater(this::showStage));
+            trayIcon.addActionListener(event -> {
+                tray.remove(trayIcon);
+                Platform.runLater(this::showStage);
+            });
 
             // if the user selects the default menu item (which includes the app name),
             // show the main app stage.
             java.awt.MenuItem openItem = new java.awt.MenuItem("Open Speak");
             openItem.addActionListener(event -> {
-                Platform.runLater(this::showStage);
                 tray.remove(trayIcon);
+                Platform.runLater(this::showStage);
             });
 
             // the convention for tray icons seems to be to set the default icon for opening
@@ -103,6 +104,7 @@ public class App extends Application {
             exitItem.addActionListener(event -> {
                 Platform.exit();
                 tray.remove(trayIcon);
+                System.exit(0);
             });
 
             // setup the popup menu for the application.
