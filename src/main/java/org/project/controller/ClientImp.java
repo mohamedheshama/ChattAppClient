@@ -97,6 +97,21 @@ public class ClientImp extends UnicastRemoteObject implements ClientInterface {
     }
 
     @Override
+    public void recieveServerDown() throws RemoteException {
+        mainDeligator.recieveServerDown();
+    }
+
+    @Override
+    public void recieveServerUp() throws RemoteException {
+        mainDeligator.recieveServerUp();
+    }
+
+    @Override
+    public void isAlive() throws RemoteException {
+
+    }
+
+    @Override
     public void recieveUpdatedNotifications(Users user) throws RemoteException {
         try {
             this.user.setFriends(homeController.updateFriends(user));

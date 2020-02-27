@@ -4,6 +4,7 @@ import com.healthmarketscience.rmiio.RemoteInputStream;
 import javafx.application.Platform;
 import org.project.App;
 import org.project.controller.chat_home.HomeController;
+import org.project.controller.login.LoginController;
 import org.project.controller.messages.Message;
 import org.project.model.ChatRoom;
 import org.project.model.dao.users.UserStatus;
@@ -38,6 +39,8 @@ public class MainDeligator implements Serializable {
     }
 
     ServerConnectionController serverConnectionController;
+
+
 
     public MainDeligator() throws RemoteException, NotBoundException {
         this.serverConnectionController = new ServerConnectionController("127.0.0.1", 1260);
@@ -389,5 +392,15 @@ public class MainDeligator implements Serializable {
 
     public void notifyUserLoggedOut(Users user) {
         homeController.notifyUserLoggedOut(user);
+    }
+
+
+    public void recieveServerDown() {
+        homeController.recieveServerDown();
+    }
+
+    public void recieveServerUp() {
+
+        homeController.recieveServerUp();
     }
 }

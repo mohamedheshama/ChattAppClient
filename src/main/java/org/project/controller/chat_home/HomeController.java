@@ -24,6 +24,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
+import org.project.App;
 import org.project.controller.ClientImp;
 import org.project.controller.MainDeligator;
 import org.project.controller.chat_home.left_side.LeftSideController;
@@ -45,6 +46,29 @@ import java.util.ResourceBundle;
 
 public class HomeController implements Initializable, Serializable {
 
+    public Parent getPrevScene() {
+        return prevScene;
+    }
+
+    public void setPrevScene(Parent prevScene) {
+        this.prevScene = prevScene;
+    }
+
+    Parent prevScene;
+    public void recieveServerDown() {
+        System.out.println("recieve server is down");
+        Platform.runLater(() -> {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/serverDown.fxml"));
+            try {
+                Parent root = loader.load();
+                HomeController homeController = loader.getController();
+                homeController.setPrevScene(prevScene);
+                stage.setScene(new Scene(root));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
 
     public BorderPane getBorderBaneStage() {
         return borderBaneStage;
@@ -314,7 +338,6 @@ public class HomeController implements Initializable, Serializable {
         Parent root = loader.load();
         borderBaneStage.setCenter(root);
 
-
     }
 
 
@@ -325,6 +348,7 @@ public class HomeController implements Initializable, Serializable {
     public void switchToLoginPage() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/login_view.fxml"));
         Parent root = loader.load();
+        prevScene = root;
         LoginController loginController = loader.getController();
         getStage().setScene(new Scene(root));
     }
@@ -363,4 +387,18 @@ public class HomeController implements Initializable, Serializable {
         });
         Platform.runLater(thread);
     }
+
+    public void recieveServerUp() {
+        Platform.runLater(() -> {
+            try {
+                App.setRoot("/org/project/views/login_view");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        });
+
+    }
+
+
 }

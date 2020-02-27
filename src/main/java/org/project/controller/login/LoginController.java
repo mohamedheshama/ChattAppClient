@@ -84,6 +84,7 @@ public class LoginController implements Initializable , LoginInterface {
             homeController.setMainDeligator(mainDeligator);
             homeController.setStage(getStage());
             homeController.setPhoneNumber(phonenumber_input);
+
             getStage().setScene(new Scene(root));
 
             //App.setRoot("/org/project/views/update_info_view");
@@ -97,6 +98,7 @@ public class LoginController implements Initializable , LoginInterface {
         }
 
     }
+
 
     @Override
     public Users getUserData(String phoneNumber) {
