@@ -1,25 +1,81 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Config>
     <State id="0">
-        <message>Hello, My name is MajBot, what is your name?</message>
-        <keywords>       
-            <keyword target="16" variable="name" points="2">.*name is ([a-zA-z]+).*</keyword>
-            <keyword target="16" variable="name">([a-zA-Z ]+)</keyword>
-        </keywords>
+        <message>Hello, My name is ChaBot, what is your name?</message>
+              
+	
+    <keyword points="2" target="16" variable="name">.*name is ([a-zA-z]+).*</keyword>
+			
+ 
+    <keyword points="2" target="16" variable="name">([a-zA-Z ]+)</keyword>
+			 <keyword points="1" target="900">Hi,Hello,Cool</keyword>
+			<keyword points="1" target="900">my</keyword>
+           
+				
+				  
+				 
+
+        
     </State>
+
+
+ <State id="900">
+        <message>Hi</message>
+        <message>fine Hellow</message>
+        <message>Cool</message>
+        <message>good,what's up</message>
+</State>
+
+
+<State id="901">
+ <message>i'm good trained by mohamed</message>
+ </State>
+
+
+
+
 
     <State id="1">
         <message>What do you want to talk about?</message>
         <message>What else?</message>
         <message>Tell me more...</message>
         <message>What is it that you really want to know? </message>
-        <keyword className="Weather" arg="today">weather</keyword>
-        <keyword className="Weather" arg="tomorrow">tomorrow weather</keyword>
-        <keyword className="Weather" arg="dayaftertomorrow">day after tomorrow</keyword>
+        <keyword points="1" target="1053" variable="subject">noa</keyword>
+   
+	 <keyword points="1" target="1075" variable="subject">space</keyword>
+    <keyword points="1" target="1073" variable="subject">dogs</keyword>
+    <keyword points="1" target="1071" variable="subject">sdaf</keyword>
+    <keyword points="1" target="1069" variable="subject">uyasgdfuiyasgdbf</keyword>
+    <keyword points="1" target="1062" variable="subject">asd</keyword>
+    <keyword points="1" target="1061" variable="subject">asdg</keyword>
+    <keyword points="1" target="1060" variable="subject">sdfa</keyword>
+    <keyword points="1" target="1059" variable="subject">asf</keyword>
+    <keyword points="1" target="1058" variable="subject">asdf</keyword>
+    <keyword points="1" target="1057" variable="subject">mohamed</keyword>
+    <keyword points="1" target="1055" variable="subject">home</keyword>
+    <keyword points="1" target="1052" variable="subject">ali</keyword>
+    <keyword points="1" target="1051" variable="subject">good</keyword>
+    <keyword points="1" target="1048" variable="subject">father</keyword>
+    <keyword points="1" target="901">my</keyword>
+				<keyword points="1" target="900">my</keyword>
+
+	 <keyword points="1" target="900">Hi,Hello,Cool</keyword>
+	
+	
+	
+    <keyword arg="today" className="Weather">weather</keyword>
+        <keyword arg="tomorrow" className="Weather">tomorrow weather</keyword>
+        <keyword arg="dayaftertomorrow" className="Weather">day after tomorrow</keyword>
         <keyword target="15" variable="status">.*I am ([a-zA-Z]+).*</keyword>
         <keyword target="16" variable="name">.*my name is ([a-zA-z]+).*</keyword>
-        <keyword variable="subject" target="27">([a-zA-z]+)</keyword>
-    </State>
+        
+		
+		
+ 
+ 		<keyword target="27" variable="subject">([a-zA-z]+)</keyword>
+
+  
+  </State>
 
     <State id="11">
         <message>That's great, why you are happy?</message>
@@ -27,7 +83,10 @@
             <keyword target="21">lottery</keyword>
             <keyword target="23">finish assignment</keyword>
             <keyword target="32">holiday</keyword>
+				 <keyword points="1" target="900">Hi,Hello,Cool</keyword>
+
             <keyword target="22">*</keyword>
+			
         </keywords>
     </State>
 
@@ -45,14 +104,24 @@
 
     <State id="15">
         <message>Why you are [status]?</message>
+			 <keyword points="1" target="900">Hi,Hello,Cool</keyword>
+
         <keyword target="26" variable="reason">.*because (.*)</keyword>
+		
+		
     </State>
 
     <State id="16">
         <message>Hello [name], how are you today?</message>
+					<keyword points="1" target="900">my</keyword>
+
         <keyword target="11">happy, very happy</keyword>
+		
         <keyword target="13">not happy,not good,not fine,sad,upset</keyword>
         <keyword target="23">fine, good, thanks</keyword>
+		<keyword points="1" target="900">hi</keyword>
+			 <keyword points="1" target="900">hi, Hello, Cool</keyword>
+
     </State>
 
     <State id="21">
@@ -93,7 +162,9 @@
 
     <State id="27">
         <message>What is [subject]?</message>
-        <keyword target="43" variable="result" learn="subject">(.*)</keyword>
+					<keyword points="1" target="900">my</keyword>
+
+        <keyword learn="subject" target="43" variable="result">(.*)</keyword>
     </State>
 
     <State id="31">
@@ -139,4 +210,52 @@
         <message>Could you explain?</message>
         <message>Sorry about that, please explain clearly</message>
     </InvalidMessages>
+
+
+
+<State id="1075">
+    <message>your friend</message>
+  </State>
+<State id="1048">
+    <message>hesham</message>
+  </State>
+<State id="1051">
+    <message>you friend</message>
+  </State>
+  <State id="1052">
+    <message>brother</message>
+  </State>
+<State id="1055">
+    <message>you place</message>
+  </State>
+<State id="1057">
+    <message>moham</message>
+  </State>
+  <State id="1058">
+    <message>sdf</message>
+  </State>
+  <State id="1059">
+    <message>fds</message>
+  </State>
+  <State id="1060">
+    <message>asdg</message>
+  </State>
+  <State id="1061">
+    <message>sadf</message>
+  </State>
+  <State id="1062">
+    <message>asdf</message>
+  </State>
+<State id="1069">
+    <message>sadfffffffffffff</message>
+  </State>
+<State id="1071">
+    <message>rlejhg</message>
+  </State>
+<State id="1073">
+    <message>your friends</message>
+  </State>
+<State id="1075">
+    <message>our home</message>
+  </State>
 </Config>

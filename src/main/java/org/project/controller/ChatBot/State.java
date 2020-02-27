@@ -26,6 +26,12 @@ public class State {
     public String getId() {
         return id;
     }
+    
+    public ArrayList getMessagess(){
+        
+        
+        return messages;
+    }
 
     // get random state messages
     public String getMessage() {
@@ -39,7 +45,7 @@ public class State {
     }
 
     // get state keywords
-    public ArrayList getKeywords() {
+    public ArrayList<Keyword> getKeywords() {
         return keywords;
     }
 }
