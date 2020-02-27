@@ -27,9 +27,9 @@ public class RMIFileTransfer extends Thread {
     }
     @Override
     public void run() {
-        InputStream inputStream = null;
+
         try {
-            inputStream = new FileInputStream(file.getAbsolutePath());
+            InputStream   inputStream = new FileInputStream(file.getAbsolutePath());
             RemoteInputStreamServer remoteFileData = new SimpleRemoteInputStream(inputStream);
             SecureRandom random = new SecureRandom();
             byte bytes[] = new byte[20];

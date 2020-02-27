@@ -338,6 +338,7 @@ public class HomeController implements Initializable, Serializable {
         Parent root = loader.load();
         borderBaneStage.setCenter(root);
 
+
     }
 
 
@@ -348,7 +349,6 @@ public class HomeController implements Initializable, Serializable {
     public void switchToLoginPage() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/login_view.fxml"));
         Parent root = loader.load();
-        prevScene = root;
         LoginController loginController = loader.getController();
         getStage().setScene(new Scene(root));
     }
@@ -401,4 +401,12 @@ public class HomeController implements Initializable, Serializable {
     }
 
 
+
+    public void fileSendAccepted(Users users) throws RemoteException {
+        mainDeligator.fileSendAccepted(users);
+    }
+
+    public void sendFileToReceiver() {
+        mainChatController.sendFileToReceiver();
+    }
 }

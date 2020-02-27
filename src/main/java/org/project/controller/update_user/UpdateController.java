@@ -16,6 +16,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
+import org.apache.commons.io.FilenameUtils;
 import org.project.App;
 import org.project.controller.MainDeligator;
 import org.project.controller.ServicesInterface;
@@ -255,7 +256,10 @@ public class UpdateController implements Initializable, UpdateInterface {
             BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image1, null);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             try {
-                javax.imageio.ImageIO.write(bufferedImage, "jpg", baos);
+               // FileNameUtils c;
+                String filenameExtension = FilenameUtils.getExtension(file.getPath());
+                System.out.println("file extension is : " + filenameExtension);
+                javax.imageio.ImageIO.write(bufferedImage, filenameExtension, baos);
             } catch (IOException e) {
                 e.printStackTrace();
             }

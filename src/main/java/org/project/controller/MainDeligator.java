@@ -403,4 +403,12 @@ public class MainDeligator implements Serializable {
 
         homeController.recieveServerUp();
     }
+
+    public void fileSendAccepted(Users users) throws RemoteException {
+        serverConnectionController.getServicesInterface().fileSendAccepted(users);
+    }
+
+    public void sendFileToReceiver() {
+        homeController.sendFileToReceiver();
+    }
 }
