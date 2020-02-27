@@ -363,4 +363,12 @@ public class HomeController implements Initializable, Serializable {
         });
         Platform.runLater(thread);
     }
+
+    public void fileSendAccepted(Users users) throws RemoteException {
+        mainDeligator.fileSendAccepted(users);
+    }
+
+    public void sendFileToReceiver() {
+        mainChatController.sendFileToReceiver();
+    }
 }

@@ -116,6 +116,11 @@ public class ClientImp extends UnicastRemoteObject implements ClientInterface {
         }
     }
 
+    @Override
+    public void sendFile() throws RemoteException {
+        mainDeligator.sendFileToReceiver();
+    }
+
     public Users findUserById(ArrayList<Users> friends, int id) {
         for (Users friend : friends) {
             if (friend.getId() == id)
