@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import org.project.App;
 import org.project.controller.MainDeligator;
@@ -21,7 +22,9 @@ import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable , LoginInterface {
-    public AnchorPane mainPane;
+
+
+    @FXML private HBox mainPane;
     static String phonenumber_input;
     String password_input;
     boolean keepme = false;
@@ -45,6 +48,7 @@ public class LoginController implements Initializable , LoginInterface {
     HomeController homecontroller;
 
     boolean userIsExist;
+
 
     public Stage getStage() {
         return ((Stage) mainPane.getScene().getWindow());

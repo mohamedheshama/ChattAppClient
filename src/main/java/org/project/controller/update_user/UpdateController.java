@@ -59,6 +59,7 @@ public class UpdateController implements Initializable, UpdateInterface {
         private JFXDatePicker upd_birthday;
 
      */
+
     MainDeligator mainDeligator;
     LoginController logincontroller;
     String user_phone_number;
@@ -92,6 +93,8 @@ public class UpdateController implements Initializable, UpdateInterface {
     private ChoiceBox choicebox;
     @FXML
     private JFXDatePicker upd_birthDate ;
+    @FXML
+    private Label upd_label_name;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -108,13 +111,38 @@ public class UpdateController implements Initializable, UpdateInterface {
         if(existUser.getDateOfBirth() !=null){
             upd_birthDate.setValue(existUser.getDateOfBirth().toLocalDate());
         }
-
-
+         if(existUser.getGender().equals("Male") ){
+             upd_male.setSelected(true);
+             upd_female.setSelected(false);
+         }else {
+             upd_male.setSelected(false);
+             upd_female.setSelected(true);
+         }
+        upd_label_name.setText(existUser.getName());
+        upd_bio.setText((existUser.getBio()));
         upd_phone_num.setText(existUser.getPhoneNumber());
         upd_userEmail.setText(existUser.getEmail());
         upd_username.setText(existUser.getName());
         upd_userPassword.setText(existUser.getPassword());
         upd_userPasswordConfirm.setText(existUser.getPassword());
+
+
+
+        try {
+            if (existUser.getDisplayPicture() != null) {
+                BufferedImage image = null;
+                image = ImageIO.read(new ByteArrayInputStream(existUser.getDisplayPicture()));
+                Image card = SwingFXUtils.toFXImage(image, null);
+                upd_image.setFill(new ImagePattern(card));
+                imageBytes=existUser.getDisplayPicture();
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+
 
         //upd_birthDate.setValue(existUser.getDateOfBirth().toLocalDate());
         /*try {
@@ -193,7 +221,7 @@ public class UpdateController implements Initializable, UpdateInterface {
         existUser.setName(upd_username.getText());
         existUser.setEmail(upd_userEmail.getText());
         existUser.setPassword(upd_userPassword.getText());
-        existUser.setPhoneNumber(upd_phone_num.getText());
+
         existUser.setStatus(UserStatus.Available);
         existUser.setBio(upd_bio.getText());
         existUser.setDisplayPicture(imageBytes);

@@ -54,7 +54,6 @@ public class HomeController implements Initializable, Serializable {
     public void setPrevScene(Parent prevScene) {
         this.prevScene = prevScene;
     }
-    WelcomeController welcomeController;
 
     Parent prevScene;
     public void recieveServerDown() {
@@ -98,6 +97,7 @@ public class HomeController implements Initializable, Serializable {
     }
 
     transient LeftSideController leftSideController;
+    transient WelcomeController welcomeController;
 
     public String getPhoneNumber() {
         return phoneNumber;
@@ -154,9 +154,12 @@ public class HomeController implements Initializable, Serializable {
 
     private void initRightSide() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/right_side/welcome_view.fxml"));
-        Pane root = (Pane) loader.load();
-        welcomeController = loader.getController();
-        welcomeController.setHomeController(this);
+        Pane root=(Pane)loader.load();
+        welcomeController=loader.getController();
+        System.out.println("welcome controller"+welcomeController);
+        welcomeController.setExistUser(user);
+        //welcomeController.setHomeController(this);
+        System.out.println("from init right side user is"+user.getName());
         borderBaneStage.setCenter(root);
         ChatRoom chatRoom = new ChatRoom();
     }

@@ -50,7 +50,7 @@ public class UserIconController {
         choicebox.getItems().addAll("Available", "Busy", "Away");
         choicebox.setValue(user.getStatus().toString());
         settings_icon.setImage(new Image(getClass().getResource("/org/project/images/settings.png").toExternalForm()));
-        settings.getItems().addAll("Update Profile","Save ChatSession","Logout");
+        settings.getItems().addAll("Update Profile","Save ChatSession","Enable ChatBot","Logout");
         userName.setText(user.getName());
         try {
 
