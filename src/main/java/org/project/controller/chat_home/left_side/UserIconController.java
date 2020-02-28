@@ -14,11 +14,13 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import org.project.App;
+import org.project.controller.XmlTransformer;
 import org.project.controller.chat_home.HomeController;
 import org.project.controller.chat_home.right_side.MainChatController;
 import org.project.model.dao.users.UserStatus;
 import org.project.model.dao.users.Users;
 
+import javax.xml.bind.JAXBException;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -93,7 +95,19 @@ public class UserIconController {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            }else if(option.equals("Save ChatSession")){
+                System.out.println("Save chat session");
+                try {
+                    homeController.saveChatSession();
+                } catch (JAXBException e) {
+                    e.printStackTrace();
+                }
             }
+            settings.getSelectionModel().clearSelection();
+
+
+
+
         });
 
 

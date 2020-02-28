@@ -36,6 +36,7 @@ import org.project.model.ChatRoom;
 import org.project.model.dao.users.UserStatus;
 import org.project.model.dao.users.Users;
 
+import javax.xml.bind.JAXBException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URISyntaxException;
@@ -462,5 +463,9 @@ public class HomeController implements Initializable, Serializable {
         }
 
 
+    }
+
+    public void saveChatSession() throws JAXBException {
+        mainChatController.saveChatSession();
     }
 }
