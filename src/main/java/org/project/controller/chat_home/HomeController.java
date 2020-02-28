@@ -36,6 +36,7 @@ import org.project.model.ChatRoom;
 import org.project.model.dao.users.UserStatus;
 import org.project.model.dao.users.Users;
 
+import javax.xml.bind.JAXBException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URISyntaxException;
@@ -44,6 +45,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+
 
 public class HomeController implements Initializable, Serializable {
 
@@ -54,7 +56,6 @@ public class HomeController implements Initializable, Serializable {
     public void setPrevScene(Parent prevScene) {
         this.prevScene = prevScene;
     }
-    WelcomeController welcomeController;
 
     Parent prevScene;
     public void recieveServerDown() {
@@ -70,6 +71,7 @@ public class HomeController implements Initializable, Serializable {
         });
     }
 
+
     public BorderPane getBorderBaneStage() {
         return borderBaneStage;
     }
@@ -77,6 +79,7 @@ public class HomeController implements Initializable, Serializable {
     @FXML
     private transient BorderPane borderBaneStage;
     transient MainDeligator mainDeligator;
+    private LoginController loginController;
 
     public ArrayList<ChatRoom> getChatRooms() {
         return chatRooms;
@@ -98,6 +101,7 @@ public class HomeController implements Initializable, Serializable {
     }
 
     transient LeftSideController leftSideController;
+    transient WelcomeController welcomeController;
 
     public String getPhoneNumber() {
         return phoneNumber;
@@ -147,6 +151,10 @@ public class HomeController implements Initializable, Serializable {
         this.stage = stage;
     }
 
+    public LoginController getLoginController() {
+        return loginController;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // todo get user data
@@ -154,9 +162,12 @@ public class HomeController implements Initializable, Serializable {
 
     private void initRightSide() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/right_side/welcome_view.fxml"));
-        Pane root = (Pane) loader.load();
-        welcomeController = loader.getController();
-        welcomeController.setHomeController(this);
+        Pane root=(Pane)loader.load();
+        welcomeController=loader.getController();
+        System.out.println("welcome controller"+welcomeController);
+        welcomeController.setExistUser(user);
+        //welcomeController.setHomeController(this);
+        System.out.println("from init right side user is"+user.getName());
         borderBaneStage.setCenter(root);
         ChatRoom chatRoom = new ChatRoom();
     }
@@ -208,10 +219,22 @@ public class HomeController implements Initializable, Serializable {
             mainChatController.reciveMsg(newMsg, chatRoom);
         }else{
             Platform.runLater(() -> {
+                HBox hBox =new HBox();
+                ImageView imageView = new ImageView();
+                imageView.setImage(new Image(getClass().getResource("/org/project/images/message.png").toExternalForm()));
+                imageView.setFitWidth(30);
+                imageView.setFitHeight(30);
+                Text text =new Text("New Message from : " + newMsg.getUser().getName());
+                hBox.setPadding(new Insets(20,20,20,20
+
+                ));
+                hBox.setSpacing(5);
+                hBox.setStyle("-fx-background-color: aliceblue");
+                hBox.getChildren().add(imageView);
+                hBox.getChildren().add(text);
                 Notifications notificationBuilder = Notifications.create()
                         .title("Announcement")
-                        .graphic(new ImageView(new Image(getClass().getResource("/org/project/images/birthday.png").toExternalForm())))// todo  newMsg.getUser().getDisplayPicture()
-                        .text("New Message from : " + newMsg.getUser().getName())
+                        .graphic(hBox)// todo  newMsg.getUser().getDisplayPicture()
                         .hideAfter(Duration.seconds(8))
                         .position(Pos.BOTTOM_RIGHT)
                         .onAction(new EventHandler<ActionEvent>() {
@@ -333,7 +356,7 @@ public class HomeController implements Initializable, Serializable {
 
     public VBox drawAnnouncementVbox(Message newMsg) {
         VBox vBox = new VBox();
-        vBox.setPadding(new Insets(20, 20, 20, 20));
+        vBox.setPadding(new Insets(10, 20, 20, 10));
         Text text = new Text(newMsg.getMsg());
         text.setStyle("-fx-font-family:  \"" + newMsg.getFontFamily() + "\" "
                 + ";" + "-fx-font-size: " + newMsg.getFontSize()
@@ -462,5 +485,9 @@ public class HomeController implements Initializable, Serializable {
         }
 
 
+    }
+
+    public void saveChatSession() throws JAXBException {
+        mainChatController.saveChatSession();
     }
 }

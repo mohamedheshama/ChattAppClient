@@ -30,8 +30,9 @@ public class App extends Application {
         //scene = new Scene(loadFXML("/org/project/views/chat_home/right_side/main_chat"));
         this.stage = stage;
         stage.setScene(scene);
-        stage.setMinWidth(593);
-        stage.setMinHeight(587);
+        System.out.println("scene");
+        stage.setMinWidth(700);
+        stage.setMinHeight(590);
 
         stage.setOnCloseRequest(event -> {
             // instructs the javafx system not to exit implicitly when the last application window is shut.

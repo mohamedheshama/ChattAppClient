@@ -7,8 +7,6 @@ import org.project.model.dao.users.Users;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.List;
 
 public interface ClientInterface extends Remote {
     public Users getUser() throws RemoteException;
@@ -128,6 +126,7 @@ public interface ClientInterface extends Remote {
     void recieveServerUp()throws RemoteException;
 
     void isAlive() throws RemoteException;
+
 
 
     //END SHIMAA

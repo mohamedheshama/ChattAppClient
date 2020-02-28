@@ -1,36 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
-<AnchorPane fx:id="mainpPage" prefHeight="637.0" prefWidth="686.0" style="-fx-background-color: aliceblue;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="org.project.controller.chat_home.right_side.WelcomeController">
+<AnchorPane prefHeight="637.0" prefWidth="686.0" style="-fx-background-color: aliceblue;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.controller.chat_home.right_side.WelcomeController">
+
    <children>
       <HBox alignment="CENTER" layoutX="-1.0" layoutY="76.0" prefHeight="54.0" prefWidth="686.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="76.0">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="54.0" prefWidth="622.0" text="WElcome,  Shimaa">
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="54.0" prefWidth="190.0" text="WElcome, ">
                <font>
                   <Font name="System Bold Italic" size="36.0" />
                </font>
             </Label>
+            <Label fx:id="nameOfUser" prefHeight="18.0" prefWidth="165.0" text="Label">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Label>
          </children>
       </HBox>
-      <HBox alignment="CENTER" layoutY="174.0" prefHeight="100.0" prefWidth="686.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="174.0">
+      <HBox alignment="CENTER" layoutX="-14.0" layoutY="174.0" prefHeight="100.0" prefWidth="686.0" AnchorPane.leftAnchor="-14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="174.0">
          <children>
-             <ImageView fx:id="personImg" fitHeight="95.0" fitWidth="260.0" nodeOrientation="INHERIT"
+            <!-- <ImageView fx:id="personImg" fitHeight="95.0" fitWidth="260.0" nodeOrientation="INHERIT"
                         onMouseClicked="#moveToUpdate" pickOnBounds="true" preserveRatio="true">
                  <image>
                      <Image url="@../../../images/defualtUserImage.png"/>
                  </image>
-             </ImageView>
-            <Circle fill="#46f27f" radius="9.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="2.0">
+             </ImageView>-->
+            <Circle fx:id="upd_image" fill="#172029" layoutX="226.0" layoutY="87.0" radius="87.0" stroke="#d2d1d1" strokeType="INSIDE" />
+
+
+
+            <!--<Circle fill="#46f27f" radius="9.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="2.0">
                <HBox.margin>
                   <Insets left="-20.0" top="50.0" />
-               </HBox.margin></Circle>
+               </HBox.margin></Circle>-->
          </children>
       </HBox>
       <Label alignment="CENTER" layoutX="5.0" layoutY="593.0" prefHeight="31.0" prefWidth="679.0" text="you are signed in as +20 118468446444" AnchorPane.bottomAnchor="12.8" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="593.0">

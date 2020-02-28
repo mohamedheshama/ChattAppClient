@@ -3,13 +3,25 @@ package org.project.controller.register;
 
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+import org.project.App;
 import org.project.controller.MainDeligator;
 import org.project.controller.ServicesInterface;
+import org.project.controller.chat_home.HomeController;
 import org.project.model.dao.users.Gender;
 import org.project.model.dao.users.UserStatus;
 import org.project.model.dao.users.Users;
@@ -19,12 +31,18 @@ import java.net.URL;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class RegisterController implements Initializable {
 
     ServicesInterface obj;
     private boolean checkConfirmPass;
+    @FXML
+    private ChoiceBox choicebox;
     @FXML
     private RadioButton male;
     @FXML
@@ -53,7 +71,11 @@ public class RegisterController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         newUser = new Users();
-            mainDeligator = new MainDeligator();
+        mainDeligator = new MainDeligator();
+        List<String> collect = Arrays.asList(Locale.getAvailableLocales()).stream().map(Locale::getDisplayCountry).filter(s -> !s.isEmpty()).sorted().collect(Collectors.toList());
+        ObservableList<String> AllCountries = FXCollections.observableArrayList(collect);
+        choicebox.setItems(AllCountries);
+        choicebox.setValue("Egypt");
     }
 
 
@@ -141,6 +163,19 @@ public class RegisterController implements Initializable {
             newUser.setPhoneNumber(phone_num.getText());
             newUser.setGender(Gender.Female);
             newUser.setStatus(UserStatus.Available);
+
+            choicebox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+
+                public void changed(ObservableValue ov, Number value, Number new_value) {
+
+                    choicebox.setValue(new_value.intValue());
+                    System.out.println(new_value.intValue());
+                    System.out.println("choice"+choicebox.getSelectionModel().getSelectedItem());
+
+                }
+            });
+            newUser.setCountry(choicebox.getSelectionModel().getSelectedItem().toString());
+
             mainDeligator.registerUser(newUser);
 
 
@@ -152,6 +187,11 @@ public class RegisterController implements Initializable {
     public boolean userDataValid() {
         return userPhoneNumber() && validateUserName() && userPhoneValid() && validateEmail() && checkConfirmPass;
     }
+
+    public void Login () throws IOException {
+        App.setRoot("/org/project/views/login_view");
+    }
+
 
 
 }
