@@ -105,40 +105,54 @@ public class LoginController implements Initializable , LoginInterface {
 
     @FXML
     public void registerNewUser() throws IOException {
-        System.out.println("in the registerNewUser");
         App.setRoot("/org/project/views/register_view");
     }
 
     @FXML
-    public void view(ActionEvent actionEvent) throws Exception {
-        phonenumber_input = phonenumber_Txtfield.getText();
-        password_input = password_TxtField.getText();
-        userIsExist = checkUserLogin(phonenumber_input, password_input);
-        if (userIsExist) {
-            keepme = keep_me_login_Chkbox.isSelected();
-            if (keepme)
-            {
-                String home = System.getProperty("user.home");
-                String dataOfUser = phonenumber_input+"/"+password_input;
-                Path x=Files.write(Paths.get(home+"/Data"),dataOfUser.getBytes());
-                file2 = new File(String.valueOf(x));
+    public void view(ActionEvent actionEvent) {
+        try {
+            mainDeligator = new MainDeligator();
+            phonenumber_input = phonenumber_Txtfield.getText();
+            password_input = password_TxtField.getText();
+            userIsExist = checkUserLogin(phonenumber_input, password_input);
+            if (userIsExist) {
+                keepme = keep_me_login_Chkbox.isSelected();
+                if (keepme)
+                {
+                    String home = System.getProperty("user.home");
+                    String dataOfUser = phonenumber_input+"/"+password_input;
+                    Path x=Files.write(Paths.get(home+"/Data"),dataOfUser.getBytes());
+                    file2 = new File(String.valueOf(x));
+                }
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/home.fxml"));
+                Parent root = fxmlLoader.load();
+                HomeController homeController = fxmlLoader.getController();
+                homeController.setMainDeligator(mainDeligator);
+                homeController.setStage(getStage());
+                homeController.setPhoneNumber(phonenumber_input);
+                getStage().setScene(new Scene(root));
             }
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/home.fxml"));
-            Parent root = fxmlLoader.load();
-            HomeController homeController = fxmlLoader.getController();
-            homeController.setMainDeligator(mainDeligator);
-            homeController.setStage(getStage());
-            homeController.setPhoneNumber(phonenumber_input);
-            getStage().setScene(new Scene(root));
-            //App.setRoot("/org/project/views/update_info_view");
+            else {
+                ShowAlertError();
+                phonenumber_Txtfield.clear();
+                password_TxtField.clear();
+                keep_me_login_Chkbox.setSelected(false);
+            }
+        } catch (RemoteException e) {
+            System.out.println("asdffffffffffffffffffffffffffffffffffffffffffff");
+            try {
+                App.setRoot("/org/project/views/chat_home/serverDown.fxml");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        else {
-            ShowAlertError();
-            phonenumber_Txtfield.clear();
-            password_TxtField.clear();
-            keep_me_login_Chkbox.setSelected(false);
-        }
+
+
     }
+
 
     @Override
     public Users getUserData(String phoneNumber) {
@@ -149,7 +163,9 @@ public class LoginController implements Initializable , LoginInterface {
     public Boolean checkUserLogin(String phoneNumber, String password) {
         boolean userExist = false;
         try {
-            userExist = mainDeligator.checkUserLogin(phoneNumber , password);
+            if (mainDeligator != null){
+                userExist = mainDeligator.checkUserLogin(phoneNumber , password);
+            }
         } catch (RemoteException e) {
             e.printStackTrace();
         }

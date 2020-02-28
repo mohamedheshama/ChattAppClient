@@ -42,10 +42,6 @@ public class ContactCell extends ListCell<Users> {
                     mLLoader.load();
 
                     name.setText(String.valueOf(user.getName()));
-                    System.out.println("after name" + user.getName());
-                    System.out.println(user.getDisplayPicture());
-
-                    System.out.println(user.getDisplayPicture());
                     if (user.getDisplayPicture() != null) {
                         BufferedImage image = null;
                         image = javax.imageio.ImageIO.read(new ByteArrayInputStream(user.getDisplayPicture()));

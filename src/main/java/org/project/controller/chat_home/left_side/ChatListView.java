@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
@@ -14,6 +15,7 @@ import org.project.model.ChatRoom;
 import org.project.model.dao.users.UserStatus;
 import org.project.model.dao.users.Users;
 
+import java.io.IOException;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -36,7 +38,6 @@ public class ChatListView implements Initializable {
 
 
     public void setChatsListView(Users user, HomeController homeController) {
-        System.out.println("from setChatListView user chat rooms are" + user.getChatRooms());
         this.user = user;
         this.homeController = homeController;
         chatsObservableList = FXCollections.observableArrayList(user.getChatRooms().stream().filter(chatRoom -> chatRoom.getUsers().size()>2).collect(Collectors.toList()));
@@ -49,7 +50,6 @@ public class ChatListView implements Initializable {
             }
         });
 
-        // System.out.println(user);
     }
 /*    public void handle(MouseEvent event) {
         System.out.println("in handle");
@@ -68,11 +68,15 @@ public class ChatListView implements Initializable {
     }*/
 
     public void handle(MouseEvent event) throws Exception {
-        ChatRoom groupChatRoom = (ChatRoom) chatsListView.getSelectionModel().getSelectedItem();
+        if (chatsListView != null && currentChatRoom != null){
+            ChatRoom groupChatRoom = (ChatRoom) chatsListView.getSelectionModel().getSelectedItem();
+            currentChatRoom = requestChatRoom(groupChatRoom.getUsers());
+            if (currentChatRoom != null) {
+                boolean isChatRoomAdded = addChatRoom(currentChatRoom);
+                homeController.openChatRoom(currentChatRoom, isChatRoomAdded);
+            }
+        }
 
-        currentChatRoom = requestChatRoom(groupChatRoom.getUsers());
-        boolean isChatRoomAdded = addChatRoom(currentChatRoom);
-        homeController.openChatRoom(currentChatRoom , isChatRoomAdded);
     }
 
     private boolean addChatRoom(ChatRoom chatRoom) {
@@ -88,39 +92,28 @@ public class ChatListView implements Initializable {
         return homeController.getChatRooms().stream().map(ChatRoom::getChatRoomId).filter(s -> s.equals(chatRoom.getChatRoomId())).count() > 0;
     }
 
-    private ChatRoom requestChatRoom(ArrayList<Users> chatroomUsers) {
-        return homeController.requestChatRoom(chatroomUsers);
+    private ChatRoom requestChatRoom(ArrayList<Users> chatroomUsers) throws IOException {
+        try {
+            return homeController.requestChatRoom(chatroomUsers);
+        } catch (RemoteException e) {
+            homeController.setsetverIsAlive();
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public boolean changeUserStatus(UserStatus userStatus) throws RemoteException {
-        // todo ====> EMAN
-        //  call this method after updating the userStatus and if true call notify all clients with update
-        return homeController.changeUserStatus(user , userStatus);
+       return homeController.changeUserStatus(user , userStatus);
     }
     //start IMAN
     public void notifyUsersWithUpdateStatus(){
-        // todo =====> EMAN
-        //  there is two ways to update users list viww with the changes
-        //  first from DB (faster)
-        //  Second filter List view with this user and change his image with the new status (preferred)
-
-
-
-
-
-
-
-
-
 
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        /*chatRooms = new ArrayList<>();*/
     }
 
-    // TODO ====> IMAN // accept and decline Friend request (HIGH PERIORITY)
 
 
 
@@ -171,18 +164,6 @@ public class ChatListView implements Initializable {
 
     //END IMAN
     //START SHIMAA
-    //TODO ADD CONTACT
-    // AND SWITCH UPDATER PROFILE
-    // try SORTING users based on there STATUS (ONLINE - BUSY - AWAY - OFFLINE)
-
-
-
-
-
-
-
-
-
 
 
 

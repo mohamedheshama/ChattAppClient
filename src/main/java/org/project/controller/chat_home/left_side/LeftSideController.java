@@ -43,9 +43,9 @@ public class LeftSideController implements Initializable {
     }
 
     public void setTabPane(Users user, HomeController homeController) throws Exception {
-        System.out.println(user.getChatRooms()+"User Chat Room");
 
-        System.out.println("in tab pane " + user);
+
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/left_side/TabPaneNotifications.fxml"));
         Pane root = (Pane) loader.load();
         notificationsController = loader.getController();
@@ -57,11 +57,10 @@ public class LeftSideController implements Initializable {
     }
 
     public void setUserIcon(Users user,HomeController homeController) throws Exception {
-        System.out.println("in user pane " + user);
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/left_side/UserIcon.fxml"));
         Pane root = (Pane) loader.load();
         UserIconController userIconController = loader.getController();
-        System.out.println("home controller inside left side"+homeController);
         userIconController.setUser(user,homeController);
 
         //userIconController.setHomeController(homeController);

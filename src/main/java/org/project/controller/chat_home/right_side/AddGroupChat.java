@@ -51,7 +51,6 @@ public class AddGroupChat implements Initializable {
 
     public void setChatRoom(ChatRoom chatRoom) {
         this.chatRoom = chatRoom;
-        System.out.println("this is  the setChat Method"+chatRoom.getChatRoomId());
     }
 
     ChatRoom chatRoom;
@@ -66,7 +65,6 @@ public class AddGroupChat implements Initializable {
     public void setHomeController(HomeController homeController) throws RemoteException {
         this.homeController = homeController;
         OnlineFriends = getUserOnlineFriends();
-        System.out.println("onlint friends are : " + OnlineFriends);
         if (OnlineFriends != null) {
             onlineFriendsStrings = new ArrayList<>();
             for (Users onlineFriend : OnlineFriends) {
@@ -80,7 +78,6 @@ public class AddGroupChat implements Initializable {
     public void setUser (Users user)
     {
         this.user=user;
-        System.out.println( "this is the set User Method" +this.user.getPhoneNumber());
     }
 
     @FXML
@@ -90,7 +87,6 @@ public class AddGroupChat implements Initializable {
             if (contactListViewCell.size() == 0) {
 
                 if (validatePhoneNo(phoneNumber) && !isPhoneNoAdded(phoneNumber)) {
-                    System.out.println(phoneNumber);
                     contactListViewCell.add(phoneNumber);
                     GroupContactList.setItems(contactListViewCell);
                     errorMessageLbl.setText("");
@@ -109,7 +105,6 @@ public class AddGroupChat implements Initializable {
                     errorMessageLbl.setText("Please Enter Valid contact");
                 }
             }
-            System.out.println(contactListViewCell.size());
             phoneNoTxt.setText("");
 
         }
@@ -126,7 +121,6 @@ public class AddGroupChat implements Initializable {
         if (OnlineFriends != null) {
             for (Users onlineFriend : OnlineFriends) {
                 if (phoneNo.equals(onlineFriend.getPhoneNumber()) && !isValidPhoneNo) {
-                    System.out.println(onlineFriend.getPhoneNumber());
                     isValidPhoneNo = true;
                 }
             }
@@ -172,7 +166,6 @@ public class AddGroupChat implements Initializable {
         if (autoCompletionBinding != null) {
             autoCompletionBinding.dispose();
         }
-        System.out.println("Online users are " + onlineFriendsStrings);
         autoCompletionBinding = TextFields.bindAutoCompletion(phoneNoTxt, onlineFriendsStrings);
     }
 
@@ -187,7 +180,6 @@ public class AddGroupChat implements Initializable {
 
         //chatRoom.getUsers().addAll(groupUsers);
         groupUsers.addAll(getChatRoom().getUsers());
-        System.out.println("from the AddGroupChat the length of users iis " + groupUsers.size());
         ChatRoom currentChatRoom = homeController.requestChatRoom(groupUsers);
         boolean isChatRoomAdded = addChatRoom(currentChatRoom);
         homeController.openChatRoom(currentChatRoom , isChatRoomAdded);

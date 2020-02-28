@@ -13,6 +13,7 @@ module org.project {
     requires org.controlsfx.controls;
     requires rmiio;
     requires java.xml.bind;
+    requires commons.io;
 
     opens org.project to javafx.fxml;
     opens org.project.controller.update_user to javafx.fxml;

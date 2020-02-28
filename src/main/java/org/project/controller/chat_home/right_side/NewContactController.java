@@ -48,7 +48,7 @@ public class NewContactController implements Initializable {
         this.homeController = homeController;
         unFriendList = getUsersList(user.getId());
         if (unFriendList != null) {
-            possibleSuggestionContacts = new HashSet<>(getUsersList(user.getId()));
+            possibleSuggestionContacts = new HashSet<>(unFriendList);
             TextFields.bindAutoCompletion(phoneNoTxt, unFriendList);
         }
         phoneNo = phoneNoTxt.getText();
@@ -83,7 +83,7 @@ public class NewContactController implements Initializable {
                 } else if (validatePhoneNo(phoneNo) && isPhoneNoAdded(phoneNo)) {
                     errorMessageLbl.setText("This contact is Already Added");
                 } else {
-                    errorMessageLbl.setText("Please Enter Valid contact");
+                    errorMessageLbl.setText("Sorry this is not Existed User or is Already Added");
                 }
             } else {
                 if (validatePhoneNo(phoneNo) && !isPhoneNoAdded(phoneNo)) {
@@ -95,7 +95,6 @@ public class NewContactController implements Initializable {
                     errorMessageLbl.setText("Sorry this is not Existed User or is Already Added ");
                 }
             }
-            System.out.println(contactListViewCell.size());
             phoneNoTxt.setText("");
 
         }
@@ -104,7 +103,6 @@ public class NewContactController implements Initializable {
     private boolean validatePhoneNo(String phoneNo) {
         boolean isValidPhoneNo = false;
         unFriendList = getUsersList(user.getId());
-        System.out.println(unFriendList);
         if (unFriendList != null) {
             for (String phoneNum : unFriendList) {
                 if (phoneNo.equals(phoneNum) && !isValidPhoneNo) {
@@ -130,15 +128,26 @@ public class NewContactController implements Initializable {
 
     @FXML
     private void handleSaveBtn(ActionEvent event) {
-        System.out.println(contactListViewCell);
         if (contactListViewCell.size() > 0 && phoneNoTxt.getText().trim().equals("")) {
             try {
+
                 for (String phoneNo : contactListViewCell) {
-                    contactRequestList.add(phoneNo);
-                    System.out.println(phoneNo);
+                    Users userRequestedMe = null;
+                    Optional<Users> user=this.user.getRequest_notifications().stream().filter(users -> users.getPhoneNumber().equals(phoneNo)).findFirst();
+                    if(user.isPresent()){
+                        userRequestedMe = user.get();
+                        homeController.acceptRequest(this.user,userRequestedMe);
+                        ArrayList<Users> usersToUpdate= new ArrayList<>();
+                        usersToUpdate.add(this.user);
+                        usersToUpdate.add(userRequestedMe);
+                        homeController.updateRequestNotifications(usersToUpdate);
+                        }else {
+                        contactRequestList.add(phoneNo);
+                        homeController.addUsersToFriedNotifications(contactRequestList, this.user);
+                        homeController.recieveContactRequest(contactRequestList,this.user);
+
+                    }
                 }
-                homeController.addUsersToFriedNotifications(contactRequestList, user);
-                homeController.recieveContactRequest(contactRequestList,user);
                 contactListViewCell.clear();
                 contactRequestList.clear();
                 errorMessageLbl.setText("");
@@ -173,7 +182,7 @@ public class NewContactController implements Initializable {
 
 
     public void handleAutoComplete(KeyEvent keyEvent) {
-        if (keyEvent.getCode().equals(KeyCode.ENTER)) {
+        if(keyEvent.getCode().equals(KeyCode.ENTER)) {
             phoneNo = phoneNoTxt.getText();
             learnWord(phoneNo);
             errorMessageLbl.setText("");
@@ -182,9 +191,8 @@ public class NewContactController implements Initializable {
 
     private void learnWord(String text) {
         unFriendList = getUsersList(user.getId());
-        System.out.println("learnword"+unFriendList+"///");
-        if (unFriendList != null || unFriendList.size() >0) {
-            possibleSuggestionContacts = new HashSet<>(getUsersList(user.getId()));
+        if (unFriendList.size() >0) {
+            possibleSuggestionContacts = new HashSet<>(unFriendList);
             TextFields.bindAutoCompletion(phoneNoTxt, unFriendList);
         }
        if (autoCompletionBinding != null) {
