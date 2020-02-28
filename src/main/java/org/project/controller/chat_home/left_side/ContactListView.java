@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
@@ -22,6 +23,7 @@ import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class ContactListView implements Initializable {
     @FXML
@@ -40,19 +42,21 @@ public class ContactListView implements Initializable {
 
 
     public void setContactListView(Users user, HomeController homeController) {
-        System.out.println("from setChatListView" + user);
         this.user = user;
         this.homeController = homeController;
-        friendsObservableList = FXCollections.observableArrayList(user.getFriends());
-        //   friendsObservableList = FXCollections.observableArrayList(user.getFriends().stream().filter(users ->user.getStatus().toString().equals("Offline")).collect(Collectors.toList()));
-        contactList.setItems(friendsObservableList);
-        contactList.setCellFactory(chatListView -> new ChatsListViewCell());
-        contactList.setCellFactory(new Callback<ListView<Users>, ListCell<Users>>() {
-            @Override
-            public ListCell<Users> call(javafx.scene.control.ListView<Users> UserListView) {
-                return new ContactCell();
-            }
-        });
+        //friendsObservableList = FXCollections.observableArrayList(user.getFriends());
+        friendsObservableList = FXCollections.observableArrayList(user.getFriends().stream().filter(users ->!(users.getStatus().equals(UserStatus.valueOf("Offline")))).collect(Collectors.toList()));
+       if (friendsObservableList != null){
+           contactList.setItems(friendsObservableList);
+           contactList.setCellFactory(chatListView -> new ChatsListViewCell());
+           contactList.setCellFactory(new Callback<ListView<Users>, ListCell<Users>>() {
+               @Override
+               public ListCell<Users> call(javafx.scene.control.ListView<Users> UserListView) {
+                   return new ContactCell();
+               }
+           });
+       }
+
     }
     public void handleNewContact(ActionEvent event) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/right_side/addContact_view.fxml"));
@@ -70,18 +74,26 @@ public class ContactListView implements Initializable {
         }
 
     }
-    public void handle(MouseEvent event) throws Exception {
+    public void handle(MouseEvent event)  {
         Users friendUser = (Users) contactList.getSelectionModel().getSelectedItem();
-        System.out.println("the user is " + friendUser);
         ArrayList<Users> chatroomUsers = new ArrayList<>();
         chatroomUsers.add(friendUser);
         chatroomUsers.add(this.user);
-        currentChatRoom = requestChatRoom(chatroomUsers);
-        boolean isChatRoomAdded = addChatRoom(currentChatRoom);
-//        if(!isChatRoomAdded){
-//            homeController.openChatRoom(currentChatRoom , isChatRoomAdded);
-//        }
-        homeController.openChatRoom(currentChatRoom , isChatRoomAdded);
+        try {
+            currentChatRoom = requestChatRoom(chatroomUsers);
+            if (currentChatRoom != null){
+                boolean isChatRoomAdded = addChatRoom(currentChatRoom);
+                homeController.openChatRoom(currentChatRoom , isChatRoomAdded);
+            }else{
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("this user has an issue please contact him later");
+                alert.setTitle("EROOR");
+                alert.show();
+            }
+
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -97,30 +109,15 @@ public class ContactListView implements Initializable {
         return chatRooms.stream().map(ChatRoom::getChatRoomId).filter(s -> s.equals(chatRoom.getChatRoomId())).count() > 0;
     }
 
-    private ChatRoom requestChatRoom(ArrayList<Users> chatroomUsers) {
-        return homeController.requestChatRoom(chatroomUsers);
+    private ChatRoom requestChatRoom(ArrayList<Users> chatroomUsers) throws RemoteException {
+            return homeController.requestChatRoom(chatroomUsers);
     }
 
     public boolean changeUserStatus(UserStatus userStatus) throws RemoteException {
-        // todo ====> EMAN
-        //  call this method after updating the userStatus and if true call notify all clients with update
         return homeController.changeUserStatus(user , userStatus);
     }
     //start IMAN
     public void notifyUsersWithUpdateStatus(){
-        // todo =====> EMAN
-        //  there is two ways to update users list viww with the changes
-        //  first from DB (faster)
-        //  Second filter List view with this user and change his image with the new status (preferred)
-
-
-
-
-
-
-
-
-
 
     }
 
@@ -128,13 +125,6 @@ public class ContactListView implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         chatRooms = new ArrayList<>();
     }
-
-    // TODO ====> IMAN // accept and decline Friend request (HIGH PERIORITY)
-
-
-
-
-
 
 
 
@@ -180,15 +170,6 @@ public class ContactListView implements Initializable {
 
     //END IMAN
     //START SHIMAA
-    //TODO ADD CONTACT
-    // AND SWITCH UPDATER PROFILE
-    // try SORTING users based on there STATUS (ONLINE - BUSY - AWAY - OFFLINE)
-
-
-
-
-
-
 
 
 

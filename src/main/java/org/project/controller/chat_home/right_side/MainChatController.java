@@ -13,10 +13,8 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -85,7 +83,8 @@ public class MainChatController implements Initializable {
     private JFXComboBox fontComboBox;
     @FXML
     private JFXColorPicker fontColorPicker;
-
+    @FXML
+    private ScrollPane showMsgsScrollPane;
     Users mUser;
     HomeController homeController;
     ImageView loadFile=new ImageView();
@@ -97,8 +96,8 @@ public class MainChatController implements Initializable {
     ChatRoom chatRoom;
     @FXML ImageView microphoneImageView;
     MainDeligator mainDeligator;
-    Image microphoneActiveImage = new Image(getClass().getResource("/org/project/images/birthday.png").toExternalForm());
-    Image microphoneInactiveImage = new Image(getClass().getResource("/org/project/images/birthday.png").toExternalForm());
+    Image microphoneActiveImage = new Image(getClass().getResource("/org/project/images/microphone-active.png").toExternalForm());
+    Image microphoneInactiveImage = new Image(getClass().getResource("/org/project/images/microphone.png").toExternalForm());
 
     public void setHomeController(HomeController homeController) {
         this.homeController = homeController;
@@ -128,14 +127,11 @@ public class MainChatController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
+
         chatReceiversTxtLabel.setText("myFrined");
-        try {
-            mainDeligator = new MainDeligator();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        } catch (NotBoundException e) {
-            e.printStackTrace();
-        }
+        mainDeligator = new MainDeligator();
         msgTxtField.setWrapText(true);
         msgTxtField.setOnKeyPressed(keyEvent -> {
             if (keyEvent.getCode() == KeyCode.ENTER) {
@@ -143,6 +139,11 @@ public class MainChatController implements Initializable {
                     sendMsgToHomeController();
                 } catch (RemoteException e) {
                     e.printStackTrace();
+                    try {
+                        homeController.setsetverIsAlive();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -153,7 +154,6 @@ public class MainChatController implements Initializable {
         colorPicked = toRGBCode(fontColorPicker.getValue());
         fontColorPicker.valueProperty().addListener((obs, oldVal, newVal) -> {
                     Color color = (Color) newVal;
-                    System.out.println("Color : " + toRGBCode(color));
                     colorPicked = toRGBCode(color);
                     setTextFieldStyle();
                 }
@@ -165,7 +165,6 @@ public class MainChatController implements Initializable {
         sizeComboBox.valueProperty().addListener((obs, oldVal, newVal) -> {
                     //Country current = (Country) newVal;
                     int size = (int) newVal;
-                    System.out.println("Size : " + size);
                     sizePicked = size;
                     setTextFieldStyle();
                 }
@@ -173,7 +172,6 @@ public class MainChatController implements Initializable {
         fontComboBox.setValue(fontFamily);
         fontComboBox.valueProperty().addListener((observableValue, o, t1) -> {
             String fontName = t1.toString();
-            System.out.println(fontName);
             this.fontFamily = fontName;
             setTextFieldStyle();
         });
@@ -183,7 +181,6 @@ public class MainChatController implements Initializable {
             } else {
                 bold = true;
             }
-            System.out.println("Now bold is " + bold);
             setTextFieldStyle();
         });
         italicButton.setOnAction((ActionEvent e) -> {
@@ -192,7 +189,6 @@ public class MainChatController implements Initializable {
             } else {
                 italic = true;
             }
-            System.out.println("Now italic is " + italic);
             setTextFieldStyle();
         });
         setTextFieldStyle();
@@ -271,12 +267,7 @@ public class MainChatController implements Initializable {
             displayMsg(newMsg, Pos.TOP_RIGHT);
         } else {
             if (chatRoom.getChatRoomId().equals(this.chatRoom.getChatRoomId())) {
-                if (getStage().isShowing()){
                     displayMsg(newMsg, Pos.TOP_LEFT);
-                }else {
-                    showMessageIncommingNotification(newMsg);
-                }
-
             } else {
                 showMessageIncommingNotification(newMsg);
             }
@@ -286,7 +277,6 @@ public class MainChatController implements Initializable {
 
 
     private void showMessageIncommingNotification(Message newMsg) {
-        System.out.println("in the show Notification -> " + newMsg.getMsg());
         Platform.runLater(() -> {
             Notifications notificationBuilder = Notifications.create()
                     .title("Announcement")
@@ -307,7 +297,6 @@ public class MainChatController implements Initializable {
             try {
                 clip = new AudioClip(getClass().getResource("/org/project/sounds/notification.wav").toURI().toString());
             } catch (URISyntaxException e) {
-                System.out.println("in URI EX");
                 e.printStackTrace();
             }
             clip.play();
@@ -319,14 +308,15 @@ public class MainChatController implements Initializable {
 
     private void displayMsg(Message msg, Pos pos) {
         Platform.runLater(() -> {
-
             try {
                 if (msg.getType() == MessageType.VOICE){
                     ImageView imageview = new ImageView(new Image((getClass().getResource("/org/project/images/birthday.png").toExternalForm())));
                     showMsgsBox.getChildren().addAll(recipientChatLine(msg, pos));
                     VoicePlayback.playAudio(msg.getVoiceMsg());
+                }else{
+                    showMsgsBox.getChildren().addAll(recipientChatLine(msg, pos));
                 }
-                showMsgsBox.getChildren().addAll(recipientChatLine(msg, pos));
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -343,7 +333,6 @@ public class MainChatController implements Initializable {
         try {
             Label name = new Label(msg.getName());
             // ImageView imageView = new ImageView();
-            System.out.println(msg.getTextFill() + "  >");
             Text text = new Text(msg.getMsg());
             text.setFill(Color.valueOf(msg.getTextFill()));
             text.setStyle("-fx-font-family: \"" + msg.getFontFamily() + "\"; "
@@ -361,7 +350,6 @@ public class MainChatController implements Initializable {
             hb.setAlignment(pos);
             vb.getChildren().add(name);
             if(msg.getType().equals(MessageType.NOTIFICATION)){
-                System.out.println("tesssssssssssssssssst");
                 loadFile.setImage(new Image(getClass().getResource("/org/project/images/download.png").toExternalForm()));
                 fileBtnLoad.setGraphic(loadFile);
                 vb.getChildren().add(fileBtnLoad);
@@ -372,6 +360,8 @@ public class MainChatController implements Initializable {
             hb.setPadding(new Insets(15, 12, 15, 12));
             hb.setSpacing(10);
             hb.setBackground(new Background(new BackgroundFill(Color.valueOf(msg.getTextFill()).invert() , new CornerRadii(25) , new Insets(10.0f))));
+            //hb.maxWidthProperty().bindBidirectional(msg.getMsg());
+            showMsgsScrollPane.vvalueProperty().bind(showMsgsBox.heightProperty());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -402,7 +392,6 @@ public class MainChatController implements Initializable {
 
 
     public void sendFile() throws RemoteException,IOException, NotBoundException {
-        System.out.println("this user is : " + mUser.getName());
         FileChooser SaveFileChooser = new FileChooser();
         file = SaveFileChooser.showOpenDialog(getStage());
         if(file!=null) {
@@ -427,9 +416,8 @@ public class MainChatController implements Initializable {
 
 
     //start AMR
-    public void displayMessagesFromArrList() throws Exception {
+    public void displayMessagesFromArrList() {
         Pos pos;
-//        System.out.println("chat room messages test" + chatRoom.getChatRoomMessage());
         if (chatRoom.getChatRoomMessage() != null){
             for (Message message : chatRoom.getChatRoomMessage()) {
                 if (message.getUser().getId() == mUser.getId()) {
@@ -477,7 +465,6 @@ public class MainChatController implements Initializable {
         } else {
             Platform.runLater(() -> {
                         microphoneImageView.setImage(microphoneActiveImage);
-
                     }
             );
             VoiceRecorder.captureAudio(this);
@@ -488,10 +475,12 @@ public class MainChatController implements Initializable {
         Message createMessage = new Message();
         createMessage.setName(mUser.getName());
         createMessage.setUser(mUser);
+        createMessage.setMsg("voice note");
         createMessage.setType(MessageType.VOICE);
+        createMessage.setFontFamily(fontFamily);
+        createMessage.setTextFill(colorPicked);
+        createMessage.setFontSize(sizePicked);
         createMessage.setVoiceMsg(audio);
-        createMessage.setPublicKey(rsaEncryptionWithAES.getPublicKey());
-        createMessage.setEncryptedAESKeyString(rsaEncryptionWithAES.getEncryptedAESKeyString());
         createMessage.setChatId(chatRoom.getChatRoomId());
         createMessage.setFontWeight(getFontWeight().name());
         homeController.sendMsg(createMessage, chatRoom);
@@ -505,4 +494,34 @@ public class MainChatController implements Initializable {
             thread.start();
         }
     }
+
+    public void userIsLoggedOf() {
+        Platform.runLater(() -> {
+            Notifications notificationBuilder = Notifications.create()
+                    .title("Announcement")
+                    .graphic(new ImageView(new Image(getClass().getResource("/org/project/images/admin-icon.png").toExternalForm())))// todo  newMsg.getUser().getDisplayPicture()
+                    .text("this user is logged of" )
+                    .hideAfter(Duration.seconds(8))
+                    .position(Pos.BOTTOM_RIGHT)
+                    .onAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent event) {
+                            System.out.println("announcement has been clicked");
+                        }
+                    });
+            notificationBuilder.darkStyle();
+            if (!getStage().isShowing())
+                getStage().show();
+            getStage().requestFocus();
+            AudioClip clip = null;
+            try {
+                clip = new AudioClip(getClass().getResource("/org/project/sounds/notification.wav").toURI().toString());
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+            clip.play();
+            notificationBuilder.show();
+        });
+    }
+
 }

@@ -26,10 +26,8 @@ public class RequestsListView {
 
 
     public void setRequestListView(Users user,HomeController homeController,ChatListView chatListView){
-        System.out.println(chatListView);
         this.user=user;
         this.homeController=homeController;
-        System.out.println("user notifications"+user.getName()+": "+user.getRequest_notifications());
 
         requestsObservableList = FXCollections.observableArrayList(user.getRequest_notifications());
         requestListView.setItems(requestsObservableList);

@@ -12,8 +12,6 @@ public class ChatListener {
         Message createMessage = new Message();
         createMessage.setType(MessageType.USER);
         createMessage.setMsg(msg);
-        System.out.println("message ready to be sent to the server");
-        //TODO send this message to the server
 
     }
 }

@@ -24,10 +24,12 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
+import org.project.App;
 import org.project.controller.ClientImp;
 import org.project.controller.MainDeligator;
 import org.project.controller.chat_home.left_side.LeftSideController;
 import org.project.controller.chat_home.right_side.MainChatController;
+import org.project.controller.chat_home.right_side.WelcomeController;
 import org.project.controller.login.LoginController;
 import org.project.controller.messages.Message;
 import org.project.model.ChatRoom;
@@ -45,6 +47,28 @@ import java.util.ResourceBundle;
 
 public class HomeController implements Initializable, Serializable {
 
+    public Parent getPrevScene() {
+        return prevScene;
+    }
+
+    public void setPrevScene(Parent prevScene) {
+        this.prevScene = prevScene;
+    }
+    WelcomeController welcomeController;
+
+    Parent prevScene;
+    public void recieveServerDown() {
+        Platform.runLater(() -> {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/serverDown.fxml"));
+            try {
+                Parent root = loader.load();
+                HomeController homeController = loader.getController();
+                stage.setScene(new Scene(root));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
 
     public BorderPane getBorderBaneStage() {
         return borderBaneStage;
@@ -79,21 +103,27 @@ public class HomeController implements Initializable, Serializable {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) throws Exception {
+    public void setPhoneNumber(String phoneNumber){
         this.phoneNumber = phoneNumber;
-        user = getUserData(this.phoneNumber);
-        System.out.println("getting user data"+user);
-        mainDeligator.setUser(user);
-        mainDeligator.setHomeController(this);
-        System.out.println(user);
-        initClient();
-        initLeftSide();
-        initRightSide();
+        try {
+            user = getUserData(this.phoneNumber);
+            mainDeligator.setUser(user);
+            mainDeligator.setHomeController(this);
+            initClient();
+            initLeftSide();
+            initRightSide();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void initClient() throws RemoteException {
         clientImp = new ClientImp(user, mainDeligator , this);
-        System.out.println("in init clint");
         mainDeligator.registerClient(clientImp);
     }
 
@@ -125,14 +155,16 @@ public class HomeController implements Initializable, Serializable {
     private void initRightSide() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/right_side/welcome_view.fxml"));
         Pane root = (Pane) loader.load();
+        welcomeController = loader.getController();
+        welcomeController.setHomeController(this);
         borderBaneStage.setCenter(root);
+        ChatRoom chatRoom = new ChatRoom();
     }
 
     private void initLeftSide() throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/left_side/Left_Chat_pane.fxml"));
         Pane root = (Pane) loader.load();
         leftSideController = loader.getController();
-        System.out.println("in initleftmethod" + user);
         leftSideController.setTabPane(user, this);
         leftSideController.setUserIcon(user, this);
         leftSideController.setMainDeligator(mainDeligator);
@@ -149,30 +181,60 @@ public class HomeController implements Initializable, Serializable {
     }*/
 
 
-    public void openChatRoom(ChatRoom chatRoom, boolean isChatRoomExist) throws Exception {
-        System.out.println("in open chat room");
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/right_side/main_chat.fxml"));
-        Parent root = loader.load();
-        mainChatController = loader.getController();
-        mainChatController.setmUser(user);
-        System.out.println("inside homecontroller user "+user.getName()+" friends are-->"+user.getFriends());
-        mainChatController.setHomeController(this);
-        mainChatController.setChatRoom(chatRoom);
-        borderBaneStage.setCenter(root);
-        if (!isChatRoomExist) {
-            mainChatController.displayMessagesFromArrList();
+    public void openChatRoom(ChatRoom chatRoom, boolean isChatRoomExist){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/right_side/main_chat.fxml"));
+            Parent root = loader.load();
+            mainChatController = loader.getController();
+            mainChatController.setmUser(user);
+            mainChatController.setHomeController(this);
+            mainChatController.setChatRoom(chatRoom);
+            borderBaneStage.setCenter(root);
+            if (!isChatRoomExist) {
+                mainChatController.displayMessagesFromArrList();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
     }
 
     public void addChatRoom(ChatRoom chatRoom) throws IOException {
         user.getChatRooms().add(chatRoom);
-        System.out.println("user chatrooms after adding new one"+ user.getChatRooms());
-        System.out.println("here is your chat room " + chatRoom.getChatRoomId());
     }
 
     public void reciveMsg(Message newMsg, ChatRoom chatRoom) throws Exception {
-        System.out.println("thi is the chatroom + " + chatRoom);
-        mainChatController.reciveMsg(newMsg, chatRoom);
+        if (mainChatController != null){
+            mainChatController.reciveMsg(newMsg, chatRoom);
+        }else{
+            Platform.runLater(() -> {
+                Notifications notificationBuilder = Notifications.create()
+                        .title("Announcement")
+                        .graphic(new ImageView(new Image(getClass().getResource("/org/project/images/birthday.png").toExternalForm())))// todo  newMsg.getUser().getDisplayPicture()
+                        .text("New Message from : " + newMsg.getUser().getName())
+                        .hideAfter(Duration.seconds(8))
+                        .position(Pos.BOTTOM_RIGHT)
+                        .onAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent event) {
+                                System.out.println("announcement has been clicked");
+                            }
+                        });
+                notificationBuilder.darkStyle();
+                getStage().show();
+                getStage().requestFocus();
+                AudioClip clip = null;
+                try {
+                    clip = new AudioClip(getClass().getResource("/org/project/sounds/notification.wav").toURI().toString());
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
+                clip.play();
+                notificationBuilder.show();
+            });
+
+        }
+
     }
 
    /* public void notifyrecieveFile(Message newMsg, ChatRoom chatRoom, int userSendFileId) {
@@ -180,7 +242,7 @@ public class HomeController implements Initializable, Serializable {
               mainChatController.notifyrecieveFile(newMsg, chatRoom,userSendFileId);
     }*/
 
-    public ChatRoom requestChatRoom(ArrayList<Users> chatroomUsers) {
+    public ChatRoom requestChatRoom(ArrayList<Users> chatroomUsers) throws RemoteException {
         return mainDeligator.requestChatRoom(chatroomUsers);
     }
 
@@ -364,11 +426,41 @@ public class HomeController implements Initializable, Serializable {
         Platform.runLater(thread);
     }
 
+    public void recieveServerUp() {
+        Platform.runLater(() -> {
+            try {
+                App.setRoot("/org/project/views/login_view");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        });
+
+    }
+
+
+
     public void fileSendAccepted(Users users) throws RemoteException {
         mainDeligator.fileSendAccepted(users);
     }
 
     public void sendFileToReceiver() {
         mainChatController.sendFileToReceiver();
+    }
+
+    public void userIsLoggedOf() {
+        mainChatController.userIsLoggedOf();
+    }
+
+    public void setsetverIsAlive() throws IOException {
+        if (welcomeController != null){
+            welcomeController.setsetverIsAlive();
+        }else {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/serverDown.fxml"));
+            Pane root = (Pane) loader.load();
+            getStage().setScene(new Scene(root));
+        }
+
+
     }
 }

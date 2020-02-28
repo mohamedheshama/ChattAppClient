@@ -53,7 +53,6 @@ public class UserIconController {
         settings.getItems().addAll("Update Profile","Save ChatSession","Logout");
         userName.setText(user.getName());
         try {
-            System.out.println("user display picture"+user.getDisplayPicture());
 
             if (user.getDisplayPicture() != null) {
                 BufferedImage image = null;
@@ -67,12 +66,8 @@ public class UserIconController {
             e.printStackTrace();
         }
         setStatus();
-        System.out.println(user.getRequest_notifications());
         choicebox.setOnAction(event -> {
             UserStatus newStatus=UserStatus.valueOf(choicebox.getSelectionModel().getSelectedItem().toString());
-            System.out.println(newStatus);
-            System.out.println(user);
-            System.out.println(homeController);
             user.setStatus(newStatus);
             homeController.updateStatus(user,newStatus);
             homeController.updateRequestNotifications(user.getFriends());
