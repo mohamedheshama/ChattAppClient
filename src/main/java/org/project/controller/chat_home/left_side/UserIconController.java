@@ -1,32 +1,25 @@
 package org.project.controller.chat_home.left_side;
 
-;
-
 import com.jfoenix.controls.JFXComboBox;
 import javafx.embed.swing.SwingFXUtils;
-import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
-import org.project.App;
 import org.project.controller.chat_home.HomeController;
 import org.project.controller.chat_home.right_side.MainChatController;
 import org.project.model.dao.users.UserStatus;
 import org.project.model.dao.users.Users;
 
+import javax.xml.bind.JAXBException;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.net.URL;
-import java.net.UnknownServiceException;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
-import java.util.ResourceBundle;
 
 public class UserIconController {
 
@@ -50,7 +43,7 @@ public class UserIconController {
         choicebox.getItems().addAll("Available", "Busy", "Away");
         choicebox.setValue(user.getStatus().toString());
         settings_icon.setImage(new Image(getClass().getResource("/org/project/images/settings.png").toExternalForm()));
-        settings.getItems().addAll("Update Profile","Save ChatSession","Logout");
+        settings.getItems().addAll("Update Profile","Save ChatSession","Enable ChatBot","Logout");
         userName.setText(user.getName());
         try {
 
@@ -85,15 +78,34 @@ public class UserIconController {
                 }
             }else if (option.equals(("Logout"))){
                 try {
-                    if (homeController.logout(this.user)){
-                       homeController.switchToLoginPage();
+                    if (homeController.logout(this.user)) {
+                        homeController.switchToLoginPage();
+/*
+                        if (homeController.getLoginController().getUSerDataFile().exists()) {
+                            System.out.println("d5l fl if");
+                            File dataOfUserFile = homeController.getLoginController().getUSerDataFile();
+
+                            boolean deleteFile = Files.deleteIfExists(dataOfUserFile.toPath());
+                            System.out.println("the file delete when user logout" + deleteFile);
+                        }
+
+ */
                     }
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            } else if (option.equals("Save ChatSession")) {
+                System.out.println("Save chat session");
+                try {
+                    homeController.saveChatSession();
+                } catch (JAXBException e) {
+                    e.printStackTrace();
+                }
             }
+
+
         });
 
 

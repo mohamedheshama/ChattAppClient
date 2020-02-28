@@ -5,11 +5,17 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import org.project.App;
 import org.project.controller.chat_home.HomeController;
 import org.project.controller.login.LoginController;
 import org.project.controller.messages.Message;
+import org.project.controller.register.RegisterController;
 import org.project.model.ChatRoom;
 import org.project.model.dao.users.UserStatus;
 import org.project.model.dao.users.Users;
@@ -27,6 +33,7 @@ import java.util.concurrent.TimeUnit;
 
 public class MainDeligator implements Serializable {
     Users user;
+    RegisterController registerController;
     HomeController homeController;
     ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
 
@@ -52,7 +59,7 @@ public class MainDeligator implements Serializable {
 
     public MainDeligator(){
         try {
-            this.serverConnectionController = new ServerConnectionController("127.0.0.1", 1260);
+            this.serverConnectionController = new ServerConnectionController("127.0.0.1", 1290);
             scheduledExecutorService.scheduleAtFixedRate(() -> {
                 try {
                     setverIsAlive();
@@ -151,9 +158,19 @@ public class MainDeligator implements Serializable {
     //end Karima
 
     // Hend
+
     public void registerUser(Users newUser) throws RemoteException, SQLException {
         if (serverConnectionController.getServicesInterface().register(newUser)) {
             System.out.println("user registe succesfully");
+            try {
+
+                App.setRoot("/org/project/views/login_view");
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
         } else {
             System.out.println("user can't registe");
         }
@@ -441,6 +458,6 @@ public class MainDeligator implements Serializable {
     }
 
     public void sendFileToReceiver() {
-
+        homeController.sendFileToReceiver();
     }
 }

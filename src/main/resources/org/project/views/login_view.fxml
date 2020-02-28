@@ -8,100 +8,113 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="mainPane" prefHeight="587.0" prefWidth="593.0" style="-fx-background-color: #09c; -fx-background-size: cover,auto; -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0);" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.controller.login.LoginController">
+<HBox  fx:id="mainPane" alignment="CENTER" style="-fx-background-color: #f0f5f5;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.controller.login.LoginController">
    <children>
-      <HBox alignment="CENTER" layoutX="120.0" layoutY="58.0" AnchorPane.bottomAnchor="58.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="58.0">
+      <AnchorPane id="testID" fx:id="background" maxHeight="641.0" maxWidth="700.0" minHeight="400.0" minWidth="200.0" prefHeight="641.0" prefWidth="683.0" style="-fx-background-color: #607d8b;  -fx-background-size: cover,auto; -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.5), 10, 0, 0, 0);" HBox.hgrow="ALWAYS">
          <children>
-            <AnchorPane minWidth="342.0" opacity="0.96" style="-fx-background-color: #fff; -fx-background-radius: 20px; -fx-border-radius: 20px; -fx-border-width: 1px; -fx-border-color: #999; -fx-background-color: rgba(0,18,35,0.15);">
-               <cursor>
-                  <Cursor fx:constant="H_RESIZE" />
-               </cursor>
-               <children>
-                  <HBox alignment="CENTER" layoutX="8.0" layoutY="14.0" prefHeight="63.0" prefWidth="344.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
-                     <children>
-                        <ImageView fitHeight="63.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" style="-fx-border-radius: 20px; -fx-border-width: 5px;">
-                           <image>
-                              <Image url="@../images/photo-1553905346-3b6e399115b4.jpg" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" layoutX="12.0" layoutY="140.0" prefHeight="26.0" prefWidth="314.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
-                     <children>
-                        <ImageView fitHeight="26.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/person.png" />
-                           </image>
-                           <HBox.margin>
-                              <Insets top="6.0" />
-                           </HBox.margin>
-                        </ImageView>
-                        <JFXTextField fx:id="phonenumber_Txtfield" focusColor="#f9fafd" prefHeight="8.0" prefWidth="295.0" promptText="phone number " style="-fx-text-fill: #fff;" unFocusColor="#675858" HBox.hgrow="ALWAYS">
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
-                        </JFXTextField>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" layoutX="12.0" layoutY="195.0" prefHeight="26.0" prefWidth="314.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
-                     <children>
-                        <ImageView fitHeight="26.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/password.png" />
-                           </image>
-                           <HBox.margin>
-                              <Insets top="5.0" />
-                           </HBox.margin>
-                        </ImageView>
-                        <JFXPasswordField fx:id="password_TxtField" focusColor="#f8f9fc" prefHeight="25.0" prefWidth="296.0" promptText="Password" style="-fx-text-fill: #fff;" unFocusColor="#675858" HBox.hgrow="ALWAYS">
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
-                        </JFXPasswordField>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER_LEFT" layoutX="4.0" layoutY="242.0" prefHeight="18.0" prefWidth="341.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
-                     <children>
-                        <JFXCheckBox fx:id="keep_me_login_Chkbox" mnemonicParsing="false" text="Keep me Logged in " />
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" layoutX="1.0" layoutY="310.0" prefHeight="42.0" prefWidth="344.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                     <children>
-                        <JFXButton fx:id="login_Btn" buttonType="RAISED" mnemonicParsing="false" onAction="#view" prefHeight="26.0" prefWidth="221.0" ripplerFill="#69b1c3" style="-fx-border-radius: 20px;" text="Log in" textFill="#fffdfd">
-                           <font>
-                              <Font size="19.0" />
-                           </font>
-                        </JFXButton>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" layoutX="3.0" layoutY="402.0" prefHeight="18.0" prefWidth="342.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                     <children>
-                        <Label fx:id="new_user_register_label" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#registerNewUser" prefHeight="18.0" prefWidth="367.0" text="New User Register" underline="true" HBox.hgrow="ALWAYS" />
-                     </children>
-                  </HBox>
-                  <Label fx:id="error_msg_password_label" layoutX="40.0" layoutY="229.0" prefHeight="17.0" prefWidth="196.0" text="Wrong password ! please try again.." textFill="#d72828" visible="false" />
-                  <Label fx:id="error_msg_phone_label" layoutX="52.0" layoutY="178.0" prefHeight="17.0" prefWidth="132.0" text="phone number not Exist" textFill="#d31616" visible="false" />
-               </children>
-            </AnchorPane>
-         </children>
-      </HBox>
-      <HBox alignment="CENTER" layoutY="2.0" prefHeight="58.0" prefWidth="594.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" text="Speak" textFill="#f8f1f1">
-               <font>
-                  <Font name="Berlin Sans FB Demi Bold" size="48.0" />
-               </font>
-            </Label>
-         </children>
-      </HBox>
-      <HBox alignment="CENTER" layoutX="-1.0" layoutY="556.0" prefHeight="58.0" prefWidth="593.0" AnchorPane.bottomAnchor="-8.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-         <children>
-            <Label text="\@2020 Speak Chat  . All rights reserved,Design by ITI" textFill="#fffafa">
+
+            <Label alignment="CENTER" layoutX="155.0" layoutY="573.0" prefHeight="18.0" prefWidth="324.0" text="\@2020 Speak Chat  . All rights reserved,Design by ITI" textFill="WHITE">
                <font>
                   <Font size="11.0" />
                </font>
             </Label>
+            <AnchorPane layoutX="24.0" layoutY="156.0">
+               <children>
+
+
+                  <Pane prefHeight="318.0" prefWidth="607.0" style="-fx-background-color: #b3b3ff;">
+
+
+                     <ImageView fitHeight="318.0" fitWidth="607.0" layoutY="-1.0" style="-fx-filter: grayscale(100%); -fx-opacity: 0.5; -fx-animation-name: animar_fondo; -fx-animation-duration: 20s; -fx-animation-timing-function: linear; -fx-animation-iteration-count: infinite; -fx-animation-direction: alternate;;">
+                        <image>
+                           <Image url="@../images/building.jpg" />
+                        </image>
+                     </ImageView>
+                     <AnchorPane layoutX="229.0" layoutY="-104.0" minWidth="342.0" opacity="0.96" prefHeight="518.0" prefWidth="364.0" style="-fx-background-radius: 20px; -fx-border-radius: 20px; -fx-border-width: 1px; -fx-border-color: #999; -fx-background-color: rgba(255,255,255,0.9);">
+                        <cursor>
+                           <Cursor fx:constant="H_RESIZE" />
+                        </cursor>
+                        <children>
+                           <HBox alignment="CENTER" layoutX="-10.0" layoutY="27.0" prefHeight="63.0" prefWidth="344.0" AnchorPane.leftAnchor="-10.0" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="27.0">
+                              <children>
+                                 <Label text="Speak" textFill="#7a12ca">
+                                    <font>
+                                       <Font name="Berlin Sans FB Demi Bold" size="48.0" />
+                                    </font></Label>
+                              </children>
+                           </HBox>
+                           <HBox alignment="CENTER" layoutX="12.0" layoutY="140.0" prefHeight="26.0" prefWidth="314.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                              <children>
+                                 <ImageView fitHeight="26.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@../images/person.png" />
+                                    </image>
+                                    <HBox.margin>
+                                       <Insets top="6.0" />
+                                    </HBox.margin>
+                                 </ImageView>
+                                 <JFXTextField fx:id="phonenumber_Txtfield" focusColor="#f9fafd" prefHeight="8.0" prefWidth="295.0" promptText="phone number " style="-fx-text-fill: #000;" unFocusColor="#675858" HBox.hgrow="ALWAYS">
+                                    <HBox.margin>
+                                       <Insets left="10.0" />
+                                    </HBox.margin>
+                                 </JFXTextField>
+                              </children>
+                           </HBox>
+                           <HBox alignment="CENTER" layoutX="12.0" layoutY="195.0" prefHeight="26.0" prefWidth="314.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                              <children>
+                                 <ImageView fitHeight="26.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@../images/password.png" />
+                                    </image>
+                                    <HBox.margin>
+                                       <Insets top="5.0" />
+                                    </HBox.margin>
+                                 </ImageView>
+                                 <JFXPasswordField fx:id="password_TxtField" focusColor="#f8f9fc" prefHeight="25.0" prefWidth="296.0" promptText="Password" style="-fx-text-fill: #000;" unFocusColor="#675858" HBox.hgrow="ALWAYS">
+                                    <HBox.margin>
+                                       <Insets left="10.0" />
+                                    </HBox.margin>
+                                 </JFXPasswordField>
+                              </children>
+                           </HBox>
+                           <HBox alignment="CENTER_LEFT" layoutX="4.0" layoutY="242.0" prefHeight="18.0" prefWidth="341.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                              <children>
+                                 <JFXCheckBox fx:id="keep_me_login_Chkbox" checkedColor="#87109c" mnemonicParsing="false" text="Keep me Logged in " />
+                              </children>
+                           </HBox>
+                           <HBox alignment="CENTER" layoutX="1.0" layoutY="310.0" prefHeight="42.0" prefWidth="344.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                              <children>
+                                 <JFXButton fx:id="login_Btn" buttonType="RAISED" mnemonicParsing="false" onAction="#view" prefHeight="42.0" prefWidth="144.0" ripplerFill="#69b1c3" style="-fx-border-radius: 20px; -fx-background-color: #7a12ca;" text="Log in" textFill="#fffdfd">
+                                    <font>
+                                       <Font size="19.0" />
+                                    </font>
+                                 </JFXButton>
+                              </children>
+                           </HBox>
+                           <HBox alignment="CENTER" layoutX="3.0" layoutY="402.0" prefHeight="18.0" prefWidth="342.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                              <children>
+                                 <Label fx:id="new_user_register_label" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#registerNewUser" prefHeight="15.0" prefWidth="362.0" text="New User Register" underline="true" HBox.hgrow="ALWAYS" />
+                              </children>
+                           </HBox>
+                           <Label fx:id="error_msg_password_label" layoutX="40.0" layoutY="229.0" prefHeight="17.0" prefWidth="196.0" text="Wrong password ! please try again.." textFill="#d72828" visible="false" />
+                           <Label fx:id="error_msg_phone_label" layoutX="52.0" layoutY="178.0" prefHeight="17.0" prefWidth="132.0" text="phone number not Exist" textFill="#d31616" visible="false" />
+                        </children>
+                     </AnchorPane>
+
+
+                     <children>
+                        <!--<Label layoutX="24.0" layoutY="79.0" text="Have an account ?" textFill="WHITE">
+                           <font>
+                              <Font name="Berlin Sans FB Demi Bold" size="24.0" />
+                           </font>
+                        </Label>-->
+
+                     </children>
+                  </Pane>
+               </children>
+            </AnchorPane>
+
          </children>
-      </HBox>
+      </AnchorPane>
    </children>
-</AnchorPane>
+</HBox>
