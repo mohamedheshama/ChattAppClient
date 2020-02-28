@@ -68,12 +68,14 @@ public class ChatListView implements Initializable {
     }*/
 
     public void handle(MouseEvent event) throws Exception {
-        if (chatsListView != null && currentChatRoom != null){
+        if (chatsListView != null){
             ChatRoom groupChatRoom = (ChatRoom) chatsListView.getSelectionModel().getSelectedItem();
             currentChatRoom = requestChatRoom(groupChatRoom.getUsers());
+            System.out.println("before if opening chatroom chatroom");
             if (currentChatRoom != null) {
                 boolean isChatRoomAdded = addChatRoom(currentChatRoom);
                 homeController.openChatRoom(currentChatRoom, isChatRoomAdded);
+                System.out.println(" after if opening chatroom");
             }
         }
 

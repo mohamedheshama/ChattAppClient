@@ -31,6 +31,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 import org.project.controller.MainDeligator;
+import org.project.controller.XmlTransformer;
 import org.project.controller.chat_home.HomeController;
 import org.project.controller.createXML.SaveXml;
 import org.project.controller.messages.Message;
@@ -42,16 +43,14 @@ import org.project.controller.security.RSAEncryptionWithAES;
 import org.project.model.ChatRoom;
 import org.project.model.dao.users.Users;
 
+import javax.xml.bind.JAXBException;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -106,6 +105,7 @@ public class MainChatController implements Initializable {
     public void setmUser(Users mUser) {
         this.mUser = mUser;
     }
+    public Users getmUser(){return mUser;}
 
     private String colorPicked;
     private String fontFamily = "Arial";
@@ -122,6 +122,7 @@ public class MainChatController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         try {
             rsaEncryptionWithAES = new RSAEncryptionWithAES();
         } catch (Exception e) {
@@ -524,4 +525,8 @@ public class MainChatController implements Initializable {
         });
     }
 
+    public void saveChatSession() throws JAXBException {
+        XmlTransformer xmlTransformer= new XmlTransformer(chatRoom.getChatRoomMessage() , chatRoom.getUsers());
+        xmlTransformer.transform();
+    }
 }

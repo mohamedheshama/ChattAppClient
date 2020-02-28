@@ -36,6 +36,7 @@ import org.project.model.ChatRoom;
 import org.project.model.dao.users.UserStatus;
 import org.project.model.dao.users.Users;
 
+import javax.xml.bind.JAXBException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URISyntaxException;
@@ -44,6 +45,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+
 
 public class HomeController implements Initializable, Serializable {
 
@@ -69,6 +71,7 @@ public class HomeController implements Initializable, Serializable {
         });
     }
 
+
     public BorderPane getBorderBaneStage() {
         return borderBaneStage;
     }
@@ -76,6 +79,7 @@ public class HomeController implements Initializable, Serializable {
     @FXML
     private transient BorderPane borderBaneStage;
     transient MainDeligator mainDeligator;
+    private LoginController loginController;
 
     public ArrayList<ChatRoom> getChatRooms() {
         return chatRooms;
@@ -145,6 +149,10 @@ public class HomeController implements Initializable, Serializable {
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    public LoginController getLoginController() {
+        return loginController;
     }
 
     @Override
@@ -465,5 +473,9 @@ public class HomeController implements Initializable, Serializable {
         }
 
 
+    }
+
+    public void saveChatSession() throws JAXBException {
+        mainChatController.saveChatSession();
     }
 }
