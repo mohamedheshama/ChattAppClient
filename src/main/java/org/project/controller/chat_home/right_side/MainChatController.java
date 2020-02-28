@@ -34,7 +34,6 @@ import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 import org.project.controller.MainDeligator;
 import org.project.controller.chat_home.HomeController;
-import org.project.controller.createXML.SaveXml;
 import org.project.controller.messages.Message;
 import org.project.controller.messages.MessageType;
 import org.project.controller.messages.voiceMessage.VoicePlayback;
@@ -107,6 +106,7 @@ public class MainChatController implements Initializable {
     public void setmUser(Users mUser) {
         this.mUser = mUser;
     }
+    public Users getmUser(){return mUser;}
 
     private String colorPicked;
     private String fontFamily = "Arial";
@@ -121,6 +121,7 @@ public class MainChatController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         try {
             rsaEncryptionWithAES = new RSAEncryptionWithAES();
         } catch (Exception e) {
@@ -506,4 +507,6 @@ public class MainChatController implements Initializable {
         homeController.sendMsg(createMessage, chatRoom);
         msgTxtField.setText("");
     }
+
+
 }

@@ -96,6 +96,8 @@ public class ClientImp extends UnicastRemoteObject implements ClientInterface {
         mainDeligator.notifyUserLoggedOut(user);
     }
 
+
+
     @Override
     public void recieveUpdatedNotifications(Users user) throws RemoteException {
         try {

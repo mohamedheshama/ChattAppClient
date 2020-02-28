@@ -10,8 +10,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -43,7 +41,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+
 public class HomeController implements Initializable, Serializable {
+
 
 
     public BorderPane getBorderBaneStage() {
@@ -53,6 +53,7 @@ public class HomeController implements Initializable, Serializable {
     @FXML
     private transient BorderPane borderBaneStage;
     transient MainDeligator mainDeligator;
+    private LoginController loginController;
 
     public ArrayList<ChatRoom> getChatRooms() {
         return chatRooms;
@@ -89,6 +90,7 @@ public class HomeController implements Initializable, Serializable {
         initClient();
         initLeftSide();
         initRightSide();
+
     }
 
     private void initClient() throws RemoteException {
@@ -115,6 +117,10 @@ public class HomeController implements Initializable, Serializable {
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    public LoginController getLoginController() {
+        return loginController;
     }
 
     @Override
@@ -325,7 +331,7 @@ public class HomeController implements Initializable, Serializable {
     public void switchToLoginPage() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/login_view.fxml"));
         Parent root = loader.load();
-        LoginController loginController = loader.getController();
+        loginController = loader.getController();
         getStage().setScene(new Scene(root));
     }
 
@@ -363,4 +369,6 @@ public class HomeController implements Initializable, Serializable {
         });
         Platform.runLater(thread);
     }
+
+
 }

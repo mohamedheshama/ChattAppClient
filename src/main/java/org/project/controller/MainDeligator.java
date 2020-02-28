@@ -1,8 +1,6 @@
 package org.project.controller;
 
 import com.healthmarketscience.rmiio.RemoteInputStream;
-import javafx.application.Platform;
-import org.project.App;
 import org.project.controller.chat_home.HomeController;
 import org.project.controller.messages.Message;
 import org.project.model.ChatRoom;
@@ -390,4 +388,6 @@ public class MainDeligator implements Serializable {
     public void notifyUserLoggedOut(Users user) {
         homeController.notifyUserLoggedOut(user);
     }
+
+
 }
