@@ -21,7 +21,6 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 import java.util.Scanner;
@@ -81,16 +80,7 @@ public class LoginController implements Initializable , LoginInterface {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
-
-        try {
             mainDeligator = new MainDeligator();
-
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        } catch (NotBoundException e) {
-            e.printStackTrace();
-        }
     }
     public File getUSerDataFile ()
     {

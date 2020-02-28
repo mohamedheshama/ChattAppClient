@@ -16,9 +16,7 @@ import org.project.model.dao.users.Users;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 
@@ -79,17 +77,20 @@ public class UserIconController {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }else if (option.equals(("Logout"))){
+            }else if (option.equals(("Logout"))) {
                 try {
-                    if (homeController.logout(this.user)){
-                       homeController.switchToLoginPage();
-                       File dataOfUserFile = homeController.getLoginController().getUSerDataFile();
-                       if(dataOfUserFile.exists()) {
-                           boolean deleteFile = Files.deleteIfExists(dataOfUserFile.toPath());
-                           System.out.println("the file delete when user logout" +deleteFile);
+                    if (homeController.logout(this.user)) {
+                        homeController.switchToLoginPage();
+/*
+                        if (homeController.getLoginController().getUSerDataFile().exists()) {
+                            System.out.println("d5l fl if");
+                            File dataOfUserFile = homeController.getLoginController().getUSerDataFile();
 
-                       }
+                            boolean deleteFile = Files.deleteIfExists(dataOfUserFile.toPath());
+                            System.out.println("the file delete when user logout" + deleteFile);
+                        }
 
+ */
                     }
                 } catch (RemoteException e) {
                     e.printStackTrace();
@@ -97,7 +98,9 @@ public class UserIconController {
                     e.printStackTrace();
                 }
             }
-        });
+
+
+            });
 
 
     }
