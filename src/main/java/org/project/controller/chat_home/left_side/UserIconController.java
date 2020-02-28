@@ -1,20 +1,14 @@
 package org.project.controller.chat_home.left_side;
 
-;
-
 import com.jfoenix.controls.JFXComboBox;
 import javafx.embed.swing.SwingFXUtils;
-import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
-import org.project.App;
-import org.project.controller.XmlTransformer;
 import org.project.controller.chat_home.HomeController;
 import org.project.controller.chat_home.right_side.MainChatController;
 import org.project.model.dao.users.UserStatus;
@@ -24,11 +18,8 @@ import javax.xml.bind.JAXBException;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.net.URL;
-import java.net.UnknownServiceException;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
-import java.util.ResourceBundle;
 
 public class UserIconController {
 
@@ -46,13 +37,13 @@ public class UserIconController {
 
     public void setUser(Users user, HomeController homeController) {
         this.user = user;
-        this.homeController=homeController;
+        this.homeController = homeController;
         Image userPicture = new Image(getClass().getResource("/org/project/images/iman.jpg").toExternalForm(), false);
         Userimage.setFill(new ImagePattern(userPicture));
         choicebox.getItems().addAll("Available", "Busy", "Away");
         choicebox.setValue(user.getStatus().toString());
         settings_icon.setImage(new Image(getClass().getResource("/org/project/images/settings.png").toExternalForm()));
-        settings.getItems().addAll("Update Profile","Save ChatSession","Logout");
+        settings.getItems().addAll("Update Profile", "Save ChatSession", "Logout");
         userName.setText(user.getName());
         try {
 
@@ -69,23 +60,23 @@ public class UserIconController {
         }
         setStatus();
         choicebox.setOnAction(event -> {
-            UserStatus newStatus=UserStatus.valueOf(choicebox.getSelectionModel().getSelectedItem().toString());
+            UserStatus newStatus = UserStatus.valueOf(choicebox.getSelectionModel().getSelectedItem().toString());
             user.setStatus(newStatus);
-            homeController.updateStatus(user,newStatus);
+            homeController.updateStatus(user, newStatus);
             homeController.updateRequestNotifications(user.getFriends());
             choicebox.setValue(user.getStatus());
             setStatus();
         });
 
         settings.setOnAction(actionEvent -> {
-            String option=settings.getSelectionModel().getSelectedItem().toString();
-            if(option.equals("Update Profile")){
+            String option = settings.getSelectionModel().getSelectedItem().toString();
+            if (option.equals("Update Profile")) {
                 try {
                     homeController.setSceneForUpdateUser();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }else if (option.equals(("Logout"))) {
+            } else if (option.equals(("Logout"))) {
                 try {
                     if (homeController.logout(this.user)) {
                         homeController.switchToLoginPage();
@@ -105,16 +96,17 @@ public class UserIconController {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }}else if(option.equals("Save ChatSession")){
-            System.out.println("Save chat session");
-            try {
-                homeController.saveChatSession();
-            } catch (JAXBException e) {
-                e.printStackTrace();
+            } else if (option.equals("Save ChatSession")) {
+                System.out.println("Save chat session");
+                try {
+                    homeController.saveChatSession();
+                } catch (JAXBException e) {
+                    e.printStackTrace();
+                }
             }
 
 
-            });
+        });
 
 
     }
