@@ -46,6 +46,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+
 public class HomeController implements Initializable, Serializable {
 
     public Parent getPrevScene() {
@@ -71,6 +72,7 @@ public class HomeController implements Initializable, Serializable {
         });
     }
 
+
     public BorderPane getBorderBaneStage() {
         return borderBaneStage;
     }
@@ -78,6 +80,7 @@ public class HomeController implements Initializable, Serializable {
     @FXML
     private transient BorderPane borderBaneStage;
     transient MainDeligator mainDeligator;
+    private LoginController loginController;
 
     public ArrayList<ChatRoom> getChatRooms() {
         return chatRooms;
@@ -146,6 +149,10 @@ public class HomeController implements Initializable, Serializable {
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    public LoginController getLoginController() {
+        return loginController;
     }
 
     @Override

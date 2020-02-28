@@ -85,30 +85,36 @@ public class UserIconController {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }else if (option.equals(("Logout"))){
+            }else if (option.equals(("Logout"))) {
                 try {
-                    if (homeController.logout(this.user)){
-                       homeController.switchToLoginPage();
+                    if (homeController.logout(this.user)) {
+                        homeController.switchToLoginPage();
+/*
+                        if (homeController.getLoginController().getUSerDataFile().exists()) {
+                            System.out.println("d5l fl if");
+                            File dataOfUserFile = homeController.getLoginController().getUSerDataFile();
+
+                            boolean deleteFile = Files.deleteIfExists(dataOfUserFile.toPath());
+                            System.out.println("the file delete when user logout" + deleteFile);
+                        }
+
+ */
                     }
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }else if(option.equals("Save ChatSession")){
-                System.out.println("Save chat session");
-                try {
-                    homeController.saveChatSession();
-                } catch (JAXBException e) {
-                    e.printStackTrace();
-                }
+            }}else if(option.equals("Save ChatSession")){
+            System.out.println("Save chat session");
+            try {
+                homeController.saveChatSession();
+            } catch (JAXBException e) {
+                e.printStackTrace();
             }
-            settings.getSelectionModel().clearSelection();
 
 
-
-
-        });
+            });
 
 
     }

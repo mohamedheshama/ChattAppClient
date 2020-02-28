@@ -105,6 +105,7 @@ public class MainChatController implements Initializable {
     public void setmUser(Users mUser) {
         this.mUser = mUser;
     }
+    public Users getmUser(){return mUser;}
 
     private String colorPicked;
     private String fontFamily = "Arial";
@@ -121,6 +122,7 @@ public class MainChatController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         try {
             rsaEncryptionWithAES = new RSAEncryptionWithAES();
         } catch (Exception e) {

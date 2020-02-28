@@ -14,11 +14,16 @@ import org.project.controller.MainDeligator;
 import org.project.controller.chat_home.HomeController;
 import org.project.model.dao.users.Users;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
-import java.rmi.NotBoundException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.rmi.RemoteException;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 
 public class LoginController implements Initializable , LoginInterface {
     public AnchorPane mainPane;
@@ -45,6 +50,8 @@ public class LoginController implements Initializable , LoginInterface {
     HomeController homecontroller;
 
     boolean userIsExist;
+    File file2;
+    Scanner sc = null;
 
     public Stage getStage() {
         return ((Stage) mainPane.getScene().getWindow());
@@ -52,6 +59,38 @@ public class LoginController implements Initializable , LoginInterface {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        try {
+            if (getUSerDataFile().exists()) {
+                File fileData = getUSerDataFile();
+                sc = new Scanner(getUSerDataFile());
+                sc.useDelimiter("\\Z");
+                String data = sc.nextLine();
+
+                System.out.println(data);
+                sc.close();
+                String[] dataOfUSerFromFile = data.split("\\/");
+
+                String phonefromkeep = (dataOfUSerFromFile[0]);
+                String passfromkeep = (dataOfUSerFromFile[1]);
+                phonenumber_Txtfield.setText(phonefromkeep);
+                password_TxtField.setText(passfromkeep);
+                keep_me_login_Chkbox.setSelected(true);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+            mainDeligator = new MainDeligator();
+    }
+    public File getUSerDataFile ()
+    {
+        String home = System.getProperty("user.home");
+        File userDataFile = new File(home+"\\Data");
+        boolean fileIsExists = userDataFile.exists();
+        System.out.print("the file is exist" +fileIsExists);
+
+        return userDataFile;
+
     }
 
     @FXML
@@ -64,11 +103,17 @@ public class LoginController implements Initializable , LoginInterface {
         try {
             mainDeligator = new MainDeligator();
             phonenumber_input = phonenumber_Txtfield.getText();
-
             password_input = password_TxtField.getText();
             userIsExist = checkUserLogin(phonenumber_input, password_input);
             if (userIsExist) {
                 keepme = keep_me_login_Chkbox.isSelected();
+                if (keepme)
+                {
+                    String home = System.getProperty("user.home");
+                    String dataOfUser = phonenumber_input+"/"+password_input;
+                    Path x=Files.write(Paths.get(home+"/Data"),dataOfUser.getBytes());
+                    file2 = new File(String.valueOf(x));
+                }
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/home.fxml"));
                 Parent root = fxmlLoader.load();
                 HomeController homeController = fxmlLoader.getController();
@@ -129,6 +174,18 @@ public class LoginController implements Initializable , LoginInterface {
 
     public String getPhoneNumber() {
         return phonenumber_input;
+    }
+
+
+    public void handleKeepMeReSelect(ActionEvent event) throws IOException {
+        if (!keep_me_login_Chkbox.isSelected())
+        {
+            if (getUSerDataFile().exists())
+            {
+                boolean del = Files.deleteIfExists(getUSerDataFile().toPath());
+                System.out.println("the file is deleted " +del);
+            }
+        }
     }
 
 }
