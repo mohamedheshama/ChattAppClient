@@ -28,6 +28,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 import org.project.controller.MainDeligator;
@@ -52,6 +53,9 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -93,7 +97,8 @@ public class MainChatController implements Initializable {
     }
 
     ChatRoom chatRoom;
-    @FXML ImageView microphoneImageView;
+    @FXML
+    ImageView microphoneImageView;
     MainDeligator mainDeligator;
     Image microphoneActiveImage = new Image(getClass().getResource("/org/project/images/microphone-active.png").toExternalForm());
     Image microphoneInactiveImage = new Image(getClass().getResource("/org/project/images/microphone.png").toExternalForm());
@@ -151,6 +156,7 @@ public class MainChatController implements Initializable {
             }
         });
         fontComboBox.getItems().addAll(Font.getFontNames());
+        updateFontComboBoxcell();
         fontColorPicker.setValue(Color.BLACK);
         colorPicked = toRGBCode(fontColorPicker.getValue());
         fontColorPicker.valueProperty().addListener((obs, oldVal, newVal) -> {
@@ -220,6 +226,32 @@ public class MainChatController implements Initializable {
         }
     }
 
+    public void updateFontComboBoxcell() {
+        fontComboBox.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
+            @Override
+            public ListCell<String> call(ListView<String> param) {
+                final ListCell<String> cell = new ListCell<String>() {
+                    {
+                        super.setPrefWidth(100);
+                    }
+
+                    @Override
+                    public void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (item != null) {
+                            setText(item);
+                            this.setFont(new Font(item, 15));
+
+                        } else {
+                            setText(null);
+                        }
+                    }
+                };
+                return cell;
+            }
+        });
+    }
+
     public void setTextFieldStyle() {
        // System.out.println("s;geod");
         String str = msgTxtField.getText().toString();
@@ -279,29 +311,7 @@ public class MainChatController implements Initializable {
 
     private void showMessageIncommingNotification(Message newMsg) {
         Platform.runLater(() -> {
-            Notifications notificationBuilder = Notifications.create()
-                    .title("Announcement")
-                    .graphic(new ImageView(new Image(getClass().getResource("/org/project/images/birthday.png").toExternalForm())))// todo  newMsg.getUser().getDisplayPicture()
-                    .text("New Message From : " + newMsg.getMsg())
-                    .hideAfter(Duration.seconds(8))
-                    .position(Pos.BOTTOM_RIGHT)
-                    .onAction(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent event) {
-                            System.out.println("announcement has been clicked");
-                        }
-                    });
-            notificationBuilder.darkStyle();
-            getStage().show();
-            getStage().requestFocus();
-            AudioClip clip = null;
-            try {
-                clip = new AudioClip(getClass().getResource("/org/project/sounds/notification.wav").toURI().toString());
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-            }
-            clip.play();
-            notificationBuilder.show();
+            createNotificationUI("New Message From : " + newMsg.getMsg(), "message.png");
         });
 
 
@@ -310,11 +320,11 @@ public class MainChatController implements Initializable {
     private void displayMsg(Message msg, Pos pos) {
         Platform.runLater(() -> {
             try {
-                if (msg.getType() == MessageType.VOICE){
+                if (msg.getType() == MessageType.VOICE) {
                     ImageView imageview = new ImageView(new Image((getClass().getResource("/org/project/images/birthday.png").toExternalForm())));
                     showMsgsBox.getChildren().addAll(recipientChatLine(msg, pos));
                     VoicePlayback.playAudio(msg.getVoiceMsg());
-                }else{
+                } else {
                     showMsgsBox.getChildren().addAll(recipientChatLine(msg, pos));
                 }
 
@@ -498,31 +508,45 @@ public class MainChatController implements Initializable {
 
     public void userIsLoggedOf() {
         Platform.runLater(() -> {
-            Notifications notificationBuilder = Notifications.create()
-                    .title("Announcement")
-                    .graphic(new ImageView(new Image(getClass().getResource("/org/project/images/admin-icon.png").toExternalForm())))// todo  newMsg.getUser().getDisplayPicture()
-                    .text("this user is logged of" )
-                    .hideAfter(Duration.seconds(8))
-                    .position(Pos.BOTTOM_RIGHT)
-                    .onAction(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent event) {
-                            System.out.println("announcement has been clicked");
-                        }
-                    });
-            notificationBuilder.darkStyle();
-            if (!getStage().isShowing())
-                getStage().show();
-            getStage().requestFocus();
-            AudioClip clip = null;
-            try {
-                clip = new AudioClip(getClass().getResource("/org/project/sounds/notification.wav").toURI().toString());
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-            }
-            clip.play();
-            notificationBuilder.show();
+            createNotificationUI("this user is logged of", "offlineUser.png");
         });
+    }
+
+    public void createNotificationUI(String notificationText, String imageName) {
+        HBox hBox = new HBox();
+        ImageView imageView = new ImageView();
+        imageView.setImage(new Image(getClass().getResource("/org/project/images/" + imageName).toExternalForm()));
+        imageView.setFitWidth(30);
+        imageView.setFitHeight(30);
+        Text text = new Text(notificationText);
+        hBox.setPadding(new Insets(20, 20, 20, 20));
+        hBox.setSpacing(5);
+        hBox.setStyle("-fx-background-color: aliceblue");
+        hBox.getChildren().add(imageView);
+        hBox.getChildren().add(text);
+        Notifications notificationBuilder = Notifications.create()
+                .title("Announcement")
+                .graphic(hBox)// todo  newMsg.getUser().getDisplayPicture()
+                .hideAfter(Duration.seconds(8))
+                .position(Pos.BOTTOM_RIGHT)
+                .onAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        System.out.println("announcement has been clicked");
+                    }
+                });
+        //notificationBuilder.darkStyle();
+        if (!getStage().isShowing())
+            getStage().show();
+        getStage().requestFocus();
+        AudioClip clip = null;
+        try {
+            clip = new AudioClip(getClass().getResource("/org/project/sounds/notification.wav").toURI().toString());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        clip.play();
+        notificationBuilder.show();
     }
 
     public void saveChatSession() throws JAXBException {

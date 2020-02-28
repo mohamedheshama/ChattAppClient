@@ -219,10 +219,22 @@ public class HomeController implements Initializable, Serializable {
             mainChatController.reciveMsg(newMsg, chatRoom);
         }else{
             Platform.runLater(() -> {
+                HBox hBox =new HBox();
+                ImageView imageView = new ImageView();
+                imageView.setImage(new Image(getClass().getResource("/org/project/images/message.png").toExternalForm()));
+                imageView.setFitWidth(30);
+                imageView.setFitHeight(30);
+                Text text =new Text("New Message from : " + newMsg.getUser().getName());
+                hBox.setPadding(new Insets(20,20,20,20
+
+                ));
+                hBox.setSpacing(5);
+                hBox.setStyle("-fx-background-color: aliceblue");
+                hBox.getChildren().add(imageView);
+                hBox.getChildren().add(text);
                 Notifications notificationBuilder = Notifications.create()
                         .title("Announcement")
-                        .graphic(new ImageView(new Image(getClass().getResource("/org/project/images/birthday.png").toExternalForm())))// todo  newMsg.getUser().getDisplayPicture()
-                        .text("New Message from : " + newMsg.getUser().getName())
+                        .graphic(hBox)// todo  newMsg.getUser().getDisplayPicture()
                         .hideAfter(Duration.seconds(8))
                         .position(Pos.BOTTOM_RIGHT)
                         .onAction(new EventHandler<ActionEvent>() {
@@ -344,7 +356,7 @@ public class HomeController implements Initializable, Serializable {
 
     public VBox drawAnnouncementVbox(Message newMsg) {
         VBox vBox = new VBox();
-        vBox.setPadding(new Insets(20, 20, 20, 20));
+        vBox.setPadding(new Insets(10, 20, 20, 10));
         Text text = new Text(newMsg.getMsg());
         text.setStyle("-fx-font-family:  \"" + newMsg.getFontFamily() + "\" "
                 + ";" + "-fx-font-size: " + newMsg.getFontSize()

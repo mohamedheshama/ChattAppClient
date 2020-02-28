@@ -23,14 +23,13 @@ import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 public class ContactListView implements Initializable {
     @FXML
     private ListView contactList;
     private ObservableList<Users> friendsObservableList;
     private Users user;
-    private  HomeController homeController;
+    private HomeController homeController;
     private NewContactController newContactController;
     ChatRoom currentChatRoom;
     ArrayList<ChatRoom> chatRooms;
@@ -40,30 +39,30 @@ public class ContactListView implements Initializable {
     }
 
 
-
     public void setContactListView(Users user, HomeController homeController) {
         this.user = user;
         this.homeController = homeController;
-        //friendsObservableList = FXCollections.observableArrayList(user.getFriends());
-        friendsObservableList = FXCollections.observableArrayList(user.getFriends().stream().filter(users ->!(users.getStatus().equals(UserStatus.valueOf("Offline")))).collect(Collectors.toList()));
-       if (friendsObservableList != null){
-           contactList.setItems(friendsObservableList);
-           contactList.setCellFactory(chatListView -> new ChatsListViewCell());
-           contactList.setCellFactory(new Callback<ListView<Users>, ListCell<Users>>() {
-               @Override
-               public ListCell<Users> call(javafx.scene.control.ListView<Users> UserListView) {
-                   return new ContactCell();
-               }
-           });
-       }
+        friendsObservableList = FXCollections.observableArrayList(user.getFriends());
+        //friendsObservableList = FXCollections.observableArrayList(user.getFriends().stream().filter(users -> !(users.getStatus().equals(UserStatus.valueOf("Offline")))).collect(Collectors.toList()));
+        if (friendsObservableList != null) {
+            contactList.setItems(friendsObservableList);
+            contactList.setCellFactory(chatListView -> new ChatsListViewCell());
+            contactList.setCellFactory(new Callback<ListView<Users>, ListCell<Users>>() {
+                @Override
+                public ListCell<Users> call(javafx.scene.control.ListView<Users> UserListView) {
+                    return new ContactCell();
+                }
+            });
+        }
 
     }
+
     public void handleNewContact(ActionEvent event) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/right_side/addContact_view.fxml"));
         Parent root = null;
         try {
             root = loader.load();
-            newContactController =loader.getController();
+            newContactController = loader.getController();
             newContactController.setUser(user);
             newContactController.setHomeController(homeController);
             homeController.getBorderBaneStage().setCenter(root);
@@ -74,31 +73,34 @@ public class ContactListView implements Initializable {
         }
 
     }
-    public void handle(MouseEvent event)  {
-        Users friendUser = (Users) contactList.getSelectionModel().getSelectedItem();
-        ArrayList<Users> chatroomUsers = new ArrayList<>();
-        chatroomUsers.add(friendUser);
-        chatroomUsers.add(this.user);
-        try {
-            currentChatRoom = requestChatRoom(chatroomUsers);
-            if (currentChatRoom != null){
-                boolean isChatRoomAdded = addChatRoom(currentChatRoom);
-                homeController.openChatRoom(currentChatRoom , isChatRoomAdded);
-            }else{
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("this user has an issue please contact him later");
-                alert.setTitle("EROOR");
-                alert.show();
+
+    public void handle(MouseEvent event) {
+        if (contactList.getSelectionModel().getSelectedItem() != null) {
+
+            Users friendUser = (Users) contactList.getSelectionModel().getSelectedItem();
+            ArrayList<Users> chatroomUsers = new ArrayList<>();
+            chatroomUsers.add(friendUser);
+            chatroomUsers.add(this.user);
+            try {
+                currentChatRoom = requestChatRoom(chatroomUsers);
+                if (currentChatRoom != null) {
+                    boolean isChatRoomAdded = addChatRoom(currentChatRoom);
+                    homeController.openChatRoom(currentChatRoom, isChatRoomAdded);
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText("this user has an issue please contact him later");
+                    alert.setTitle("EROOR");
+                    alert.show();
+                }
+
+            } catch (RemoteException e) {
+                e.printStackTrace();
             }
-
-        } catch (RemoteException e) {
-            e.printStackTrace();
         }
-
     }
 
     private boolean addChatRoom(ChatRoom chatRoom) {
-        if(!isChatRoomExist(chatRoom)){
+        if (!isChatRoomExist(chatRoom)) {
             chatRooms.add(chatRoom);
             return true;
         }
@@ -110,14 +112,15 @@ public class ContactListView implements Initializable {
     }
 
     private ChatRoom requestChatRoom(ArrayList<Users> chatroomUsers) throws RemoteException {
-            return homeController.requestChatRoom(chatroomUsers);
+        return homeController.requestChatRoom(chatroomUsers);
     }
 
     public boolean changeUserStatus(UserStatus userStatus) throws RemoteException {
-        return homeController.changeUserStatus(user , userStatus);
+        return homeController.changeUserStatus(user, userStatus);
     }
+
     //start IMAN
-    public void notifyUsersWithUpdateStatus(){
+    public void notifyUsersWithUpdateStatus() {
 
     }
 
@@ -127,163 +130,13 @@ public class ContactListView implements Initializable {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     //END IMAN
     //START SHIMAA
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     //END SHIMAAA
 
     // START AMR
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     //END AMR

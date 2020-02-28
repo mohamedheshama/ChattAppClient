@@ -71,11 +71,9 @@ public class ChatListView implements Initializable {
         if (chatsListView != null){
             ChatRoom groupChatRoom = (ChatRoom) chatsListView.getSelectionModel().getSelectedItem();
             currentChatRoom = requestChatRoom(groupChatRoom.getUsers());
-            System.out.println("before if opening chatroom chatroom");
             if (currentChatRoom != null) {
                 boolean isChatRoomAdded = addChatRoom(currentChatRoom);
                 homeController.openChatRoom(currentChatRoom, isChatRoomAdded);
-                System.out.println(" after if opening chatroom");
             }
         }
 
@@ -117,166 +115,13 @@ public class ChatListView implements Initializable {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     //END IMAN
     //START SHIMAA
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     //END SHIMAAA
 
     // START AMR
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     //END AMR
