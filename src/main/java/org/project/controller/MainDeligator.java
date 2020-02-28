@@ -2,6 +2,10 @@ package org.project.controller;
 
 import com.healthmarketscience.rmiio.RemoteInputStream;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import org.project.App;
 import org.project.controller.chat_home.HomeController;
 import org.project.controller.login.LoginController;
@@ -17,10 +21,14 @@ import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class MainDeligator implements Serializable {
     Users user;
     HomeController homeController;
+    ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
 
     public HomeController getHomeController() {
         return homeController;
@@ -42,8 +50,43 @@ public class MainDeligator implements Serializable {
 
 
 
-    public MainDeligator() throws RemoteException, NotBoundException {
-        this.serverConnectionController = new ServerConnectionController("127.0.0.1", 1260);
+    public MainDeligator(){
+        try {
+            this.serverConnectionController = new ServerConnectionController("127.0.0.1", 1260);
+            scheduledExecutorService.scheduleAtFixedRate(() -> {
+                try {
+                    setverIsAlive();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            },0, 1 , TimeUnit.SECONDS);
+
+        } catch (NotBoundException | IOException e) {
+            System.out.println("dsfsdfsdfsfsdfds");
+            try {
+                if (homeController != null){
+                    homeController.setsetverIsAlive();
+                }else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Server is Down");
+                    alert.setContentText("Server now is Down Please connect Later");
+                    alert.show();
+                }
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            e.printStackTrace();
+        }
+    }
+
+    private void setverIsAlive() throws IOException {
+        try {
+            serverConnectionController.getServicesInterface().setverIsAlive();
+        } catch (RemoteException e) {
+            homeController.setsetverIsAlive();
+            e.printStackTrace();
+        }
     }
     //Karima
 
@@ -192,7 +235,6 @@ public class MainDeligator implements Serializable {
     }
 
     public void registerClient(ClientInterface clientImp) throws RemoteException {
-        System.out.println("main deligator init client");
         serverConnectionController.getServicesInterface().registerClient(clientImp);
     }
 
@@ -200,13 +242,8 @@ public class MainDeligator implements Serializable {
         homeController.reciveMsg(newMsg , chatRoom);
     }
 
-    public ChatRoom requestChatRoom(ArrayList<Users> chatroomUsers) {
-        try {
+    public ChatRoom requestChatRoom(ArrayList<Users> chatroomUsers) throws RemoteException {
             return serverConnectionController.getServicesInterface().requestChatRoom(chatroomUsers);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     public boolean changeUserStatus(Users user, UserStatus userStatus) throws RemoteException {
@@ -374,15 +411,10 @@ public class MainDeligator implements Serializable {
     }
 
     public void notifyNewGroup(ArrayList<Users> groupUsers, ChatRoom currentChatRoom) throws RemoteException {
-        for (Users temp:groupUsers) {
-            System.out.println("inside main delegator,friends for: "+temp.getName()+" are -->"+temp.getFriends());
-
-        }
         serverConnectionController.getServicesInterface().notifyNewGroup(groupUsers,currentChatRoom);
     }
 
     public void recieveMsgFromAdmin(Message newMsg, Users onlineUser) throws RemoteException {
-        System.out.println("recieve message from admin in mainDeligator");
         homeController.recieveMsgFromAdmin(newMsg,onlineUser);
     }
 
@@ -409,6 +441,6 @@ public class MainDeligator implements Serializable {
     }
 
     public void sendFileToReceiver() {
-        homeController.sendFileToReceiver();
+
     }
 }

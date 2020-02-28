@@ -98,22 +98,13 @@ public class UpdateController implements Initializable, UpdateInterface {
         logincontroller = new LoginController();
         upd_checkConfirmPass = true;
 
-        try {
-            mainDeligator = new MainDeligator();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        } catch (NotBoundException e) {
-            e.printStackTrace();
-        }
+        mainDeligator = new MainDeligator();
         user_phone_number = logincontroller.getPhoneNumber();
-        System.out.println(user_phone_number);
         try {
             existUser = mainDeligator.login(user_phone_number);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-        System.out.println(existUser);
-
         if(existUser.getDateOfBirth() !=null){
             upd_birthDate.setValue(existUser.getDateOfBirth().toLocalDate());
         }
@@ -127,7 +118,6 @@ public class UpdateController implements Initializable, UpdateInterface {
 
         //upd_birthDate.setValue(existUser.getDateOfBirth().toLocalDate());
         /*try {
-            System.out.println(existUser.getDisplayPicture() + " ,msdn");
             if (existUser.getDisplayPicture() != null) {
                 InputStream is=new ByteArrayInputStream(existUser.getDisplayPicture());
                 BufferedImage imag= ImageIO.read(is);
@@ -137,10 +127,8 @@ public class UpdateController implements Initializable, UpdateInterface {
         } catch (SQLException | IOException e) {
             e.printStackTrace();
         }*/
-        System.out.println("reached here");
         List<String> collect = Arrays.asList(Locale.getAvailableLocales()).stream().map(Locale::getDisplayCountry).filter(s -> !s.isEmpty()).sorted().collect(Collectors.toList());
         ObservableList<String> AllCountries = FXCollections.observableArrayList(collect);
-        System.out.println(collect);
         choicebox.setItems(AllCountries);
         choicebox.setValue("Egypt");
 
@@ -177,7 +165,6 @@ public class UpdateController implements Initializable, UpdateInterface {
 
     @FXML
     public boolean validateEmail() {
-        System.out.println(upd_userEmail.getText() + "this is where the null pointer is and i don't  know why");
         if (!upd_userEmail.getText().matches("^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$")) {
             upd_userEmail.setStyle("-fx-border: 0px 0px 2px 0px ; -fx-border-color: #f60");
             upd_emailError.setText("E-mail Is Not Valid");
@@ -219,13 +206,10 @@ public class UpdateController implements Initializable, UpdateInterface {
             public void changed(ObservableValue<? extends Toggle> ov, Toggle t, Toggle t1) {
 
                 RadioButton chk = (RadioButton)t1.getToggleGroup().getSelectedToggle(); // Cast object to radio button
-                System.out.println("Selected Radio Button - "+chk.getText());
                 existUser.setGender(Gender.valueOf(chk.getText()));
-                System.out.println(existUser.getGender() + "     ::::::    "  +Gender.valueOf(chk.getText()) );
             }
         });
         if (userDataValid()) {
-            System.out.println("update is done");
             mainDeligator.updateUser(existUser);
             try {
                 App.setRoot("/org/project/views/chat_home/home");
@@ -248,17 +232,14 @@ public class UpdateController implements Initializable, UpdateInterface {
         fileChooser.getExtensionFilters().addAll(new javafx.stage.FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg"));
         File file = fileChooser.showOpenDialog(null);
         if (file != null) {
-            System.out.println(file.getPath());
             String path = file.toURI().toString();
             Image image1 = new Image(path);
-            System.out.println(image1);
             upd_image.setFill(new ImagePattern(image1));
             BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image1, null);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             try {
                // FileNameUtils c;
                 String filenameExtension = FilenameUtils.getExtension(file.getPath());
-                System.out.println("file extension is : " + filenameExtension);
                 javax.imageio.ImageIO.write(bufferedImage, filenameExtension, baos);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -299,14 +280,10 @@ public class UpdateController implements Initializable, UpdateInterface {
 
                 // set the text for the label to the selected item
                 choicebox.setValue(new_value.intValue());
-                System.out.println(new_value.intValue());
-                System.out.println("choice"+choicebox.getSelectionModel().getSelectedItem());
 
                 //l1.setText(st[new_value.intValue()] + " selected");
             }
         });
-
-        System.out.println("choice"+choicebox.getSelectionModel().getSelectedItem());
 
 
 

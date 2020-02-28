@@ -104,7 +104,6 @@ public class SaveXml {
             validator.validate(new StAXSource(reader));
 
             //no exception thrown, so valid
-            System.out.println("Document is valid");
 
         } catch (XMLStreamException ex) {
             Logger.getLogger(SaveXml.class.getName()).log(Level.SEVERE, null, ex);

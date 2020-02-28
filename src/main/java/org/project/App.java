@@ -30,7 +30,6 @@ public class App extends Application {
         //scene = new Scene(loadFXML("/org/project/views/chat_home/right_side/main_chat"));
         this.stage = stage;
         stage.setScene(scene);
-        System.out.println("scene");
         stage.setMinWidth(593);
         stage.setMinHeight(587);
 

@@ -53,13 +53,7 @@ public class RegisterController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         newUser = new Users();
-        try {
             mainDeligator = new MainDeligator();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        } catch (NotBoundException e) {
-            e.printStackTrace();
-        }
     }
 
 
@@ -68,13 +62,8 @@ public class RegisterController implements Initializable {
         if (phone_num.getText().matches("^01[0125]{1}(\\-)?[^0\\D]{1}\\d{7}$")) {
             phone_num.setStyle("-fx-border: 0px 0px 0px 0px ;");
             phoneNumError.setText("");
-            System.out.println("in");
-            System.out.println(phone_num.getText());
         } else {
             phoneNumError.setText("Phone error");
-            System.out.println("in else");
-            System.out.println(phone_num.getText());
-
         }
         return phone_num.getText().matches("^01[0125]{1}(\\-)?[^0\\D]{1}\\d{7}$");
     }

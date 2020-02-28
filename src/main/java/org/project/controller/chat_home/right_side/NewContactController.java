@@ -95,7 +95,6 @@ public class NewContactController implements Initializable {
                     errorMessageLbl.setText("Sorry this is not Existed User or is Already Added ");
                 }
             }
-            System.out.println(contactListViewCell.size());
             phoneNoTxt.setText("");
 
         }
@@ -104,7 +103,6 @@ public class NewContactController implements Initializable {
     private boolean validatePhoneNo(String phoneNo) {
         boolean isValidPhoneNo = false;
         unFriendList = getUsersList(user.getId());
-        System.out.println(unFriendList);
         if (unFriendList != null) {
             for (String phoneNum : unFriendList) {
                 if (phoneNo.equals(phoneNum) && !isValidPhoneNo) {
@@ -130,7 +128,6 @@ public class NewContactController implements Initializable {
 
     @FXML
     private void handleSaveBtn(ActionEvent event) {
-        System.out.println(contactListViewCell);
         if (contactListViewCell.size() > 0 && phoneNoTxt.getText().trim().equals("")) {
             try {
 
@@ -139,7 +136,6 @@ public class NewContactController implements Initializable {
                     Optional<Users> user=this.user.getRequest_notifications().stream().filter(users -> users.getPhoneNumber().equals(phoneNo)).findFirst();
                     if(user.isPresent()){
                         userRequestedMe = user.get();
-                        System.out.println("this user already sent notifications "+userRequestedMe.getName()+"this user is"+this.user.getName());
                         homeController.acceptRequest(this.user,userRequestedMe);
                         ArrayList<Users> usersToUpdate= new ArrayList<>();
                         usersToUpdate.add(this.user);
@@ -147,7 +143,6 @@ public class NewContactController implements Initializable {
                         homeController.updateRequestNotifications(usersToUpdate);
                         }else {
                         contactRequestList.add(phoneNo);
-                        System.out.println(phoneNo);
                         homeController.addUsersToFriedNotifications(contactRequestList, this.user);
                         homeController.recieveContactRequest(contactRequestList,this.user);
 
@@ -196,9 +191,7 @@ public class NewContactController implements Initializable {
 
     private void learnWord(String text) {
         unFriendList = getUsersList(user.getId());
-        System.out.println("unFriendList  "+unFriendList);
         if (unFriendList.size() >0) {
-            System.out.println("unFriendList  "+unFriendList);
             possibleSuggestionContacts = new HashSet<>(unFriendList);
             TextFields.bindAutoCompletion(phoneNoTxt, unFriendList);
         }
