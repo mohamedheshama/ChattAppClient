@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXColorPicker;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXToggleButton;
 import javafx.application.Platform;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -22,6 +23,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
@@ -42,6 +45,9 @@ import org.project.controller.security.RSAEncryptionWithAES;
 import org.project.model.ChatRoom;
 import org.project.model.dao.users.Users;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -342,20 +348,38 @@ public class MainChatController implements Initializable {
             if (msg.getMsg().length() > 50)
                 text.setWrappingWidth(500);
             VBox vb = new VBox();
+
             //BufferedImage image = javax.imageio.ImageIO.read(new ByteArrayInputStream(msg.getUser().getDisplayPicture()));
             //Image card = SwingFXUtils.toFXImage(image, null);
             //imageView.setImage(card);
             //imageView.setFitWidth(15);
             //imageView.setPreserveRatio(true);
-            hb.setAlignment(pos);
-            vb.getChildren().add(name);
-            if(msg.getType().equals(MessageType.NOTIFICATION)){
-                loadFile.setImage(new Image(getClass().getResource("/org/project/images/download.png").toExternalForm()));
-                fileBtnLoad.setGraphic(loadFile);
-                vb.getChildren().add(fileBtnLoad);
+            Circle userImage=null;
+            if (mUser.getDisplayPicture() != null) {
+                System.out.println("image gaya b eh ");
+
+                BufferedImage image = null;
+                image = ImageIO.read(new ByteArrayInputStream(mUser.getDisplayPicture()));
+                Image card = SwingFXUtils.toFXImage(image, null);
+                userImage.setFill(new ImagePattern(card));
+                // imageBytes=existUser.getDisplayPicture();
+
+                String nameOfUser = mUser.getName();
+                hb.setAlignment(pos);
+                Text textOfNameUser = new Text(nameOfUser);
+                vb.getChildren().add(textOfNameUser);
+                vb.getChildren().add(name);
             }
-            vb.setSpacing(2);
+                if (msg.getType().equals(MessageType.NOTIFICATION)) {
+                    loadFile.setImage(new Image(getClass().getResource("/org/project/images/download.png").toExternalForm()));
+                    fileBtnLoad.setGraphic(loadFile);
+                    vb.getChildren().add(fileBtnLoad);
+                }
+                vb.setSpacing(2);
+
+
             hb.getChildren().add(vb);
+            hb.getChildren().add(userImage);
             hb.getChildren().add(text);
             hb.setPadding(new Insets(15, 12, 15, 12));
             hb.setSpacing(10);
