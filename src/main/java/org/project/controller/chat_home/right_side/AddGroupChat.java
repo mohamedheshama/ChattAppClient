@@ -69,7 +69,10 @@ public class AddGroupChat implements Initializable {
             onlineFriendsStrings = new ArrayList<>();
             for (Users onlineFriend : OnlineFriends) {
                 onlineFriendsStrings.add(onlineFriend.getPhoneNumber());
+
             }
+            System.out.println(onlineFriendsStrings);
+            //onlineFriendsStrings.remove(1);
             possibleSuggestionContacts = new HashSet(onlineFriendsStrings);
             TextFields.bindAutoCompletion(phoneNoTxt, onlineFriendsStrings);
         }

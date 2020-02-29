@@ -1,9 +1,6 @@
 package org.project.controller.update_user;
 
-import com.jfoenix.controls.JFXDatePicker;
-import com.jfoenix.controls.JFXPasswordField;
-import com.jfoenix.controls.JFXRadioButton;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -13,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -29,11 +27,9 @@ import org.project.model.dao.users.Users;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -67,7 +63,7 @@ public class UpdateController implements Initializable, UpdateInterface {
     MainDeligator mainDeligator;
     LoginController logincontroller;
     String user_phone_number;
-    byte[] imageBytes;
+    byte [] imageBytes;
     private boolean upd_checkConfirmPass;
     @FXML
     private JFXTextField upd_phone_num;
@@ -96,7 +92,7 @@ public class UpdateController implements Initializable, UpdateInterface {
     @FXML
     private ChoiceBox choicebox;
     @FXML
-    private JFXDatePicker upd_birthDate;
+    private JFXDatePicker upd_birthDate ;
     @FXML
     private Label upd_label_name;
 
@@ -112,16 +108,16 @@ public class UpdateController implements Initializable, UpdateInterface {
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-        if (existUser.getDateOfBirth() != null) {
+        if(existUser.getDateOfBirth() !=null){
             upd_birthDate.setValue(existUser.getDateOfBirth().toLocalDate());
         }
-        if (existUser.getGender().equals("Male")) {
-            upd_male.setSelected(true);
-            upd_female.setSelected(false);
-        } else {
-            upd_male.setSelected(false);
-            upd_female.setSelected(true);
-        }
+         if(existUser.getGender().equals(Gender.Male)){
+             upd_male.setSelected(true);
+             upd_female.setSelected(false);
+         }else {
+             upd_male.setSelected(false);
+             upd_female.setSelected(true);
+         }
         upd_label_name.setText(existUser.getName());
         upd_bio.setText((existUser.getBio()));
         upd_phone_num.setText(existUser.getPhoneNumber());
@@ -131,19 +127,21 @@ public class UpdateController implements Initializable, UpdateInterface {
         upd_userPasswordConfirm.setText(existUser.getPassword());
 
 
+
         try {
             if (existUser.getDisplayPicture() != null) {
                 BufferedImage image = null;
                 image = ImageIO.read(new ByteArrayInputStream(existUser.getDisplayPicture()));
                 Image card = SwingFXUtils.toFXImage(image, null);
                 upd_image.setFill(new ImagePattern(card));
-                imageBytes = existUser.getDisplayPicture();
+                imageBytes=existUser.getDisplayPicture();
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+
 
 
         //upd_birthDate.setValue(existUser.getDateOfBirth().toLocalDate());
@@ -161,6 +159,8 @@ public class UpdateController implements Initializable, UpdateInterface {
         ObservableList<String> AllCountries = FXCollections.observableArrayList(collect);
         choicebox.setItems(AllCountries);
         choicebox.setValue("Egypt");
+
+
 
 
     }
@@ -209,7 +209,7 @@ public class UpdateController implements Initializable, UpdateInterface {
             upd_userPassword.setUnFocusColor(Color.GREEN);
             upd_checkConfirmPass = true;
         } else {
-            upd_userPasswordConfirm.setFocusColor(Color.DARKRED);
+             upd_userPasswordConfirm.setFocusColor(Color.DARKRED);
             upd_userPassword.setUnFocusColor(Color.DARKRED);
             upd_checkConfirmPass = false;
         }
@@ -226,14 +226,14 @@ public class UpdateController implements Initializable, UpdateInterface {
         existUser.setBio(upd_bio.getText());
         existUser.setDisplayPicture(imageBytes);
         existUser.setCountry(choicebox.getSelectionModel().getSelectedItem().toString());
-        if (Date.valueOf(upd_birthDate.getValue()) != null) {
+        if (Date.valueOf(upd_birthDate.getValue()) !=null){
             existUser.setDateOfBirth(Date.valueOf(upd_birthDate.getValue()));
         }
         gender.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
             @Override
             public void changed(ObservableValue<? extends Toggle> ov, Toggle t, Toggle t1) {
 
-                RadioButton chk = (RadioButton) t1.getToggleGroup().getSelectedToggle(); // Cast object to radio button
+                RadioButton chk = (RadioButton)t1.getToggleGroup().getSelectedToggle(); // Cast object to radio button
                 existUser.setGender(Gender.valueOf(chk.getText()));
             }
         });
@@ -244,7 +244,7 @@ public class UpdateController implements Initializable, UpdateInterface {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else {
+        }else{
             System.out.println("user is not valid");
         }
 
@@ -268,23 +268,21 @@ public class UpdateController implements Initializable, UpdateInterface {
             bigimage.show();
         }
 
-
-
-        if (file != null && size < 64) {
+        if (file != null && size<64) {
             String path = file.toURI().toString();
             Image image1 = new Image(path);
             upd_image.setFill(new ImagePattern(image1));
             BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image1, null);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             try {
-                // FileNameUtils c;
+               // FileNameUtils c;
                 String filenameExtension = FilenameUtils.getExtension(file.getPath());
                 javax.imageio.ImageIO.write(bufferedImage, filenameExtension, baos);
             } catch (IOException e) {
                 e.printStackTrace();
             }
             imageBytes = new byte[baos.size()];
-            imageBytes = baos.toByteArray();
+            imageBytes= baos.toByteArray();
         }
 /*
     public  boolean checkGender(ToggleGroup genders){
@@ -305,6 +303,10 @@ public class UpdateController implements Initializable, UpdateInterface {
 */
 
 
+
+
+
+
         // ChoiceBox c = new ChoiceBox(FXCollections.observableArrayList(st));
 
         // add a listener
@@ -319,6 +321,8 @@ public class UpdateController implements Initializable, UpdateInterface {
                 //l1.setText(st[new_value.intValue()] + " selected");
             }
         });
+
+
 
 
     }
