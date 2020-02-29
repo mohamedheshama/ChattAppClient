@@ -99,7 +99,10 @@ public class LoginController implements Initializable , LoginInterface {
 
     @FXML
     public void registerNewUser() throws IOException {
-        App.setRoot("/org/project/views/register_view");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/register_view.fxml"));
+        Parent root = loader.load();
+        getStage().setScene(new Scene(root));
+
     }
 
     @FXML
