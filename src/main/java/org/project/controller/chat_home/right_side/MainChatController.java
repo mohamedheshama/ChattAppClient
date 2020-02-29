@@ -168,7 +168,7 @@ public class MainChatController implements Initializable {
         msgTxtField.setOnKeyPressed(keyEvent -> {
             if (keyEvent.getCode() == KeyCode.ENTER) {
                 try {
-                    sendMsgToHomeController();
+                    sendMsgToHomeController(msgTxtField.getText());
                 } catch (RemoteException e) {
                     e.printStackTrace();
                     try {
