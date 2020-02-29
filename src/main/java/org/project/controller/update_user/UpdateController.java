@@ -226,7 +226,7 @@ public class UpdateController implements Initializable, UpdateInterface {
         existUser.setBio(upd_bio.getText());
         existUser.setDisplayPicture(imageBytes);
         existUser.setCountry(choicebox.getSelectionModel().getSelectedItem().toString());
-        if (Date.valueOf(upd_birthDate.getValue()) !=null){
+        if ((upd_birthDate.getValue()) !=null){
             existUser.setDateOfBirth(Date.valueOf(upd_birthDate.getValue()));
         }
         gender.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
