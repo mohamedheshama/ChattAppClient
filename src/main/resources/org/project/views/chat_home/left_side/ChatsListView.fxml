@@ -5,6 +5,6 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="549.0" prefWidth="325.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.controller.chat_home.left_side.ChatListView">
    <center>
-      <ListView fx:id="chatsListView" onMouseClicked="#handle" prefHeight="549.0" prefWidth="325.0" style="-fx-background-color: lightblue;" />
+      <ListView fx:id="chatsListView" onMouseClicked="#handle" prefHeight="549.0" prefWidth="325.0" style="-fx-background-color: white;" />
    </center>
 </BorderPane>
