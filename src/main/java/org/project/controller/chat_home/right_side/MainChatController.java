@@ -34,6 +34,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 import org.project.controller.MainDeligator;
+import org.project.controller.XmlTransformer;
 import org.project.controller.chat_home.HomeController;
 import org.project.controller.createXML.SaveXml;
 import org.project.controller.messages.Message;
@@ -46,6 +47,7 @@ import org.project.model.ChatRoom;
 import org.project.model.dao.users.Users;
 
 import javax.imageio.ImageIO;
+import javax.xml.bind.JAXBException;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -354,8 +356,9 @@ public class MainChatController implements Initializable {
             //imageView.setImage(card);
             //imageView.setFitWidth(15);
             //imageView.setPreserveRatio(true);
-            Circle userImage=null;
-            if (mUser.getDisplayPicture() != null) {
+            Circle userImage=  new Circle();
+            ImageView imageView = null;
+            /*if (mUser.getDisplayPicture() != null) {
                 System.out.println("image gaya b eh ");
 
                 BufferedImage image = null;
@@ -369,7 +372,7 @@ public class MainChatController implements Initializable {
                 Text textOfNameUser = new Text(nameOfUser);
                 vb.getChildren().add(textOfNameUser);
                 vb.getChildren().add(name);
-            }
+            }*/
                 if (msg.getType().equals(MessageType.NOTIFICATION)) {
                     loadFile.setImage(new Image(getClass().getResource("/org/project/images/download.png").toExternalForm()));
                     fileBtnLoad.setGraphic(loadFile);
@@ -379,7 +382,7 @@ public class MainChatController implements Initializable {
 
 
             hb.getChildren().add(vb);
-            hb.getChildren().add(userImage);
+            //vb.getChildren().add(imageView);
             hb.getChildren().add(text);
             hb.setPadding(new Insets(15, 12, 15, 12));
             hb.setSpacing(10);
@@ -548,4 +551,13 @@ public class MainChatController implements Initializable {
         });
     }
 
+    public void saveChatSession() {
+        XmlTransformer xmlTransformer= new XmlTransformer(chatRoom.getChatRoomMessage() , chatRoom.getUsers());
+        try {
+            xmlTransformer.transform();
+        } catch (JAXBException e) {
+            System.out.println("MainChatCintroller saveChatSession() exception");
+            e.printStackTrace();
+        }
+    }
 }

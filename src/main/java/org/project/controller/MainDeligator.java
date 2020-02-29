@@ -66,7 +66,7 @@ public class MainDeligator implements Serializable {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            },0, 1 , TimeUnit.SECONDS);
+            },0, 500 , TimeUnit.SECONDS);
 
         } catch (NotBoundException | IOException e) {
             System.out.println("dsfsdfsdfsfsdfds");
