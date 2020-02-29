@@ -1,19 +1,9 @@
 package org.project.controller;
 
 import com.healthmarketscience.rmiio.RemoteInputStream;
-import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import org.project.App;
 import org.project.controller.chat_home.HomeController;
-import org.project.controller.login.LoginController;
 import org.project.controller.messages.Message;
 import org.project.controller.register.RegisterController;
 import org.project.model.ChatRoom;
