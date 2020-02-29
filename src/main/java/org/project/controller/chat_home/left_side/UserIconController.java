@@ -43,7 +43,7 @@ public class UserIconController {
         choicebox.getItems().addAll("Available", "Busy", "Away");
         choicebox.setValue(user.getStatus().toString());
         settings_icon.setImage(new Image(getClass().getResource("/org/project/images/settings.png").toExternalForm()));
-        settings.getItems().addAll("Update Profile","Save ChatSession","Enable ChatBot","Logout");
+        settings.getItems().addAll("Update Profile","Save ChatSession","Logout");
         userName.setText(user.getName());
         try {
 
@@ -106,6 +106,10 @@ public class UserIconController {
             }
 
 
+
+
+
+
         });
 
 
@@ -118,6 +122,7 @@ public class UserIconController {
             status.setStyle("-fx-background-color: Orange; -fx-background-radius: 100%;");
         else if (user.getStatus() == UserStatus.Away)
             status.setStyle("-fx-background-color: Yellow; -fx-background-radius: 100%;");
+        
 
     }
 }

@@ -22,6 +22,8 @@ import java.util.ResourceBundle;
 ;
 
 public class TabPaneNotifications_Controller implements Initializable {
+
+
     public JFXTabPane tabpane;
     public BorderPane chatsTab;
     Users user;
@@ -34,6 +36,22 @@ public class TabPaneNotifications_Controller implements Initializable {
     Tab tab2;
     @FXML
     Tab tab3;
+
+    Tab selectedTab;
+
+    public Tab getSelectedTab() {
+        return selectedTab;
+    }
+
+    public JFXTabPane getTabpane() {
+        return tabpane;
+    }
+
+    public void setSelectedTab(Tab selectedTab) {
+        this.selectedTab = selectedTab;
+    }
+
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

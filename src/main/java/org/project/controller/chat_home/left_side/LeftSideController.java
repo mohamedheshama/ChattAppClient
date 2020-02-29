@@ -17,6 +17,9 @@ public class LeftSideController implements Initializable {
     public BorderPane borderPane;
     MainDeligator mainDeligator;
     HomeController homeController;
+
+
+
     TabPaneNotifications_Controller notificationsController;
     ChatRoom chatRoom;
     Users user;
@@ -24,6 +27,9 @@ public class LeftSideController implements Initializable {
     private ObservableList<Users> requestsObservableList;
 
     public LeftSideController() {
+    }
+    public TabPaneNotifications_Controller getNotificationsController() {
+        return notificationsController;
     }
 
     public void setHomeController(HomeController homeController) {

@@ -3,6 +3,7 @@ package org.project.controller;
 import com.healthmarketscience.rmiio.RemoteInputStream;
 import com.healthmarketscience.rmiio.RemoteInputStreamClient;
 import javafx.application.Platform;
+import javafx.scene.control.Tab;
 import org.project.controller.chat_home.HomeController;
 import org.project.controller.messages.Message;
 import org.project.model.ChatRoom;
@@ -77,7 +78,14 @@ public class ClientImp extends UnicastRemoteObject implements ClientInterface {
             try {
                 System.out.println(user.getRequest_notifications());
 
+
+                Tab selectedtab=homeController.getLeftSideController().getNotificationsController().getTabpane().getSelectionModel().getSelectedItem();
+                System.out.println("from uodated notifications home controller is"+homeController);
+                System.out.println("from update notfications selected tab is:"+selectedtab);
                 homeController.getLeftSideController().setTabPane(user,homeController);
+                homeController.getLeftSideController().getNotificationsController().getTabpane().getSelectionModel().select(selectedtab);
+
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -129,6 +137,11 @@ public class ClientImp extends UnicastRemoteObject implements ClientInterface {
     }
 
     @Override
+    public void recieveUpdateCurrentUser(Users currentUser) throws RemoteException {
+        mainDeligator.recieveUpdateCurrentUser(currentUser);
+    }
+
+    @Override
     public void recieveUpdatedNotifications(Users user) throws RemoteException {
         try {
             this.user.setFriends(homeController.updateFriends(user));
@@ -136,8 +149,10 @@ public class ClientImp extends UnicastRemoteObject implements ClientInterface {
             Platform.runLater(() -> {
                 try {
                     System.out.println("from updated notifications user is "+this.user.getName()+this.user.getRequest_notifications());
-
+                    Tab selectedtab=homeController.getLeftSideController().getNotificationsController().getTabpane().getSelectionModel().getSelectedItem();
+                    System.out.println("from update notfications selected tab is:"+selectedtab.getText());
                     homeController.getLeftSideController().setTabPane(this.user,homeController);
+                    homeController.getLeftSideController().getNotificationsController().getTabpane().getSelectionModel().select(selectedtab);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

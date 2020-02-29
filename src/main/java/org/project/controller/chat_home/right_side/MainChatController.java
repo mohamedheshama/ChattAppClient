@@ -15,7 +15,6 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -36,7 +35,6 @@ import org.controlsfx.control.Notifications;
 import org.project.controller.MainDeligator;
 import org.project.controller.XmlTransformer;
 import org.project.controller.chat_home.HomeController;
-import org.project.controller.createXML.SaveXml;
 import org.project.controller.messages.Message;
 import org.project.controller.messages.MessageType;
 import org.project.controller.messages.voiceMessage.VoicePlayback;
@@ -61,8 +59,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -120,7 +116,10 @@ public class MainChatController implements Initializable {
     public void setmUser(Users mUser) {
         this.mUser = mUser;
     }
-    public Users getmUser(){return mUser;}
+
+    public Users getmUser() {
+        return mUser;
+    }
 
     private String colorPicked;
     private String fontFamily = "Arial";
@@ -133,7 +132,12 @@ public class MainChatController implements Initializable {
         return attachFileImgBtn;
     }
 
-    File file ;
+    File file;
+
+    public void setFriendName(String friendName) {
+        this.chatReceiversTxtLabel.setText(friendName);
+
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -145,8 +149,7 @@ public class MainChatController implements Initializable {
         }
 
 
-
-        chatReceiversTxtLabel.setText("myFrined");
+        chatReceiversTxtLabel.setText("My Friend");
         mainDeligator = new MainDeligator();
         msgTxtField.setWrapText(true);
         msgTxtField.setOnKeyPressed(keyEvent -> {
@@ -263,7 +266,7 @@ public class MainChatController implements Initializable {
     }
 
     public void setTextFieldStyle() {
-       // System.out.println("s;geod");
+        // System.out.println("s;geod");
         String str = msgTxtField.getText().toString();
         msgTxtField.setText("");
         msgTxtField.setStyle("-fx-font-family: \"" + fontFamily + "\"; " + "-fx-text-fill: " + colorPicked + ";" + "-fx-font-size: " + sizePicked + ";" + " -fx-font-weight:" + getFontWeight().name() + ";" + " -fx-font-style:" + getFontPosture().name());
@@ -285,7 +288,7 @@ public class MainChatController implements Initializable {
     }
 
     private void sendMsgToHomeController() throws Exception {
-       // String encryptedText = rsaEncryptionWithAES.encryptTextUsingAES(msgTxtField.getText(), rsaEncryptionWithAES.getSecretAESKeyString());
+        // String encryptedText = rsaEncryptionWithAES.encryptTextUsingAES(msgTxtField.getText(), rsaEncryptionWithAES.getSecretAESKeyString());
         Message newMsg = new Message();
         newMsg.setMsg(msgTxtField.getText());
         chatRoom.getChatRoomMessage().add(newMsg);
@@ -305,13 +308,12 @@ public class MainChatController implements Initializable {
     }
 
 
-
     public void reciveMsg(Message newMsg, ChatRoom chatRoom) {
         if (newMsg.getUser().getId() == mUser.getId()) {
             displayMsg(newMsg, Pos.TOP_RIGHT);
         } else {
             if (chatRoom.getChatRoomId().equals(this.chatRoom.getChatRoomId())) {
-                    displayMsg(newMsg, Pos.TOP_LEFT);
+                displayMsg(newMsg, Pos.TOP_LEFT);
             } else {
                 showMessageIncommingNotification(newMsg);
             }
@@ -336,7 +338,7 @@ public class MainChatController implements Initializable {
                     showMsgsBox.getChildren().addAll(recipientChatLine(msg, pos));
                     VoicePlayback.playAudio(msg.getVoiceMsg());
                 } else {
-                    if(!msg.getMsg().trim().equals("")){
+                    if (!msg.getMsg().trim().equals("")) {
                         showMsgsBox.getChildren().addAll(recipientChatLine(msg, pos));
                     }
 
@@ -355,7 +357,7 @@ public class MainChatController implements Initializable {
 
     public HBox recipientChatLine(Message msg, Pos pos) throws Exception {
         HBox hb = new HBox();
-        JFXButton fileBtnLoad=new JFXButton();
+        JFXButton fileBtnLoad = new JFXButton();
         try {
             Label name = new Label(msg.getName());
             // ImageView imageView = new ImageView();
@@ -375,12 +377,12 @@ public class MainChatController implements Initializable {
             //imageView.setPreserveRatio(true);
             hb.setAlignment(pos);
             vb.getChildren().add(name);
-            if(msg.getType().equals(MessageType.NOTIFICATION)){
-                ImageView loadFile=new ImageView();
-            loadFile.setImage(new Image(getClass().getResource("/org/project/images/download.png").toExternalForm()));
-            loadFile.setFitHeight(50);
-            loadFile.setFitWidth(50);
-            fileBtnLoad.setGraphic(loadFile);
+            if (msg.getType().equals(MessageType.NOTIFICATION)) {
+                ImageView loadFile = new ImageView();
+                loadFile.setImage(new Image(getClass().getResource("/org/project/images/download.png").toExternalForm()));
+                loadFile.setFitHeight(50);
+                loadFile.setFitWidth(50);
+                fileBtnLoad.setGraphic(loadFile);
 
                 vb.getChildren().add(fileBtnLoad);
             }
@@ -389,7 +391,7 @@ public class MainChatController implements Initializable {
             hb.getChildren().add(text);
             hb.setPadding(new Insets(15, 12, 15, 12));
             hb.setSpacing(10);
-            hb.setBackground(new Background(new BackgroundFill(Color.valueOf(msg.getTextFill()).invert() , new CornerRadii(25) , new Insets(10.0f))));
+            hb.setBackground(new Background(new BackgroundFill(Color.valueOf(msg.getTextFill()).invert(), new CornerRadii(25), new Insets(10.0f))));
             //hb.maxWidthProperty().bindBidirectional(msg.getMsg());
             showMsgsScrollPane.vvalueProperty().bind(showMsgsBox.heightProperty());
         } catch (Exception e) {
@@ -399,7 +401,7 @@ public class MainChatController implements Initializable {
             try {
                 Users users = null;
                 for (Users user : chatRoom.getUsers()) {
-                    if (user.getId() != mUser.getId()){
+                    if (user.getId() != mUser.getId()) {
                         users = user;
                         break;
                     }
@@ -420,13 +422,13 @@ public class MainChatController implements Initializable {
 // strart HEND
 
 
-    public void sendFile() throws RemoteException,IOException, NotBoundException {
+    public void sendFile() throws RemoteException, IOException, NotBoundException {
         FileChooser SaveFileChooser = new FileChooser();
         file = SaveFileChooser.showOpenDialog(getStage());
-        if(file!=null) {
+        if (file != null) {
             String path = file.getAbsolutePath();
             Message newMsg = new Message();
-            msgTxtField.setText(file.getName()+ new Date());
+            msgTxtField.setText(file.getName() + new Date());
             newMsg.setMsg(msgTxtField.getText());
             newMsg.setType(MessageType.NOTIFICATION);
             newMsg.setFontFamily(fontFamily);
@@ -448,7 +450,7 @@ public class MainChatController implements Initializable {
     //start AMR
     public void displayMessagesFromArrList() {
         Pos pos;
-        if (chatRoom.getChatRoomMessage() != null){
+        if (chatRoom.getChatRoomMessage() != null) {
             for (Message message : chatRoom.getChatRoomMessage()) {
                 if (message.getUser().getId() == mUser.getId()) {
                     pos = Pos.TOP_RIGHT;
@@ -456,7 +458,7 @@ public class MainChatController implements Initializable {
                     pos = Pos.TOP_LEFT;
                     // todo set alignment to left nad display message
                 }
-                displayMsg(message , pos);
+                displayMsg(message, pos);
             }
 
         }
@@ -569,8 +571,10 @@ public class MainChatController implements Initializable {
     }
 
     public void saveChatSession() throws JAXBException {
-        XmlTransformer xmlTransformer= new XmlTransformer(chatRoom.getChatRoomMessage() , chatRoom.getUsers());
-        xmlTransformer.transform();
+        if (chatRoom != null && chatRoom.getChatRoomMessage()!=null && chatRoom.getUsers()!=null) {
+            XmlTransformer xmlTransformer = new XmlTransformer(chatRoom.getChatRoomMessage(), chatRoom.getUsers());
+            xmlTransformer.transform();
+        }
     }
 
     public void reveiveTheActualFile(String newMsg, RemoteInputStream remoteFileData) {

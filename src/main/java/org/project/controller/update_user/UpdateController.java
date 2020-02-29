@@ -239,6 +239,8 @@ public class UpdateController implements Initializable, UpdateInterface {
         });
         if (userDataValid()) {
             mainDeligator.updateUser(existUser);
+            mainDeligator.updateCurrentUserIcon(existUser);
+            mainDeligator.updateRequestNotifications(existUser.getFriends());
             try {
                 App.setRoot("/org/project/views/chat_home/home");
             } catch (IOException e) {
@@ -259,32 +261,34 @@ public class UpdateController implements Initializable, UpdateInterface {
 
         fileChooser.getExtensionFilters().addAll(new javafx.stage.FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg"));
         File file = fileChooser.showOpenDialog(null);
-        double size = file.length() / 1024;
-        System.out.println(size);
-        if (size > 64){
-            Alert bigimage=new Alert(Alert.AlertType.INFORMATION);
-            bigimage.setTitle("Image too big");
-            bigimage.setContentText("Image is greater than 64k, please choose another image");
-            bigimage.show();
-        }
 
-        if (file != null && size<64) {
-            String path = file.toURI().toString();
-            Image image1 = new Image(path);
-            upd_image.setFill(new ImagePattern(image1));
-            BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image1, null);
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            try {
-               // FileNameUtils c;
-                String filenameExtension = FilenameUtils.getExtension(file.getPath());
-                javax.imageio.ImageIO.write(bufferedImage, filenameExtension, baos);
-            } catch (IOException e) {
-                e.printStackTrace();
+        //System.out.println(size);
+        if (file != null) {
+            double size = file.length() / (1024 * 1024);
+            if (size > 64){
+                Alert bigimage=new Alert(Alert.AlertType.INFORMATION);
+                bigimage.setTitle("Image too big");
+                bigimage.setContentText("Image is greater than 64k, please choose another image");
+                bigimage.show();
+            }else{
+                String path = file.toURI().toString();
+                Image image1 = new Image(path);
+                upd_image.setFill(new ImagePattern(image1));
+                BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image1, null);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                try {
+                    // FileNameUtils c;
+                    String filenameExtension = FilenameUtils.getExtension(file.getPath());
+                    javax.imageio.ImageIO.write(bufferedImage, filenameExtension, baos);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                imageBytes = new byte[baos.size()];
+                imageBytes= baos.toByteArray();
             }
-            imageBytes = new byte[baos.size()];
-            imageBytes= baos.toByteArray();
+
         }
-/*
+ /*
     public  boolean checkGender(ToggleGroup genders){
 
         genders.selectedToggleProperty().addListener(

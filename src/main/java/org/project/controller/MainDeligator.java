@@ -59,7 +59,7 @@ public class MainDeligator implements Serializable {
 
     public MainDeligator(){
         try {
-            this.serverConnectionController = new ServerConnectionController("10.145.7.12", 1290);
+            this.serverConnectionController = new ServerConnectionController("localhost", 1260);
             scheduledExecutorService.scheduleAtFixedRate(() -> {
                 try {
                     setverIsAlive();
@@ -463,5 +463,13 @@ public class MainDeligator implements Serializable {
 
     public void reveiveTheActualFile(String newMsg, RemoteInputStream remoteFileData) {
         homeController.reveiveTheActualFile(newMsg , remoteFileData);
+    }
+
+    public void updateCurrentUserIcon(Users currentUser) throws RemoteException{
+        serverConnectionController.getServicesInterface().updateCurrentUserIcon(currentUser);
+    }
+
+    public void recieveUpdateCurrentUser(Users currentUser) throws RemoteException{
+        homeController.recieveUpdateCurrentUser(currentUser);
     }
 }
