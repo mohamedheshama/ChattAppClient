@@ -1,5 +1,6 @@
 package org.project.controller.chat_home;
 
+import com.healthmarketscience.rmiio.RemoteInputStream;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -489,5 +490,9 @@ public class HomeController implements Initializable, Serializable {
 
     public void saveChatSession() throws JAXBException {
         mainChatController.saveChatSession();
+    }
+
+    public void reveiveTheActualFile(String newMsg, RemoteInputStream remoteFileData) {
+        mainChatController.reveiveTheActualFile(newMsg , remoteFileData);
     }
 }
