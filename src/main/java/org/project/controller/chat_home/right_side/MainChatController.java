@@ -353,9 +353,8 @@ public class MainChatController implements Initializable {
         HBox hb = new HBox();
         JFXButton fileBtnLoad=new JFXButton();
         try {
-            Label name = new Label(msg.getName());
-            // ImageView imageView = new ImageView();
             Text text = new Text(msg.getMsg());
+            Text userNameText = new Text(mUser.getName());
             text.setFill(Color.valueOf(msg.getTextFill()));
             text.setStyle("-fx-font-family: \"" + msg.getFontFamily() + "\"; "
                     + ";" + "-fx-font-size: " + msg.getFontSize()
@@ -370,7 +369,7 @@ public class MainChatController implements Initializable {
             //imageView.setFitWidth(15);
             //imageView.setPreserveRatio(true);
             hb.setAlignment(pos);
-            vb.getChildren().add(name);
+            vb.getChildren().add(userNameText);
             if(msg.getType().equals(MessageType.NOTIFICATION)){
                 ImageView loadFile=new ImageView();
             loadFile.setImage(new Image(getClass().getResource("/org/project/images/download.png").toExternalForm()));

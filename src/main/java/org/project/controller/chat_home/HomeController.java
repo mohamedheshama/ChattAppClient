@@ -33,6 +33,7 @@ import org.project.controller.chat_home.right_side.MainChatController;
 import org.project.controller.chat_home.right_side.WelcomeController;
 import org.project.controller.login.LoginController;
 import org.project.controller.messages.Message;
+import org.project.controller.update_user.UpdateController;
 import org.project.model.ChatRoom;
 import org.project.model.dao.users.UserStatus;
 import org.project.model.dao.users.Users;
@@ -398,6 +399,8 @@ public class HomeController implements Initializable, Serializable {
     public void setSceneForUpdateUser() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/update_info_view.fxml"));
         Parent root = loader.load();
+        UpdateController updateController=loader.getController();
+        updateController.setHomeController(this);
         borderBaneStage.setCenter(root);
 
 
