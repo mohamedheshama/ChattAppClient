@@ -319,10 +319,10 @@ public class MainChatController implements Initializable {
 
     public void reciveMsg(Message newMsg, ChatRoom chatRoom) {
         if (newMsg.getUser().getId() == mUser.getId()) {
-            displayMsg(newMsg, Pos.TOP_RIGHT);
+            displayMsg(newMsg, Pos.CENTER_RIGHT);
         } else {
             if (chatRoom.getChatRoomId().equals(this.chatRoom.getChatRoomId())) {
-                    displayMsg(newMsg, Pos.TOP_LEFT);
+                    displayMsg(newMsg, Pos.CENTER_LEFT);
             } else {
                 showMessageIncommingNotification(newMsg);
             }
@@ -365,13 +365,18 @@ public class MainChatController implements Initializable {
     }
 
     public HBox recipientChatLine(Message msg, Pos pos) throws Exception {
+        VBox message=new VBox();
         HBox hb = new HBox();
         JFXButton fileBtnLoad=new JFXButton();
+        HBox dateHbox =new HBox();
+        dateHbox.setPrefHeight(30);
+        dateHbox.setPrefWidth(50);
         try {
             Label name = new Label(msg.getName());
-            // ImageView imageView = new ImageView();
+            Circle imageView = new Circle(20,20,20);
+            Label dateLbl =new Label(new Date().toString());
+            System.out.println(new Date().toString()+"kkkkkk");
             Text text = new Text(msg.getMsg());
-            Text userNameText = new Text(mUser.getName());
             text.setFill(Color.valueOf(msg.getTextFill()));
             text.setStyle("-fx-font-family: \"" + msg.getFontFamily() + "\"; "
                     + ";" + "-fx-font-size: " + msg.getFontSize()
@@ -380,29 +385,52 @@ public class MainChatController implements Initializable {
             if (msg.getMsg().length() > 50)
                 text.setWrappingWidth(500);
             VBox vb = new VBox();
-            //BufferedImage image = javax.imageio.ImageIO.read(new ByteArrayInputStream(msg.getUser().getDisplayPicture()));
-            //Image card = SwingFXUtils.toFXImage(image, null);
-            //imageView.setImage(card);
-            //imageView.setFitWidth(15);
-            //imageView.setPreserveRatio(true);
-            hb.setAlignment(pos);
-            vb.getChildren().add(userNameText);
+            BufferedImage image = javax.imageio.ImageIO.read(new ByteArrayInputStream(msg.getUser().getDisplayPicture()));
+            Image card = SwingFXUtils.toFXImage(image, null);
+            imageView.setFill(new ImagePattern(card));
             if(msg.getType().equals(MessageType.NOTIFICATION)){
                 ImageView loadFile=new ImageView();
             loadFile.setImage(new Image(getClass().getResource("/org/project/images/download.png").toExternalForm()));
             loadFile.setFitHeight(50);
             loadFile.setFitWidth(50);
             fileBtnLoad.setGraphic(loadFile);
-
                 vb.getChildren().add(fileBtnLoad);
             }
             vb.setSpacing(2);
-            hb.getChildren().add(vb);
-            hb.getChildren().add(text);
-            hb.setPadding(new Insets(15, 12, 15, 12));
-            hb.setSpacing(10);
-            hb.setBackground(new Background(new BackgroundFill(Color.valueOf(msg.getTextFill()).invert() , new CornerRadii(25) , new Insets(10.0f))));
-            //hb.maxWidthProperty().bindBidirectional(msg.getMsg());
+            hb.setAlignment(pos);
+            dateHbox.setAlignment(pos);
+         //   message.setAlignment(pos);
+            switch (pos){
+                case CENTER_RIGHT:{
+                    hb.getChildren().add(text);
+                    hb.getChildren().add(vb);
+                    hb.getChildren().add(imageView);
+                    hb.setBackground(new Background(new BackgroundFill(Color.valueOf(msg.getTextFill()).invert() , new CornerRadii(25) , new Insets(10.0f))));
+                    hb.setMargin(imageView, new Insets(0, 0, 0, 10));
+                    hb.setPadding(new Insets(15, 12, 15, 12));
+                    hb.setSpacing(10);
+                    dateHbox.setSpacing(10);
+                   // dateHbox.getChildren().add(dateLbl);
+
+                    message.getChildren().add(dateLbl);
+                    message.getChildren().add(hb);
+                    break;
+                }
+                case CENTER_LEFT:{
+                    hb.getChildren().add(imageView);
+                    hb.getChildren().add(vb);
+                    hb.getChildren().add(text);
+                    hb.setBackground(new Background(new BackgroundFill(Color.valueOf(msg.getTextFill()).invert() , new CornerRadii(25) , new Insets(10.0f))));
+                    hb.setMargin(imageView, new Insets(0, 0, 0, 10));
+                    hb.setPadding(new Insets(15, 12, 15, 12));
+                    hb.setSpacing(10);
+                    dateHbox.setSpacing(10);
+                    message.getChildren().add(dateLbl);
+                    message.getChildren().add(hb);
+                    break;
+                }
+            }
+
             showMsgsScrollPane.vvalueProperty().bind(showMsgsBox.heightProperty());
         } catch (Exception e) {
             e.printStackTrace();
