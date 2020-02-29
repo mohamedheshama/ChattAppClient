@@ -1,5 +1,7 @@
 package org.project.controller.chat_home.right_side;
 
+import com.healthmarketscience.rmiio.RemoteInputStream;
+import com.healthmarketscience.rmiio.RemoteInputStreamClient;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXColorPicker;
 import com.jfoenix.controls.JFXComboBox;
@@ -47,8 +49,16 @@ import org.project.model.dao.users.Users;
 import javax.xml.bind.JAXBException;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.ByteBuffer;
+import java.nio.channels.Channels;
+import java.nio.channels.FileChannel;
+import java.nio.channels.ReadableByteChannel;
+import java.nio.channels.WritableByteChannel;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.*;
@@ -90,8 +100,8 @@ public class MainChatController implements Initializable {
     private ScrollPane showMsgsScrollPane;
     Users mUser;
     HomeController homeController;
-    ImageView loadFile=new ImageView();
-    JFXButton fileBtnLoad=new JFXButton();
+
+
     public ChatRoom getChatRoom() {
         return chatRoom;
     }
@@ -341,6 +351,7 @@ public class MainChatController implements Initializable {
 
     public HBox recipientChatLine(Message msg, Pos pos) throws Exception {
         HBox hb = new HBox();
+        JFXButton fileBtnLoad=new JFXButton();
         try {
             Label name = new Label(msg.getName());
             // ImageView imageView = new ImageView();
@@ -361,8 +372,12 @@ public class MainChatController implements Initializable {
             hb.setAlignment(pos);
             vb.getChildren().add(name);
             if(msg.getType().equals(MessageType.NOTIFICATION)){
-                loadFile.setImage(new Image(getClass().getResource("/org/project/images/download.png").toExternalForm()));
-                fileBtnLoad.setGraphic(loadFile);
+                ImageView loadFile=new ImageView();
+            loadFile.setImage(new Image(getClass().getResource("/org/project/images/download.png").toExternalForm()));
+            loadFile.setFitHeight(50);
+            loadFile.setFitWidth(50);
+            fileBtnLoad.setGraphic(loadFile);
+
                 vb.getChildren().add(fileBtnLoad);
             }
             vb.setSpacing(2);
@@ -551,5 +566,46 @@ public class MainChatController implements Initializable {
     public void saveChatSession() throws JAXBException {
         XmlTransformer xmlTransformer= new XmlTransformer(chatRoom.getChatRoomMessage() , chatRoom.getUsers());
         xmlTransformer.transform();
+    }
+
+    public void reveiveTheActualFile(String newMsg, RemoteInputStream remoteFileData) {
+        Thread th = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                InputStream fileData = null;
+                ByteBuffer buffer = null;
+                WritableByteChannel to = null;
+                ReadableByteChannel from = null;
+                try {
+                    fileData = RemoteInputStreamClient.wrap(remoteFileData);
+                    System.out.println("server 2 write");
+                    from = Channels.newChannel(fileData);
+                    buffer = ByteBuffer.allocateDirect(fileData.available());
+                    String home = System.getProperty("user.home");
+                    to = FileChannel.open(Paths.get(home + "/Downloads/" + newMsg), StandardOpenOption.WRITE, StandardOpenOption.CREATE_NEW);
+                    while ((from.read(buffer) != -1)) {
+                        buffer.flip();
+                        while (buffer.hasRemaining()) {
+                            System.out.println("server write");
+                            to.write(buffer);
+                        }
+                        buffer.clear();
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        to.close();
+                        from.close();
+                        fileData.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        th.setDaemon(true);
+        th.start();
     }
 }
