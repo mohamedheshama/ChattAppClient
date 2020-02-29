@@ -302,6 +302,7 @@ public class MainChatController implements Initializable {
         newMsg.setFontFamily(fontFamily);
         newMsg.setTextFill(colorPicked);
         newMsg.setFontSize(sizePicked);
+        newMsg.setFontPosture(getFontPosture().name());
         newMsg.setUser(mUser);
         newMsg.setPublicKey(rsaEncryptionWithAES.getPublicKey());
         newMsg.setEncryptedAESKeyString(rsaEncryptionWithAES.getEncryptedAESKeyString());
@@ -343,7 +344,10 @@ public class MainChatController implements Initializable {
                     showMsgsBox.getChildren().addAll(recipientChatLine(msg, pos));
                     VoicePlayback.playAudio(msg.getVoiceMsg());
                 } else {
-                    showMsgsBox.getChildren().addAll(recipientChatLine(msg, pos));
+                    if(!msg.getMsg().trim().equals("")){
+                        showMsgsBox.getChildren().addAll(recipientChatLine(msg, pos));
+                    }
+
                 }
 
             } catch (Exception e) {
@@ -368,7 +372,7 @@ public class MainChatController implements Initializable {
             text.setStyle("-fx-font-family: \"" + msg.getFontFamily() + "\"; "
                     + ";" + "-fx-font-size: " + msg.getFontSize()
                     + ";" + " -fx-font-weight:" + msg.getFontWeight()
-                    + ";" + " -fx-font-style:" + FontPosture.REGULAR);
+                    + ";" + " -fx-font-style:" + msg.getFontPosture());
             if (msg.getMsg().length() > 50)
                 text.setWrappingWidth(500);
             VBox vb = new VBox();
@@ -437,6 +441,7 @@ public class MainChatController implements Initializable {
             newMsg.setFontFamily(fontFamily);
             newMsg.setTextFill(colorPicked);
             newMsg.setFontSize(sizePicked);
+            newMsg.setFontPosture(getFontPosture().name());
             newMsg.setUser(mUser);
             newMsg.setChatId(chatRoom.getChatRoomId());
             newMsg.setFontWeight(getFontWeight().name());

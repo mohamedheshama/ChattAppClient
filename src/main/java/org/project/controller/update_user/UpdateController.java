@@ -111,7 +111,7 @@ public class UpdateController implements Initializable, UpdateInterface {
         if(existUser.getDateOfBirth() !=null){
             upd_birthDate.setValue(existUser.getDateOfBirth().toLocalDate());
         }
-         if(existUser.getGender().equals("Male") ){
+         if(existUser.getGender().equals(Gender.Male)){
              upd_male.setSelected(true);
              upd_female.setSelected(false);
          }else {
@@ -259,7 +259,16 @@ public class UpdateController implements Initializable, UpdateInterface {
 
         fileChooser.getExtensionFilters().addAll(new javafx.stage.FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg"));
         File file = fileChooser.showOpenDialog(null);
-        if (file != null) {
+        double size = file.length() / 1024;
+        System.out.println(size);
+        if (size > 64){
+            Alert bigimage=new Alert(Alert.AlertType.INFORMATION);
+            bigimage.setTitle("Image too big");
+            bigimage.setContentText("Image is greater than 64k, please choose another image");
+            bigimage.show();
+        }
+
+        if (file != null && size<64) {
             String path = file.toURI().toString();
             Image image1 = new Image(path);
             upd_image.setFill(new ImagePattern(image1));
