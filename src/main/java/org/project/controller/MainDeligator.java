@@ -471,4 +471,12 @@ public class MainDeligator implements Serializable {
     public void reveiveTheActualFile(String newMsg, RemoteInputStream remoteFileData) {
         homeController.reveiveTheActualFile(newMsg , remoteFileData);
     }
+
+    public void updateCurrentUserIcon(Users currentUser) throws RemoteException{
+        serverConnectionController.getServicesInterface().updateCurrentUserIcon(currentUser);
+    }
+
+    public void recieveUpdateCurrentUser(Users currentUser) throws RemoteException{
+        homeController.recieveUpdateCurrentUser(currentUser);
+    }
 }

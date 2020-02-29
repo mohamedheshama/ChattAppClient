@@ -71,9 +71,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -142,6 +140,11 @@ public class MainChatController implements Initializable {
     }
 
     File file ;
+
+    public void setFriendName(String friendName) {
+        this.chatReceiversTxtLabel.setText(friendName);
+
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -365,6 +368,8 @@ public class MainChatController implements Initializable {
         HBox hb = new HBox();
         JFXButton fileBtnLoad=new JFXButton();
         try {
+            Label name = new Label(msg.getName());
+            // ImageView imageView = new ImageView();
             Text text = new Text(msg.getMsg());
             Text userNameText = new Text(mUser.getName());
             text.setFill(Color.valueOf(msg.getTextFill()));

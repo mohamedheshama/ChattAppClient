@@ -3,6 +3,7 @@ package org.project.controller;
 import com.healthmarketscience.rmiio.RemoteInputStream;
 import com.healthmarketscience.rmiio.RemoteInputStreamClient;
 import javafx.application.Platform;
+import javafx.scene.control.Tab;
 import org.project.controller.chat_home.HomeController;
 import org.project.controller.messages.Message;
 import org.project.model.ChatRoom;
@@ -77,7 +78,10 @@ public class ClientImp extends UnicastRemoteObject implements ClientInterface {
             try {
                 System.out.println(user.getRequest_notifications());
 
+
                 homeController.getLeftSideController().setTabPane(user,homeController);
+
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -129,6 +133,11 @@ public class ClientImp extends UnicastRemoteObject implements ClientInterface {
     }
 
     @Override
+    public void recieveUpdateCurrentUser(Users currentUser) throws RemoteException {
+        mainDeligator.recieveUpdateCurrentUser(currentUser);
+    }
+
+    @Override
     public void recieveUpdatedNotifications(Users user) throws RemoteException {
         try {
             this.user.setFriends(homeController.updateFriends(user));
@@ -136,8 +145,7 @@ public class ClientImp extends UnicastRemoteObject implements ClientInterface {
             Platform.runLater(() -> {
                 try {
                     System.out.println("from updated notifications user is "+this.user.getName()+this.user.getRequest_notifications());
-
-                    homeController.getLeftSideController().setTabPane(this.user,homeController);
+                    homeController.getLeftSideController().setTabPane(this.user,homeController); //IMPORTANT
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

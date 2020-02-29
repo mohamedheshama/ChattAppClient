@@ -11,8 +11,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -60,6 +59,7 @@ public class HomeController implements Initializable, Serializable {
     }
 
     Parent prevScene;
+
     public void recieveServerDown() {
         Platform.runLater(() -> {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/serverDown.fxml"));
@@ -96,6 +96,11 @@ public class HomeController implements Initializable, Serializable {
     String phoneNumber;
     transient Stage stage;
     ClientImp clientImp;
+
+    public MainChatController getMainChatController() {
+        return mainChatController;
+    }
+
     transient MainChatController mainChatController;
 
     public LeftSideController getLeftSideController() {
@@ -109,7 +114,7 @@ public class HomeController implements Initializable, Serializable {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber){
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
         try {
             user = getUserData(this.phoneNumber);
@@ -129,7 +134,7 @@ public class HomeController implements Initializable, Serializable {
     }
 
     private void initClient() throws RemoteException {
-        clientImp = new ClientImp(user, mainDeligator , this);
+        clientImp = new ClientImp(user, mainDeligator, this);
         mainDeligator.registerClient(clientImp);
     }
 
@@ -164,12 +169,12 @@ public class HomeController implements Initializable, Serializable {
 
     private void initRightSide() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/right_side/welcome_view.fxml"));
-        Pane root=(Pane)loader.load();
-        welcomeController=loader.getController();
-        System.out.println("welcome controller"+welcomeController);
+        Pane root = (Pane) loader.load();
+        welcomeController = loader.getController();
+        System.out.println("welcome controller" + welcomeController);
         welcomeController.setExistUser(user);
         //welcomeController.setHomeController(this);
-        System.out.println("from init right side user is"+user.getName());
+        System.out.println("from init right side user is" + user.getName());
         borderBaneStage.setCenter(root);
         ChatRoom chatRoom = new ChatRoom();
     }
@@ -194,7 +199,7 @@ public class HomeController implements Initializable, Serializable {
     }*/
 
 
-    public void openChatRoom(ChatRoom chatRoom, boolean isChatRoomExist){
+    public void openChatRoom(ChatRoom chatRoom, boolean isChatRoomExist) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/right_side/main_chat.fxml"));
             Parent root = loader.load();
@@ -217,17 +222,17 @@ public class HomeController implements Initializable, Serializable {
     }
 
     public void reciveMsg(Message newMsg, ChatRoom chatRoom) throws Exception {
-        if (mainChatController != null){
+        if (mainChatController != null) {
             mainChatController.reciveMsg(newMsg, chatRoom);
-        }else{
+        } else {
             Platform.runLater(() -> {
-                HBox hBox =new HBox();
+                HBox hBox = new HBox();
                 ImageView imageView = new ImageView();
                 imageView.setImage(new Image(getClass().getResource("/org/project/images/message.png").toExternalForm()));
                 imageView.setFitWidth(30);
                 imageView.setFitHeight(30);
-                Text text =new Text("New Message from : " + newMsg.getUser().getName());
-                hBox.setPadding(new Insets(20,20,20,20
+                Text text = new Text("New Message from : " + newMsg.getUser().getName());
+                hBox.setPadding(new Insets(20, 20, 20, 20
 
                 ));
                 hBox.setSpacing(5);
@@ -272,7 +277,7 @@ public class HomeController implements Initializable, Serializable {
     }
 
     public boolean changeUserStatus(Users user, UserStatus userStatus) throws RemoteException {
-        return mainDeligator.changeUserStatus(user ,userStatus);
+        return mainDeligator.changeUserStatus(user, userStatus);
     }
 
     public ArrayList<Message> getMessagesFromArrayList() {
@@ -280,15 +285,15 @@ public class HomeController implements Initializable, Serializable {
     }
 
     public void addUsersToFriedNotifications(List<String> contactList, Users user) throws RemoteException {
-        mainDeligator.addUsersToFriedNotifications(contactList , user);
+        mainDeligator.addUsersToFriedNotifications(contactList, user);
     }
 
-    public List<String> getUsersList(int userId)  throws RemoteException{
+    public List<String> getUsersList(int userId) throws RemoteException {
         return mainDeligator.getUsersList(userId);
     }
 
-    public void recieveContactRequest(List<String> conatactsToAdd,Users user) throws RemoteException  {
-        mainDeligator.recieveContactRequest(conatactsToAdd,user);
+    public void recieveContactRequest(List<String> conatactsToAdd, Users user) throws RemoteException {
+        mainDeligator.recieveContactRequest(conatactsToAdd, user);
     }
 
 
@@ -298,10 +303,10 @@ public class HomeController implements Initializable, Serializable {
     //END AMR
 
     public boolean acceptRequest(Users currentUser, Users friend) {
-        return mainDeligator.acceptRequest(currentUser,friend);
+        return mainDeligator.acceptRequest(currentUser, friend);
     }
 
-    public ArrayList<Users> updateNotifications(Users currentUser){
+    public ArrayList<Users> updateNotifications(Users currentUser) {
         return mainDeligator.updateNotifications(currentUser);
     }
 
@@ -315,11 +320,11 @@ public class HomeController implements Initializable, Serializable {
     }
 
     public boolean declineRequest(Users currentUser, Users friend) {
-        return mainDeligator.declineRequest(currentUser,friend);
+        return mainDeligator.declineRequest(currentUser, friend);
     }
 
     public void updateStatus(Users user, UserStatus newStatus) {
-        mainDeligator.updateStatus(user,newStatus);
+        mainDeligator.updateStatus(user, newStatus);
     }
 
     public ArrayList<Users> getUserOnlineFriends(Users user) throws RemoteException {
@@ -328,7 +333,7 @@ public class HomeController implements Initializable, Serializable {
 
     public void notifyNewGroup(ArrayList<Users> groupUsers, ChatRoom currentChatRoom) throws RemoteException {
 
-        mainDeligator.notifyNewGroup(groupUsers,currentChatRoom);
+        mainDeligator.notifyNewGroup(groupUsers, currentChatRoom);
     }
 
     public void recieveMsgFromAdmin(Message newMsg, Users onlineUser) {
@@ -466,7 +471,6 @@ public class HomeController implements Initializable, Serializable {
     }
 
 
-
     public void fileSendAccepted(Users users) throws RemoteException {
         mainDeligator.fileSendAccepted(users);
     }
@@ -480,9 +484,9 @@ public class HomeController implements Initializable, Serializable {
     }
 
     public void setsetverIsAlive() throws IOException {
-        if (welcomeController != null){
+        if (welcomeController != null) {
             welcomeController.setsetverIsAlive();
-        }else {
+        } else {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/serverDown.fxml"));
             Pane root = (Pane) loader.load();
             getStage().setScene(new Scene(root));
@@ -492,10 +496,29 @@ public class HomeController implements Initializable, Serializable {
     }
 
     public void saveChatSession() throws JAXBException {
-        mainChatController.saveChatSession();
+        if (mainChatController != null)
+            mainChatController.saveChatSession();
+        else {
+            Alert noChatRoom= new Alert(Alert.AlertType.INFORMATION);
+            noChatRoom.setTitle("no open chat rooms");
+            noChatRoom.setContentText("There is no current open chatroom");
+            noChatRoom.show();
+        }
     }
 
     public void reveiveTheActualFile(String newMsg, RemoteInputStream remoteFileData) {
-        mainChatController.reveiveTheActualFile(newMsg , remoteFileData);
+        mainChatController.reveiveTheActualFile(newMsg, remoteFileData);
+    }
+
+    public void recieveUpdateCurrentUser(Users currentUser) throws RemoteException {
+        Platform.runLater(() -> {
+            try {
+                System.out.println("updating for user");
+                getLeftSideController().setUserIcon(currentUser, this);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
     }
 }

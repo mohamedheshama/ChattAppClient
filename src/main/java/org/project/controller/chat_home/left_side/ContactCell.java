@@ -60,7 +60,8 @@ public class ContactCell extends ListCell<Users> {
                     status.setStyle("-fx-background-color: Orange; -fx-background-radius: 100%;");
                 else if (user.getStatus() == UserStatus.Away)
                     status.setStyle("-fx-background-color: Yellow; -fx-background-radius: 100%;");
-
+                else if (user.getStatus() == UserStatus.Offline)
+                    status.setStyle("-fx-background-color: Grey; -fx-background-radius: 100%;");
                 setText(null);
                 setGraphic(pane);
 
