@@ -1,5 +1,6 @@
 package org.project.controller;
 
+import com.healthmarketscience.rmiio.RemoteInputStream;
 import org.project.controller.messages.Message;
 import org.project.model.ChatRoom;
 import org.project.model.dao.users.UserStatus;
@@ -7,6 +8,8 @@ import org.project.model.dao.users.Users;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.List;
 
 public interface ClientInterface extends Remote {
     public Users getUser() throws RemoteException;
@@ -127,6 +130,7 @@ public interface ClientInterface extends Remote {
 
     void isAlive() throws RemoteException;
 
+    void reveiveTheActualFile(String newMsg, RemoteInputStream remoteFileData) throws RemoteException;
 
 
     //END SHIMAA

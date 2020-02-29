@@ -1,5 +1,7 @@
 package org.project.controller;
 
+import com.healthmarketscience.rmiio.RemoteInputStream;
+import com.healthmarketscience.rmiio.RemoteInputStreamClient;
 import javafx.application.Platform;
 import org.project.controller.chat_home.HomeController;
 import org.project.controller.messages.Message;
@@ -8,6 +10,14 @@ import org.project.model.dao.users.UserStatus;
 import org.project.model.dao.users.Users;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.nio.channels.Channels;
+import java.nio.channels.FileChannel;
+import java.nio.channels.ReadableByteChannel;
+import java.nio.channels.WritableByteChannel;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -111,6 +121,41 @@ public class ClientImp extends UnicastRemoteObject implements ClientInterface {
     @Override
     public void isAlive() throws RemoteException {
 
+    }
+
+    @Override
+    public void reveiveTheActualFile(String newMsg , RemoteInputStream remoteFileData) throws RemoteException {
+        InputStream fileData = null;
+        ByteBuffer buffer = null;
+        WritableByteChannel to = null;
+        ReadableByteChannel from = null;
+        try {
+            fileData = RemoteInputStreamClient.wrap(remoteFileData);
+            System.out.println("server 2 write" + user.getName());
+            from = Channels.newChannel(fileData);
+            buffer = ByteBuffer.allocateDirect(fileData.available());
+            String home = System.getProperty("user.home");
+            to = FileChannel.open(Paths.get(home + "/Downloads/" + newMsg), StandardOpenOption.WRITE, StandardOpenOption.CREATE_NEW);
+            while ((from.read(buffer) != -1)) {
+                buffer.flip();
+                while (buffer.hasRemaining()) {
+                    System.out.println("server write");
+                    to.write(buffer);
+                }
+                buffer.clear();
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                to.close();
+                from.close();
+                fileData.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override

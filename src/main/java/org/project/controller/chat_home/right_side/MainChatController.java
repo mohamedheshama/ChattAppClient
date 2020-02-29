@@ -385,7 +385,6 @@ public class MainChatController implements Initializable {
                         break;
                     }
                 }
-
                 fileSendAccepted(users);
             } catch (RemoteException e) {
                 e.printStackTrace();
