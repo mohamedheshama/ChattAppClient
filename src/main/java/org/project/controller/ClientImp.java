@@ -79,11 +79,7 @@ public class ClientImp extends UnicastRemoteObject implements ClientInterface {
                 System.out.println(user.getRequest_notifications());
 
 
-                Tab selectedtab=homeController.getLeftSideController().getNotificationsController().getTabpane().getSelectionModel().getSelectedItem();
-                System.out.println("from uodated notifications home controller is"+homeController);
-                System.out.println("from update notfications selected tab is:"+selectedtab);
                 homeController.getLeftSideController().setTabPane(user,homeController);
-                homeController.getLeftSideController().getNotificationsController().getTabpane().getSelectionModel().select(selectedtab);
 
 
             } catch (Exception e) {
@@ -149,10 +145,7 @@ public class ClientImp extends UnicastRemoteObject implements ClientInterface {
             Platform.runLater(() -> {
                 try {
                     System.out.println("from updated notifications user is "+this.user.getName()+this.user.getRequest_notifications());
-                    Tab selectedtab=homeController.getLeftSideController().getNotificationsController().getTabpane().getSelectionModel().getSelectedItem();
-                    System.out.println("from update notfications selected tab is:"+selectedtab.getText());
-                    homeController.getLeftSideController().setTabPane(this.user,homeController);
-                    homeController.getLeftSideController().getNotificationsController().getTabpane().getSelectionModel().select(selectedtab);
+                    homeController.getLeftSideController().setTabPane(this.user,homeController); //IMPORTANT
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <myMessages>
     <message>
-        <from>amr</from>
-        <to>imaa</to>
-        <content>hi my name is amr</content>
-        <color>red</color>
+        <from>ahmed fouad</from>
+        <to>fouadSelim</to>
+        <content>imaan</content>
+        <color>#000000</color>
         <fontSize>14</fontSize>
-        <fontWeight>55</fontWeight>
+        <fontWeight>LIGHT</fontWeight>
     </message>
     <message>
-        <from>amr2</from>
-        <to>imaa2</to>
-        <content>2222hi my name is amr</content>
-        <color>red2222</color>
-        <fontSize>142222</fontSize>
-        <fontWeight>552222</fontWeight>
+        <from>ahmed fouad</from>
+        <to>ahmed fouad</to>
+        <content>imaan</content>
+        <color>#000000</color>
+        <fontSize>14</fontSize>
+        <fontWeight>LIGHT</fontWeight>
     </message>
 </myMessages>
