@@ -111,7 +111,7 @@ public class UpdateController implements Initializable, UpdateInterface {
         if(existUser.getDateOfBirth() !=null){
             upd_birthDate.setValue(existUser.getDateOfBirth().toLocalDate());
         }
-         if(existUser.getGender().equals("Male") ){
+         if(existUser.getGender().equals(Gender.Male)){
              upd_male.setSelected(true);
              upd_female.setSelected(false);
          }else {

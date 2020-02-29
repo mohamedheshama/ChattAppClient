@@ -37,6 +37,8 @@ public class WelcomeController implements Initializable {
     private Label nameOfUser;
     @FXML
     private ImageView personImg;
+    @FXML
+    private Label phoneNoLbl;
     HomeController homeController;
     Users existUser;
     public HomeController getHomeController() {
@@ -57,6 +59,7 @@ public class WelcomeController implements Initializable {
 
             }
             nameOfUser.setText(existUser.getName());
+            phoneNoLbl.setText(existUser.getPhoneNumber());
         } catch (SQLException ex) {
             ex.printStackTrace();
         } catch (IOException ex) {
