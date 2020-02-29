@@ -1,5 +1,7 @@
 package org.project.controller.chat_home.right_side;
 
+import com.healthmarketscience.rmiio.RemoteInputStream;
+import com.healthmarketscience.rmiio.RemoteInputStreamClient;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXColorPicker;
 import com.jfoenix.controls.JFXComboBox;
@@ -31,6 +33,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 import org.project.controller.MainDeligator;
@@ -52,10 +55,20 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.ByteBuffer;
+import java.nio.channels.Channels;
+import java.nio.channels.FileChannel;
+import java.nio.channels.ReadableByteChannel;
+import java.nio.channels.WritableByteChannel;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
@@ -95,14 +108,15 @@ public class MainChatController implements Initializable {
     private ScrollPane showMsgsScrollPane;
     Users mUser;
     HomeController homeController;
-    ImageView loadFile=new ImageView();
-    JFXButton fileBtnLoad=new JFXButton();
+
+
     public ChatRoom getChatRoom() {
         return chatRoom;
     }
 
     ChatRoom chatRoom;
-    @FXML ImageView microphoneImageView;
+    @FXML
+    ImageView microphoneImageView;
     MainDeligator mainDeligator;
     Image microphoneActiveImage = new Image(getClass().getResource("/org/project/images/microphone-active.png").toExternalForm());
     Image microphoneInactiveImage = new Image(getClass().getResource("/org/project/images/microphone.png").toExternalForm());
@@ -114,6 +128,7 @@ public class MainChatController implements Initializable {
     public void setmUser(Users mUser) {
         this.mUser = mUser;
     }
+    public Users getmUser(){return mUser;}
 
     private String colorPicked;
     private String fontFamily = "Arial";
@@ -130,6 +145,7 @@ public class MainChatController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         try {
             rsaEncryptionWithAES = new RSAEncryptionWithAES();
         } catch (Exception e) {
@@ -158,6 +174,7 @@ public class MainChatController implements Initializable {
             }
         });
         fontComboBox.getItems().addAll(Font.getFontNames());
+        updateFontComboBoxcell();
         fontColorPicker.setValue(Color.BLACK);
         colorPicked = toRGBCode(fontColorPicker.getValue());
         fontColorPicker.valueProperty().addListener((obs, oldVal, newVal) -> {
@@ -227,6 +244,32 @@ public class MainChatController implements Initializable {
         }
     }
 
+    public void updateFontComboBoxcell() {
+        fontComboBox.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
+            @Override
+            public ListCell<String> call(ListView<String> param) {
+                final ListCell<String> cell = new ListCell<String>() {
+                    {
+                        super.setPrefWidth(100);
+                    }
+
+                    @Override
+                    public void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (item != null) {
+                            setText(item);
+                            this.setFont(new Font(item, 15));
+
+                        } else {
+                            setText(null);
+                        }
+                    }
+                };
+                return cell;
+            }
+        });
+    }
+
     public void setTextFieldStyle() {
        // System.out.println("s;geod");
         String str = msgTxtField.getText().toString();
@@ -286,29 +329,7 @@ public class MainChatController implements Initializable {
 
     private void showMessageIncommingNotification(Message newMsg) {
         Platform.runLater(() -> {
-            Notifications notificationBuilder = Notifications.create()
-                    .title("Announcement")
-                    .graphic(new ImageView(new Image(getClass().getResource("/org/project/images/birthday.png").toExternalForm())))// todo  newMsg.getUser().getDisplayPicture()
-                    .text("New Message From : " + newMsg.getMsg())
-                    .hideAfter(Duration.seconds(8))
-                    .position(Pos.BOTTOM_RIGHT)
-                    .onAction(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent event) {
-                            System.out.println("announcement has been clicked");
-                        }
-                    });
-            notificationBuilder.darkStyle();
-            getStage().show();
-            getStage().requestFocus();
-            AudioClip clip = null;
-            try {
-                clip = new AudioClip(getClass().getResource("/org/project/sounds/notification.wav").toURI().toString());
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-            }
-            clip.play();
-            notificationBuilder.show();
+            createNotificationUI("New Message From : " + newMsg.getMsg(), "message.png");
         });
 
 
@@ -317,11 +338,11 @@ public class MainChatController implements Initializable {
     private void displayMsg(Message msg, Pos pos) {
         Platform.runLater(() -> {
             try {
-                if (msg.getType() == MessageType.VOICE){
+                if (msg.getType() == MessageType.VOICE) {
                     ImageView imageview = new ImageView(new Image((getClass().getResource("/org/project/images/birthday.png").toExternalForm())));
                     showMsgsBox.getChildren().addAll(recipientChatLine(msg, pos));
                     VoicePlayback.playAudio(msg.getVoiceMsg());
-                }else{
+                } else {
                     showMsgsBox.getChildren().addAll(recipientChatLine(msg, pos));
                 }
 
@@ -338,6 +359,7 @@ public class MainChatController implements Initializable {
 
     public HBox recipientChatLine(Message msg, Pos pos) throws Exception {
         HBox hb = new HBox();
+        JFXButton fileBtnLoad=new JFXButton();
         try {
             Label name = new Label(msg.getName());
             // ImageView imageView = new ImageView();
@@ -350,39 +372,24 @@ public class MainChatController implements Initializable {
             if (msg.getMsg().length() > 50)
                 text.setWrappingWidth(500);
             VBox vb = new VBox();
-
             //BufferedImage image = javax.imageio.ImageIO.read(new ByteArrayInputStream(msg.getUser().getDisplayPicture()));
             //Image card = SwingFXUtils.toFXImage(image, null);
             //imageView.setImage(card);
             //imageView.setFitWidth(15);
             //imageView.setPreserveRatio(true);
-            Circle userImage=  new Circle();
-            ImageView imageView = null;
-            /*if (mUser.getDisplayPicture() != null) {
-                System.out.println("image gaya b eh ");
+            hb.setAlignment(pos);
+            vb.getChildren().add(name);
+            if(msg.getType().equals(MessageType.NOTIFICATION)){
+                ImageView loadFile=new ImageView();
+            loadFile.setImage(new Image(getClass().getResource("/org/project/images/download.png").toExternalForm()));
+            loadFile.setFitHeight(50);
+            loadFile.setFitWidth(50);
+            fileBtnLoad.setGraphic(loadFile);
 
-                BufferedImage image = null;
-                image = ImageIO.read(new ByteArrayInputStream(mUser.getDisplayPicture()));
-                Image card = SwingFXUtils.toFXImage(image, null);
-                userImage.setFill(new ImagePattern(card));
-                // imageBytes=existUser.getDisplayPicture();
-
-                String nameOfUser = mUser.getName();
-                hb.setAlignment(pos);
-                Text textOfNameUser = new Text(nameOfUser);
-                vb.getChildren().add(textOfNameUser);
-                vb.getChildren().add(name);
-            }*/
-                if (msg.getType().equals(MessageType.NOTIFICATION)) {
-                    loadFile.setImage(new Image(getClass().getResource("/org/project/images/download.png").toExternalForm()));
-                    fileBtnLoad.setGraphic(loadFile);
-                    vb.getChildren().add(fileBtnLoad);
-                }
-                vb.setSpacing(2);
-
-
+                vb.getChildren().add(fileBtnLoad);
+            }
+            vb.setSpacing(2);
             hb.getChildren().add(vb);
-            //vb.getChildren().add(imageView);
             hb.getChildren().add(text);
             hb.setPadding(new Insets(15, 12, 15, 12));
             hb.setSpacing(10);
@@ -524,40 +531,90 @@ public class MainChatController implements Initializable {
 
     public void userIsLoggedOf() {
         Platform.runLater(() -> {
-            Notifications notificationBuilder = Notifications.create()
-                    .title("Announcement")
-                    .graphic(new ImageView(new Image(getClass().getResource("/org/project/images/admin-icon.png").toExternalForm())))// todo  newMsg.getUser().getDisplayPicture()
-                    .text("this user is logged of" )
-                    .hideAfter(Duration.seconds(8))
-                    .position(Pos.BOTTOM_RIGHT)
-                    .onAction(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent event) {
-                            System.out.println("announcement has been clicked");
-                        }
-                    });
-            notificationBuilder.darkStyle();
-            if (!getStage().isShowing())
-                getStage().show();
-            getStage().requestFocus();
-            AudioClip clip = null;
-            try {
-                clip = new AudioClip(getClass().getResource("/org/project/sounds/notification.wav").toURI().toString());
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-            }
-            clip.play();
-            notificationBuilder.show();
+            createNotificationUI("this user is logged of", "offlineUser.png");
         });
     }
 
-    public void saveChatSession() {
-        XmlTransformer xmlTransformer= new XmlTransformer(chatRoom.getChatRoomMessage() , chatRoom.getUsers());
+    public void createNotificationUI(String notificationText, String imageName) {
+        HBox hBox = new HBox();
+        ImageView imageView = new ImageView();
+        imageView.setImage(new Image(getClass().getResource("/org/project/images/" + imageName).toExternalForm()));
+        imageView.setFitWidth(30);
+        imageView.setFitHeight(30);
+        Text text = new Text(notificationText);
+        hBox.setPadding(new Insets(20, 20, 20, 20));
+        hBox.setSpacing(5);
+        hBox.setStyle("-fx-background-color: aliceblue");
+        hBox.getChildren().add(imageView);
+        hBox.getChildren().add(text);
+        Notifications notificationBuilder = Notifications.create()
+                .title("Announcement")
+                .graphic(hBox)// todo  newMsg.getUser().getDisplayPicture()
+                .hideAfter(Duration.seconds(8))
+                .position(Pos.BOTTOM_RIGHT)
+                .onAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        System.out.println("announcement has been clicked");
+                    }
+                });
+        //notificationBuilder.darkStyle();
+        if (!getStage().isShowing())
+            getStage().show();
+        getStage().requestFocus();
+        AudioClip clip = null;
         try {
-            xmlTransformer.transform();
-        } catch (JAXBException e) {
-            System.out.println("MainChatCintroller saveChatSession() exception");
+            clip = new AudioClip(getClass().getResource("/org/project/sounds/notification.wav").toURI().toString());
+        } catch (URISyntaxException e) {
             e.printStackTrace();
         }
+        clip.play();
+        notificationBuilder.show();
+    }
+
+    public void saveChatSession() throws JAXBException {
+        XmlTransformer xmlTransformer= new XmlTransformer(chatRoom.getChatRoomMessage() , chatRoom.getUsers());
+        xmlTransformer.transform();
+    }
+
+    public void reveiveTheActualFile(String newMsg, RemoteInputStream remoteFileData) {
+        Thread th = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                InputStream fileData = null;
+                ByteBuffer buffer = null;
+                WritableByteChannel to = null;
+                ReadableByteChannel from = null;
+                try {
+                    fileData = RemoteInputStreamClient.wrap(remoteFileData);
+                    System.out.println("server 2 write");
+                    from = Channels.newChannel(fileData);
+                    buffer = ByteBuffer.allocateDirect(fileData.available());
+                    String home = System.getProperty("user.home");
+                    to = FileChannel.open(Paths.get(home + "/Downloads/" + newMsg), StandardOpenOption.WRITE, StandardOpenOption.CREATE_NEW);
+                    while ((from.read(buffer) != -1)) {
+                        buffer.flip();
+                        while (buffer.hasRemaining()) {
+                            System.out.println("server write");
+                            to.write(buffer);
+                        }
+                        buffer.clear();
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        to.close();
+                        from.close();
+                        fileData.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        th.setDaemon(true);
+        th.start();
     }
 }

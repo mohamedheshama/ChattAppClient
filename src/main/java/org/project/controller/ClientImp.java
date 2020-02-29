@@ -1,5 +1,7 @@
 package org.project.controller;
 
+import com.healthmarketscience.rmiio.RemoteInputStream;
+import com.healthmarketscience.rmiio.RemoteInputStreamClient;
 import javafx.application.Platform;
 import org.project.controller.chat_home.HomeController;
 import org.project.controller.messages.Message;
@@ -8,6 +10,14 @@ import org.project.model.dao.users.UserStatus;
 import org.project.model.dao.users.Users;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.nio.channels.Channels;
+import java.nio.channels.FileChannel;
+import java.nio.channels.ReadableByteChannel;
+import java.nio.channels.WritableByteChannel;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -111,6 +121,11 @@ public class ClientImp extends UnicastRemoteObject implements ClientInterface {
     @Override
     public void isAlive() throws RemoteException {
 
+    }
+
+    @Override
+    public void reveiveTheActualFile(String newMsg , RemoteInputStream remoteFileData) throws RemoteException {
+        mainDeligator.reveiveTheActualFile(newMsg , remoteFileData);
     }
 
     @Override
