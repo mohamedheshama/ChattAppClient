@@ -18,6 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
@@ -28,6 +29,7 @@ import org.project.App;
 import org.project.controller.MainDeligator;
 import org.project.controller.ServicesInterface;
 import org.project.controller.chat_home.HomeController;
+import org.project.controller.login.LoginController;
 import org.project.model.dao.users.Gender;
 import org.project.model.dao.users.UserStatus;
 import org.project.model.dao.users.Users;
@@ -54,6 +56,7 @@ public class RegisterController implements Initializable {
 
     ServicesInterface obj;
     private boolean checkConfirmPass;
+    @FXML private HBox mainPane;
     @FXML
     private ChoiceBox choicebox;
     @FXML
@@ -208,9 +211,16 @@ public class RegisterController implements Initializable {
     public boolean userDataValid() {
         return userPhoneNumber() && validateUserName() && userPhoneValid() && validateEmail() && checkConfirmPass;
     }
-
+    public Stage getStage() {
+        return ((Stage) mainPane.getScene().getWindow());
+    }
     public void Login () throws IOException {
-        App.setRoot("/org/project/views/login_view");
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/login_view.fxml"));
+        Parent root = loader.load();
+        getStage().setScene(new Scene(root));
+      //  App.setRoot("/org/project/views/login_view");
+
     }
 
 

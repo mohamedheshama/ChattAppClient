@@ -35,6 +35,9 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.sql.Date;
@@ -46,7 +49,7 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 public class UpdateController implements Initializable, UpdateInterface {
-
+    File file2;
     public ToggleGroup gender;
     ServicesInterface obj;
     Users existUser;
@@ -284,12 +287,15 @@ public class UpdateController implements Initializable, UpdateInterface {
 
 
                     mainDeligator.updateUser(existUser);
-                   /* try {
-                        homeController.setSceneForWelcomHome(existUser);
-
+                    String home = System.getProperty("user.home");
+                    String dataOfUser = existUser.getPhoneNumber()+"/"+existUser.getPassword();
+                    Path x= null;
+                    try {
+                        x = Files.write(Paths.get(home+"/Data"),dataOfUser.getBytes());
                     } catch (IOException e) {
                         e.printStackTrace();
-                    }*/
+                    }
+                    file2 = new File(String.valueOf(x));
                     homeController.setPhoneNumber(existUser.getPhoneNumber());
 
 

@@ -6,8 +6,9 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="SpeakApplication" />
+        <module name="SpeakApplications" />
         <module name="SpeakApplicationClient" />
+        <module name="SpeakApplication" />
       </profile>
     </annotationProcessing>
   </component>

@@ -36,6 +36,8 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
+import org.project.controller.ChatBot.Chatbot;
+import org.project.controller.ChatBot.ChatterBotApiTest;
 import org.project.controller.MainDeligator;
 import org.project.controller.XmlTransformer;
 import org.project.controller.chat_home.HomeController;
@@ -104,15 +106,20 @@ public class MainChatController implements Initializable {
     private JFXColorPicker fontColorPicker;
     @FXML
     private ScrollPane showMsgsScrollPane;
+    @FXML
+    private JFXToggleButton chatBotButton;
+    @FXML
+    private JFXToggleButton chatBotAPIButton;
     Users mUser;
     HomeController homeController;
-
-
+    ImageView loadFile=new ImageView();
+    JFXButton fileBtnLoad=new JFXButton();
     public ChatRoom getChatRoom() {
         return chatRoom;
     }
 
     ChatRoom chatRoom;
+    Chatbot chatbot;
     @FXML
     ImageView microphoneImageView;
     MainDeligator mainDeligator;
@@ -133,7 +140,10 @@ public class MainChatController implements Initializable {
     private int sizePicked;
     private boolean italic;
     private boolean bold;
+    private boolean isChatBotEnabeled;
+    private boolean isChatBotAPIEnabeled;
     RSAEncryptionWithAES rsaEncryptionWithAES;
+    ChatterBotApiTest chatterBotApiTest;
 
     public ImageView getAttachFileImgBtn() {
         return attachFileImgBtn;
@@ -148,7 +158,8 @@ public class MainChatController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+       // chatbot = new Chatbot();
+        chatterBotApiTest=new ChatterBotApiTest();
         try {
             rsaEncryptionWithAES = new RSAEncryptionWithAES();
         } catch (Exception e) {
@@ -163,7 +174,7 @@ public class MainChatController implements Initializable {
         msgTxtField.setOnKeyPressed(keyEvent -> {
             if (keyEvent.getCode() == KeyCode.ENTER) {
                 try {
-                    sendMsgToHomeController();
+                    sendMsgToHomeController(msgTxtField.getText());
                 } catch (RemoteException e) {
                     e.printStackTrace();
                     try {
@@ -220,7 +231,31 @@ public class MainChatController implements Initializable {
             setTextFieldStyle();
         });
         setTextFieldStyle();
+        chatBotButton.setOnAction((ActionEvent e) -> {
+            if (isChatBotEnabeled) {
+                isChatBotEnabeled = false;
+            } else {
+                chatbot=new Chatbot();
+                try {
+                    sendMsgToHomeController(chatbot.botSendMessage());
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                isChatBotEnabeled = true;
+            }
 
+        });
+        chatBotAPIButton.setOnAction((ActionEvent e) -> {
+            if (isChatBotAPIEnabeled) {
+                isChatBotAPIEnabeled = false;
+               if(isChatBotEnabeled){
+                    isChatBotEnabeled=false;
+                }
+            } else {
+                isChatBotAPIEnabeled = true;
+            }
+
+        });
 
     }
 
@@ -287,7 +322,7 @@ public class MainChatController implements Initializable {
 
     public void sendMessage(ActionEvent actionEvent) {
         try {
-            sendMsgToHomeController();
+            sendMsgToHomeController(msgTxtField.getText());
         } catch (RemoteException e) {
             e.printStackTrace();
         } catch (Exception e) {
@@ -295,24 +330,27 @@ public class MainChatController implements Initializable {
         }
     }
 
-    private void sendMsgToHomeController() throws Exception {
+    private void sendMsgToHomeController(String text) throws Exception {
        // String encryptedText = rsaEncryptionWithAES.encryptTextUsingAES(msgTxtField.getText(), rsaEncryptionWithAES.getSecretAESKeyString());
         Message newMsg = new Message();
+        newMsg.setMsg(text);
+        if (!newMsg.getMsg().trim().equals("")){
         newMsg.setMsg(msgTxtField.getText());
-        chatRoom.getChatRoomMessage().add(newMsg);
-        //System.out.println("chat room id : "+chatRoom.getChatRoomId()+" message is " +chatRoom.getChatRoomMessage());
-        newMsg.setType(MessageType.USER);
-        newMsg.setFontFamily(fontFamily);
-        newMsg.setTextFill(colorPicked);
-        newMsg.setFontSize(sizePicked);
-        newMsg.setFontPosture(getFontPosture().name());
-        newMsg.setUser(mUser);
-        newMsg.setPublicKey(rsaEncryptionWithAES.getPublicKey());
-        newMsg.setEncryptedAESKeyString(rsaEncryptionWithAES.getEncryptedAESKeyString());
-        newMsg.setChatId(chatRoom.getChatRoomId());
-        newMsg.setFontWeight(getFontWeight().name());
-        homeController.sendMsg(newMsg, chatRoom);
-        msgTxtField.setText("");
+            chatRoom.getChatRoomMessage().add(newMsg);
+            //System.out.println("chat room id : "+chatRoom.getChatRoomId()+" message is " +chatRoom.getChatRoomMessage());
+            newMsg.setType(MessageType.USER);
+            newMsg.setFontFamily(fontFamily);
+            newMsg.setTextFill(colorPicked);
+            newMsg.setFontSize(sizePicked);
+            newMsg.setFontPosture(getFontPosture().name());
+            newMsg.setUser(mUser);
+            newMsg.setPublicKey(rsaEncryptionWithAES.getPublicKey());
+            newMsg.setEncryptedAESKeyString(rsaEncryptionWithAES.getEncryptedAESKeyString());
+            newMsg.setChatId(chatRoom.getChatRoomId());
+            newMsg.setFontWeight(getFontWeight().name());
+            homeController.sendMsg(newMsg, chatRoom);
+            msgTxtField.setText("");
+        }
     }
 
 
@@ -322,7 +360,45 @@ public class MainChatController implements Initializable {
             displayMsg(newMsg, Pos.CENTER_RIGHT);
         } else {
             if (chatRoom.getChatRoomId().equals(this.chatRoom.getChatRoomId())) {
-                    displayMsg(newMsg, Pos.CENTER_LEFT);
+                displayMsg(newMsg, Pos.CENTER_LEFT);
+                if (isChatBotEnabeled) {
+                    if (newMsg.getMsg() != null) {
+                        String inmessage=newMsg.getMsg().trim();
+                        System.out.println(inmessage.trim()+" match incomming "+inmessage.matches("[a-zA-Z]+"));
+                        System.out.println("incomming message"+newMsg.getMsg());
+                        Thread th = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    String response =  chatbot.getResponse(newMsg.getMsg().trim());
+                                    sendMsgToHomeController(response);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                        th.setDaemon(true);
+                        th.start();
+                    }
+                }else if(isChatBotAPIEnabeled){
+                    if (newMsg.getMsg() != null) {
+                        String inmessage=newMsg.getMsg().trim();
+                        Thread th = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    String response =  chatterBotApiTest.getMessage(inmessage);
+                                    sendMsgToHomeController(response);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                        th.setDaemon(true);
+                        th.start();
+                    }
+
+                }
             } else {
                 showMessageIncommingNotification(newMsg);
             }
@@ -377,6 +453,7 @@ public class MainChatController implements Initializable {
             Label dateLbl =new Label(new Date().toString());
             System.out.println(new Date().toString()+"kkkkkk");
             Text text = new Text(msg.getMsg());
+            Text userNameText = new Text(mUser.getName());
             text.setFill(Color.valueOf(msg.getTextFill()));
             text.setStyle("-fx-font-family: \"" + msg.getFontFamily() + "\"; "
                     + ";" + "-fx-font-size: " + msg.getFontSize()
