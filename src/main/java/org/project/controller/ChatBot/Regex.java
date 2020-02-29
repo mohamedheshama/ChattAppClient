@@ -29,6 +29,7 @@ public class Regex {
     }
 
     public static String clear(String text){
+        System.out.println("ffff"+text);
         Pattern pattern = Pattern.compile("\\[.*\\]");
 
         // Replace all occurrences of pattern in input

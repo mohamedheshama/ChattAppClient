@@ -3,6 +3,7 @@ package org.project.controller.ChatBot;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -64,19 +65,47 @@ public class Bot {
             String correct2 = "my";
             message = message.replaceAll("you", correct2);
             System.out.println("print check" + message);
-        } else if (message.contains("i")) {
-            String correct2 = "you";
-            message = message.replaceAll("i", correct2);
-            System.out.println("print check" + message);
+//        } else if (message.contains("i")) {
+//            String correct2 = "you";
+//            message = message.replaceAll("i", correct2);
+//            System.out.println("print check" + message);
+//        }
         }
-
         String response = "";
         State state = parser.getState(level);
-        if (level.equals("0")) {
+        
+        
+         if (level.equals("0")) {
+            State state2 = parser.getState("0");
+
+            // Keyword k= state2.getKeywords().get(0);
+            
+           
+            
+            boolean flag=false;
+            for (Keyword keyword : state2.getKeywords()) {
+                System.out.println("ffffffffff"+keyword.keyword);
+                  Pattern p = Pattern.compile(keyword.keyword.toLowerCase());
+        Matcher m = p.matcher(message.toLowerCase());
+               if( m.matches()){
+                   flag=true;
+                   
+               }
+                
+            }
+            
+          if (flag==false) {
+            
+            
            if (message.matches("([a-zA-Z ]+)")){
             Keyword k = new Keyword(message, "16", "", level, "name", 10, "");
             parser.addNewKeyword(state, k, "name");}
         }
+        
+         }
+        
+      
+        
 
         // end of the tree
         if (state.getKeywords().isEmpty()) {
@@ -143,6 +172,7 @@ public class Bot {
         // add best answers regex variable value into the dictionary for future reference
         if (match != null) {
             if (match.learn.length() > 0) {
+                System.out.println("byleaaaaarn naowwwwwwwwwwwwwwwwwwwwwwwwwwww");
 
                 // get training data keyword and description
                 String subject = dictionary.get(match.learn);//amr
@@ -202,6 +232,8 @@ public class Bot {
             if (text.toLowerCase().indexOf(word.toLowerCase()) >= 0) {
                 result = result + keyword.points + 4;////////////////////////////this keyword increase points
             } else {
+                
+                
                 // return null if one of the keywords does not exists
                 return -1;
             }

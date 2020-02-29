@@ -14,6 +14,8 @@ module org.project {
     requires rmiio;
     requires java.xml.bind;
     requires commons.io;
+    requires org.junit.jupiter.api;
+    requires chatter.bot.api;
 
     opens org.project to javafx.fxml;
     opens org.project.controller.update_user to javafx.fxml;

@@ -1,39 +1,45 @@
 package org.project.controller.ChatBot;
 
+import org.project.controller.MainDeligator;
+import org.project.controller.chat_home.HomeController;
+import org.project.controller.chat_home.right_side.MainChatController;
+import org.project.controller.messages.Message;
+
 import java.util.Scanner;
 
 public class Chatbot {
     private static Bot bot;
+   // private static MainDeligator homeController;
+
+   private MainChatController homeController;
+
+
 
     public Chatbot(){
-
-
 
         // construct a data parser
         DataParser dp = new DataParser();
 
         // construct new bot with level 0 as default and given data parser
         bot = new Bot("0", dp);
-        System.out.println(bot.getMessage());
+     //   System.out.println(bot.getMessage()+"first");
 
 
     }
 
-    public static void sendResponse(String s){
-
+    public  String getResponse(String s){
         String response = bot.send(s);
         if (response.length() > 0) {
-            botSendMessage(response);
+            return response+" ,"+bot.getMessage();
+        }else{
+            return bot.getMessage();
         }
-
-        // display new state message
-        botSendMessage(bot.getMessage());
     }
 
 
-    public static void botSendMessage(String s){
+    public  String botSendMessage(){
         //todo text from bot
-        System.out.println(s);
+      return bot.getMessage();
 
     }
 
@@ -46,11 +52,11 @@ public class Chatbot {
 
     public static void main(String args []){
 Chatbot chatbot=new Chatbot();
-
-        Scanner scanner=new Scanner(System.in);
-        String s=scanner.nextLine();
-        sendResponse(s);
-
+while(true) {
+    Scanner scanner = new Scanner(System.in);
+    String s = scanner.nextLine();
+    chatbot.getResponse(s);
+}
     }
 
 
