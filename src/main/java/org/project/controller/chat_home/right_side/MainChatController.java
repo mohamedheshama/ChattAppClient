@@ -7,6 +7,7 @@ import com.jfoenix.controls.JFXColorPicker;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXToggleButton;
 import javafx.application.Platform;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -24,6 +25,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
@@ -46,7 +49,10 @@ import org.project.controller.security.RSAEncryptionWithAES;
 import org.project.model.ChatRoom;
 import org.project.model.dao.users.Users;
 
+import javax.imageio.ImageIO;
 import javax.xml.bind.JAXBException;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -65,7 +71,9 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -294,6 +302,7 @@ public class MainChatController implements Initializable {
         newMsg.setFontFamily(fontFamily);
         newMsg.setTextFill(colorPicked);
         newMsg.setFontSize(sizePicked);
+        newMsg.setFontPosture(getFontPosture().name());
         newMsg.setUser(mUser);
         newMsg.setPublicKey(rsaEncryptionWithAES.getPublicKey());
         newMsg.setEncryptedAESKeyString(rsaEncryptionWithAES.getEncryptedAESKeyString());
@@ -335,7 +344,10 @@ public class MainChatController implements Initializable {
                     showMsgsBox.getChildren().addAll(recipientChatLine(msg, pos));
                     VoicePlayback.playAudio(msg.getVoiceMsg());
                 } else {
-                    showMsgsBox.getChildren().addAll(recipientChatLine(msg, pos));
+                    if(!msg.getMsg().trim().equals("")){
+                        showMsgsBox.getChildren().addAll(recipientChatLine(msg, pos));
+                    }
+
                 }
 
             } catch (Exception e) {
@@ -359,7 +371,7 @@ public class MainChatController implements Initializable {
             text.setStyle("-fx-font-family: \"" + msg.getFontFamily() + "\"; "
                     + ";" + "-fx-font-size: " + msg.getFontSize()
                     + ";" + " -fx-font-weight:" + msg.getFontWeight()
-                    + ";" + " -fx-font-style:" + FontPosture.REGULAR);
+                    + ";" + " -fx-font-style:" + msg.getFontPosture());
             if (msg.getMsg().length() > 50)
                 text.setWrappingWidth(500);
             VBox vb = new VBox();
@@ -399,6 +411,7 @@ public class MainChatController implements Initializable {
                         break;
                     }
                 }
+
                 fileSendAccepted(users);
             } catch (RemoteException e) {
                 e.printStackTrace();
@@ -427,6 +440,7 @@ public class MainChatController implements Initializable {
             newMsg.setFontFamily(fontFamily);
             newMsg.setTextFill(colorPicked);
             newMsg.setFontSize(sizePicked);
+            newMsg.setFontPosture(getFontPosture().name());
             newMsg.setUser(mUser);
             newMsg.setChatId(chatRoom.getChatRoomId());
             newMsg.setFontWeight(getFontWeight().name());

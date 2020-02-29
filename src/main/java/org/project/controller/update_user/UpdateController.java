@@ -89,7 +89,7 @@ public class UpdateController implements Initializable, UpdateInterface {
     private JFXDatePicker upd_birthDate ;
     @FXML
     private Label upd_label_name;
-    String Pnumber=null;
+    String Pnumber="";
     public Stage getStage() {
         return ((Stage) mainPane.getScene().getWindow());
     }
@@ -155,6 +155,18 @@ public class UpdateController implements Initializable, UpdateInterface {
         }
 
 
+
+        //upd_birthDate.setValue(existUser.getDateOfBirth().toLocalDate());
+        /*try {
+            if (existUser.getDisplayPicture() != null) {
+                InputStream is=new ByteArrayInputStream(existUser.getDisplayPicture());
+                BufferedImage imag= ImageIO.read(is);
+                Image image = SwingFXUtils.toFXImage(imag, null);
+                upd_image.setClip(new ImageView(image));
+            }
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }*/
         List<String> collect = Arrays.asList(Locale.getAvailableLocales()).stream().map(Locale::getDisplayCountry).filter(s -> !s.isEmpty()).sorted().collect(Collectors.toList());
         ObservableList<String> AllCountries = FXCollections.observableArrayList(collect);
         choicebox.setItems(AllCountries);
@@ -223,11 +235,12 @@ public class UpdateController implements Initializable, UpdateInterface {
         existUser.setName(upd_username.getText());
         existUser.setEmail(upd_userEmail.getText());
         existUser.setPassword(upd_userPassword.getText());
+
         existUser.setStatus(UserStatus.Available);
         existUser.setBio(upd_bio.getText());
         existUser.setDisplayPicture(imageBytes);
         existUser.setCountry(choicebox.getSelectionModel().getSelectedItem().toString());
-        if (upd_birthDate.getValue() !=null){
+        if (Date.valueOf(upd_birthDate.getValue()) !=null){
             existUser.setDateOfBirth(Date.valueOf(upd_birthDate.getValue()));
         }
         gender.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
@@ -238,7 +251,6 @@ public class UpdateController implements Initializable, UpdateInterface {
                 existUser.setGender(Gender.valueOf(chk.getText()));
             }
         });
-
         if(upd_phone_num.getText().equals(Pnumber)){
 
             if (userDataValid()) {
@@ -247,7 +259,7 @@ public class UpdateController implements Initializable, UpdateInterface {
                 mainDeligator.updateUser(existUser);
 
 
-                    homeController.setPhoneNumber(existUser.getPhoneNumber());
+                homeController.setPhoneNumber(existUser.getPhoneNumber());
 
 
 
