@@ -49,7 +49,7 @@ public class MainDeligator implements Serializable {
 
     public MainDeligator(){
         try {
-            this.serverConnectionController = new ServerConnectionController("10.145.6.113", 1290);
+            this.serverConnectionController = new ServerConnectionController("127.0.0.1", 1290);
             scheduledExecutorService.scheduleAtFixedRate(() -> {
                 try {
                     setverIsAlive();
@@ -468,5 +468,10 @@ public class MainDeligator implements Serializable {
 
     public void recieveUpdateCurrentUser(Users currentUser) throws RemoteException{
         homeController.recieveUpdateCurrentUser(currentUser);
+    }
+
+
+    public boolean checkUserLoggedIn(String phonenumber_input) throws RemoteException{
+       return serverConnectionController.getServicesInterface().checkUserLoggedIn(phonenumber_input);
     }
 }
