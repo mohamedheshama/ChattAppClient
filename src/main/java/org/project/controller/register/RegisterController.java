@@ -7,6 +7,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -15,9 +16,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.apache.commons.io.FilenameUtils;
 import org.project.App;
 import org.project.controller.MainDeligator;
 import org.project.controller.ServicesInterface;
@@ -26,8 +32,15 @@ import org.project.model.dao.users.Gender;
 import org.project.model.dao.users.UserStatus;
 import org.project.model.dao.users.Users;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
@@ -154,7 +167,7 @@ public class RegisterController implements Initializable {
     }*/
 
 
-    public void register() throws RemoteException, SQLException, IOException {
+    public void register() throws RemoteException, SQLException, IOException, URISyntaxException {
 
         if (userDataValid()) {
             newUser.setName(username.getText());
@@ -163,6 +176,14 @@ public class RegisterController implements Initializable {
             newUser.setPhoneNumber(phone_num.getText());
             newUser.setGender(Gender.Female);
             newUser.setStatus(UserStatus.Available);
+            URL url = getClass().getResource("/org/project/images/unknown.png");
+            Path dest = Paths.get(url.toURI());
+            if (dest != null) {
+                byte[] bytes = Files.readAllBytes(dest);
+                System.out.println("bytes are " + bytes);
+                newUser.setDisplayPicture(bytes);
+                System.out.println("user defalult image : " + newUser.getDisplayPicture());
+            }
 
             choicebox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
 

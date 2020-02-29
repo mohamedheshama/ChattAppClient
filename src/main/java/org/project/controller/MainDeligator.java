@@ -59,7 +59,7 @@ public class MainDeligator implements Serializable {
 
     public MainDeligator(){
         try {
-            this.serverConnectionController = new ServerConnectionController("localhost", 1260);
+            this.serverConnectionController = new ServerConnectionController("127.0.0.1", 1290);
             scheduledExecutorService.scheduleAtFixedRate(() -> {
                 try {
                     setverIsAlive();
@@ -159,6 +159,10 @@ public class MainDeligator implements Serializable {
 
     // Hend
 
+    public boolean checkIsExistUserForUpdate(Users user) throws RemoteException{
+        return serverConnectionController.getServicesInterface().checkForExistUser(user);
+    }
+
     public void registerUser(Users newUser) throws RemoteException, SQLException {
         if (serverConnectionController.getServicesInterface().register(newUser)) {
             System.out.println("user registe succesfully");
@@ -172,6 +176,9 @@ public class MainDeligator implements Serializable {
 
 
         } else {
+            Alert alert=new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("user is already registe");
+            alert.show();
             System.out.println("user can't registe");
         }
     }
