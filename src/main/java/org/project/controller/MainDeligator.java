@@ -1,19 +1,9 @@
 package org.project.controller;
 
 import com.healthmarketscience.rmiio.RemoteInputStream;
-import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import org.project.App;
 import org.project.controller.chat_home.HomeController;
-import org.project.controller.login.LoginController;
 import org.project.controller.messages.Message;
 import org.project.controller.register.RegisterController;
 import org.project.model.ChatRoom;
@@ -159,6 +149,10 @@ public class MainDeligator implements Serializable {
 
     // Hend
 
+    public boolean checkIsExistUserForUpdate(Users user) throws RemoteException{
+        return serverConnectionController.getServicesInterface().checkForExistUser(user);
+    }
+
     public void registerUser(Users newUser) throws RemoteException, SQLException {
         if (serverConnectionController.getServicesInterface().register(newUser)) {
             System.out.println("user registe succesfully");
@@ -172,6 +166,9 @@ public class MainDeligator implements Serializable {
 
 
         } else {
+            Alert alert=new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("user is already registe");
+            alert.show();
             System.out.println("user can't registe");
         }
     }
@@ -459,5 +456,17 @@ public class MainDeligator implements Serializable {
 
     public void sendFileToReceiver() {
         homeController.sendFileToReceiver();
+    }
+
+    public void reveiveTheActualFile(String newMsg, RemoteInputStream remoteFileData) {
+        homeController.reveiveTheActualFile(newMsg , remoteFileData);
+    }
+
+    public void updateCurrentUserIcon(Users currentUser) throws RemoteException{
+        serverConnectionController.getServicesInterface().updateCurrentUserIcon(currentUser);
+    }
+
+    public void recieveUpdateCurrentUser(Users currentUser) throws RemoteException{
+        homeController.recieveUpdateCurrentUser(currentUser);
     }
 }

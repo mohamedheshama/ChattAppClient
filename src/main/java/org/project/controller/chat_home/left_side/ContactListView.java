@@ -1,5 +1,6 @@
 package org.project.controller.chat_home.left_side;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -86,6 +87,9 @@ public class ContactListView implements Initializable {
                 if (currentChatRoom != null) {
                     boolean isChatRoomAdded = addChatRoom(currentChatRoom);
                     homeController.openChatRoom(currentChatRoom, isChatRoomAdded);
+                    Platform.runLater(() -> {
+                        homeController.getMainChatController().setFriendName(friendUser.getName());
+                    });
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setContentText("this user has an issue please contact him later");

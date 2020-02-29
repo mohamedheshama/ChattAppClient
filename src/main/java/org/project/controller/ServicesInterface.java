@@ -38,7 +38,7 @@ public interface ServicesInterface extends Remote {
     // check if phone number exists, update online users
     // start hend
 
-
+   public boolean checkForExistUser(Users user);
 
     public void sendFile( String newMsg, RemoteInputStream remoteFileData,ChatRoom chatRoom,int userSendFileId)throws RemoteException , IOException, NotBoundException;
 
@@ -153,6 +153,8 @@ public interface ServicesInterface extends Remote {
     public void fileSendAccepted(Users chatRoom) throws RemoteException;
 
     void setverIsAlive() throws RemoteException;
+
+    void updateCurrentUserIcon(Users currentUser) throws RemoteException;
 
     //END SHIMAA
 }
