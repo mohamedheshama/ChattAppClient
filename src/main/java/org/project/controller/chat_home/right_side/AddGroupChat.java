@@ -5,7 +5,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -18,12 +20,11 @@ import org.project.controller.chat_home.HomeController;
 import org.project.model.ChatRoom;
 import org.project.model.dao.users.Users;
 
+import java.io.IOException;
 import java.net.URL;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class AddGroupChat implements Initializable {
     @FXML
@@ -44,6 +45,8 @@ public class AddGroupChat implements Initializable {
     HomeController homeController;
     Users user;
     ArrayList<String> onlineFriendsStrings;
+    private WelcomeController welcomeController;
+
 
     public ChatRoom getChatRoom() {
         return chatRoom;
@@ -68,11 +71,32 @@ public class AddGroupChat implements Initializable {
         if (OnlineFriends != null) {
             onlineFriendsStrings = new ArrayList<>();
             for (Users onlineFriend : OnlineFriends) {
+
                 onlineFriendsStrings.add(onlineFriend.getPhoneNumber());
 
             }
-            System.out.println(onlineFriendsStrings);
+            //System.out.println(onlineFriendsStrings);
             //onlineFriendsStrings.remove(1);
+            ArrayList<String>filteredOnlineFriendsStrings = new ArrayList<>();
+            List<String> currentChatRoomPhoneNumber = getChatRoom().getUsers().stream().map(Users::getPhoneNumber).collect(Collectors.toList());
+            System.out.println("nline friends are " + onlineFriendsStrings);
+            for (String onlineFriendsString : onlineFriendsStrings) {
+                boolean phoneExist = false;
+                for (String currentChatRoomPhNum : currentChatRoomPhoneNumber) {
+                    if (onlineFriendsString.equals(currentChatRoomPhNum)){
+                        phoneExist = true;
+                    }
+                    System.out.println("current : " + currentChatRoomPhNum + "   online : " + onlineFriendsString);
+                }
+
+                if (!phoneExist){
+                    filteredOnlineFriendsStrings.add(onlineFriendsString);
+                    System.out.println("this phone is added  : "  + onlineFriendsString);
+                }
+            }
+            onlineFriendsStrings.clear();
+            onlineFriendsStrings.addAll(filteredOnlineFriendsStrings);
+
             possibleSuggestionContacts = new HashSet(onlineFriendsStrings);
             TextFields.bindAutoCompletion(phoneNoTxt, onlineFriendsStrings);
         }
@@ -161,7 +185,6 @@ public class AddGroupChat implements Initializable {
 
     private void learnWord(String text) throws RemoteException {
         OnlineFriends = getUserOnlineFriends();
-
         if (OnlineFriends != null) {
             possibleSuggestionContacts = new HashSet(onlineFriendsStrings);
             TextFields.bindAutoCompletion(phoneNoTxt, onlineFriendsStrings);
@@ -180,6 +203,13 @@ public class AddGroupChat implements Initializable {
             if (user != null)
                     groupUsers.add(user);
         }
+        /*
+        Set setOfGroupUser = new HashSet(groupUsers);
+        System.out.println("set: "+setOfGroupUser);
+        ArrayList<Users> listOfGroupUser = new ArrayList<Users>(setOfGroupUser);
+        System.out.println("Arr List : " + listOfGroupUser);
+
+         */
 
         //chatRoom.getUsers().addAll(groupUsers);
         groupUsers.addAll(getChatRoom().getUsers());
@@ -206,4 +236,22 @@ public class AddGroupChat implements Initializable {
     }
 
 
+    public void handleCancelBtn(ActionEvent event) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/right_side/welcome_view.fxml"));
+        Parent root = null;
+        try {
+            root = loader.load();
+            System.out.println("l mfrod d5l");
+            welcomeController = loader.getController();
+            welcomeController.setExistUser(user);
+            welcomeController.setHomeController(homeController);
+            homeController.getBorderBaneStage().setCenter(root);
+            homeController.getStage().setMinWidth(1300);
+            homeController.getStage().setMinHeight(700);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
 }

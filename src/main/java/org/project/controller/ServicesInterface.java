@@ -156,5 +156,7 @@ public interface ServicesInterface extends Remote {
 
     void updateCurrentUserIcon(Users currentUser) throws RemoteException;
 
+    boolean checkUserLoggedIn(String phonenumber_input) throws RemoteException;
+
     //END SHIMAA
 }

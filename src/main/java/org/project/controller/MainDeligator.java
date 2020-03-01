@@ -1,19 +1,9 @@
 package org.project.controller;
 
 import com.healthmarketscience.rmiio.RemoteInputStream;
-import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import org.project.App;
 import org.project.controller.chat_home.HomeController;
-import org.project.controller.login.LoginController;
 import org.project.controller.messages.Message;
 import org.project.controller.register.RegisterController;
 import org.project.model.ChatRoom;
@@ -66,7 +56,7 @@ public class MainDeligator implements Serializable {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            },0, 500 , TimeUnit.SECONDS);
+            }, 0, 500, TimeUnit.SECONDS);
 
         } catch (NotBoundException | IOException e) {
             System.out.println("dsfsdfsdfsfsdfds");
@@ -478,5 +468,10 @@ public class MainDeligator implements Serializable {
 
     public void recieveUpdateCurrentUser(Users currentUser) throws RemoteException{
         homeController.recieveUpdateCurrentUser(currentUser);
+    }
+
+
+    public boolean checkUserLoggedIn(String phonenumber_input) throws RemoteException{
+       return serverConnectionController.getServicesInterface().checkUserLoggedIn(phonenumber_input);
     }
 }
