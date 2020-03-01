@@ -15,7 +15,7 @@
                   <Font name="System Bold Italic" size="36.0" />
                </font>
             </Label>
-            <Label fx:id="nameOfUser" prefHeight="54.0" prefWidth="486.0" text="Label" textFill="#7a12ca">
+            <Label fx:id="nameOfUser" prefHeight="54.0" prefWidth="486.0" textFill="#0099cc">
                <font>
                   <Font size="36.0" />
                </font>
@@ -47,7 +47,7 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Label fx:id="phoneNoLbl" prefHeight="31.0" prefWidth="267.0" text="118468446444">
+            <Label fx:id="phoneNoLbl" prefHeight="31.0" prefWidth="267.0" textFill="#0099cc">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>

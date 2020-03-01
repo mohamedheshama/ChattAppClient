@@ -8,11 +8,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<HBox alignment="CENTER" fx:id="mainPane" style="-fx-background-color: #f0f5f5;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.controller.register.RegisterController">
+<HBox fx:id="mainPane" alignment="CENTER" style="-fx-background-color: #f0f5f5;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.controller.register.RegisterController">
    <children>
       <AnchorPane id="testID" fx:id="background" maxHeight="641.0" maxWidth="700.0" minHeight="400.0" minWidth="200.0" prefHeight="641.0" prefWidth="683.0" style="-fx-background-color: #607d8b; -fx-background-image: url(&quot;src/main/resources/org/project/images/background.jpeg&quot;).toExternalForm(); -fx-background-size: cover,auto; -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.5), 10, 0, 0, 0);" HBox.hgrow="ALWAYS">
           <children>
-      
+
               <Label alignment="CENTER" layoutX="155.0" layoutY="573.0" prefHeight="18.0" prefWidth="324.0" text="\@2020 Speak Chat  . All rights reserved,Design by ITI" textFill="WHITE">
                   <font>
                       <Font size="11.0" />
@@ -20,8 +20,8 @@
               </Label>
               <AnchorPane layoutX="24.0" layoutY="156.0">
                   <children>
-      
-      
+
+
                       <Pane prefHeight="318.0" prefWidth="607.0" style="-fx-background-color: #b3b3ff;">
 
 
@@ -30,9 +30,9 @@
                                   <Image url="@../images/building.jpg" />
                               </image>
                           </ImageView>
-                     <JFXButton fx:id="loginBtn" buttonType="RAISED" layoutX="57.0" layoutY="146.0" mnemonicParsing="false" onMouseClicked="#Login" prefHeight="26.0" prefWidth="129.0" ripplerFill="#0099cc" style="-fx-background-color: #a64dff;" text="Login Now" textFill="WHITE" />
-      
-      
+                     <JFXButton fx:id="loginBtn" buttonType="RAISED" layoutX="57.0" layoutY="146.0" mnemonicParsing="false" onMouseClicked="#Login" prefHeight="26.0" prefWidth="129.0" ripplerFill="#0099cc" style="-fx-background-color: #0099cc;" text="Login Now" textFill="WHITE" />
+
+
                           <children>
                               <Label layoutX="24.0" layoutY="79.0" text="Have an account ?" textFill="WHITE">
                                   <font>
@@ -105,13 +105,13 @@
                           </children>
                       </HBox>
                       <JFXCheckBox checkedColor="#9c108e" layoutX="14.0" layoutY="377.0" mnemonicParsing="false" text="I accept the " />
-                      <Label layoutX="110.0" layoutY="377.0" prefHeight="18.0" prefWidth="172.0" text=" Terms of Use &amp; Privacy Policy " textFill="#ab1fa9" />
-                      <JFXButton fx:id="registBtn" buttonType="RAISED" layoutX="47.0" layoutY="422.0" mnemonicParsing="false" onMouseClicked="#register" prefHeight="26.0" prefWidth="221.0" ripplerFill="#0099cc" style="-fx-background-color: #a64dff;" text="Register Now " textFill="WHITE" />
+                      <Label layoutX="110.0" layoutY="377.0" prefHeight="18.0" prefWidth="172.0" text=" Terms of Use &amp; Privacy Policy " textFill="#0099cc" />
+                      <JFXButton fx:id="registBtn" buttonType="RAISED" layoutX="47.0" layoutY="422.0" mnemonicParsing="false" onMouseClicked="#register" prefHeight="26.0" prefWidth="221.0" ripplerFill="#0099cc" style="-fx-background-color: #0099cc;" text="Register Now " textFill="WHITE" />
                       <Label fx:id="phoneNumError" layoutX="53.0" layoutY="146.0" textFill="#d70909" />
                       <Label fx:id="nameError" layoutX="33.0" layoutY="194.0" textFill="#c70e0e" />
                       <Label fx:id="emailError" layoutX="31.0" layoutY="234.0" textFill="#d50e0e" />
                       <Label fx:id="passError" layoutX="33.0" layoutY="284.0" textFill="#d70d0d" />
-                      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="39.0" layoutY="14.0" prefHeight="58.0" prefWidth="237.0" text="Speak" textAlignment="CENTER" textFill="#7a12ca" textOverrun="CENTER_ELLIPSIS">
+                      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="39.0" layoutY="14.0" prefHeight="58.0" prefWidth="237.0" text="Speak" textAlignment="CENTER" textFill="#0099cc" textOverrun="CENTER_ELLIPSIS">
                           <font>
                               <Font name="Berlin Sans FB Demi Bold" size="48.0" />
                           </font>

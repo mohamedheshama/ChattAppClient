@@ -9,14 +9,13 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-
-<HBox alignment="CENTER" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.controller.update_user.UpdateController">
+<HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.controller.update_user.UpdateController">
    <children>
       <AnchorPane HBox.hgrow="ALWAYS">
           <children>
               <Pane prefHeight="582.0" prefWidth="476.0" style="-fx-background-color: #fff;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                   <children>
-                      <Pane layoutX="-11.0" prefHeight="94.0" prefWidth="487.0" style="-fx-background-color: #a64dff;" />
+                      <Pane layoutX="-11.0" prefHeight="94.0" prefWidth="487.0" style="-fx-background-color: #0099cc;" />
                       <Label fx:id="upd_label_name" alignment="CENTER" layoutX="92.0" layoutY="147.0" prefHeight="38.0" prefWidth="268.0" style="-fx-text-fill: ahmed;" text="Hend Elaraby" textFill="#645e5e">
                           <font>
                               <Font size="22.0" />
@@ -82,7 +81,7 @@
                          <JFXPasswordField fx:id="upd_userPasswordConfirm" focusColor="WHITE" onKeyTyped="#validatePasswordMatch" prefHeight="26.0" prefWidth="285.0" promptText="Confirm Password" style="-fx-text-fill: #000;" unFocusColor="#675858" />
                      </children>
                   </HBox>
-                      <JFXButton fx:id="chane_upd" buttonType="RAISED" layoutX="388.0" layoutY="542.0" mnemonicParsing="false" onAction="#changeUpd" prefHeight="26.0" prefWidth="80.0" ripplerFill="#0099cc" style="-fx-background-color: #a64dff;" text="Change" textFill="WHITE" />
+                      <JFXButton fx:id="chane_upd" buttonType="RAISED" layoutX="388.0" layoutY="542.0" mnemonicParsing="false" onAction="#changeUpd" prefHeight="26.0" prefWidth="80.0" ripplerFill="#0099cc" style="-fx-background-color: #0099cc;" text="Change" textFill="WHITE" />
                       <HBox layoutX="84.0" layoutY="466.0" prefHeight="22.0" prefWidth="310.0">
                           <children>
                               <JFXDatePicker fx:id="upd_birthDate" defaultColor="#1a2120" prefHeight="28.0" prefWidth="399.0" promptText="Birthday" />
@@ -93,12 +92,12 @@
                               <ToggleGroup fx:id="gender" />
                           </toggleGroup>
                      <selectedColor>
-                        <Color red="0.6100000143051147" green="0.061000000685453415" blue="0.48105618357658386" />
+                        <Color green="0.6000000238418579" blue="0.800000011920929" />
                      </selectedColor>
                       </JFXRadioButton>
                       <JFXRadioButton fx:id="upd_female" layoutX="210.0" layoutY="546.0" mnemonicParsing="false" selected="true" text="Female" toggleGroup="$gender">
                      <selectedColor>
-                        <Color red="0.6100000143051147" green="0.061000000685453415" blue="0.5000417828559875" />
+                        <Color green="0.6000000238418579" blue="0.800000011920929" />
                      </selectedColor>
                   </JFXRadioButton>
                       <Circle fx:id="upd_image" fill="#172029" layoutX="226.0" layoutY="87.0" onMouseClicked="#chooseImg" radius="57.0" stroke="#d2d1d1" strokeType="INSIDE" />

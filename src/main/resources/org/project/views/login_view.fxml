@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<HBox  fx:id="mainPane" alignment="CENTER" style="-fx-background-color: #f0f5f5;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.controller.login.LoginController">
+<HBox fx:id="mainPane" alignment="CENTER" style="-fx-background-color: #f0f5f5;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.controller.login.LoginController">
    <children>
       <AnchorPane id="testID" fx:id="background" maxHeight="641.0" maxWidth="700.0" minHeight="400.0" minWidth="200.0" prefHeight="641.0" prefWidth="683.0" style="-fx-background-color: #607d8b;  -fx-background-size: cover,auto; -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.5), 10, 0, 0, 0);" HBox.hgrow="ALWAYS">
          <children>
@@ -37,7 +37,7 @@
                         <children>
                            <HBox alignment="CENTER" layoutX="-10.0" layoutY="27.0" prefHeight="63.0" prefWidth="344.0" AnchorPane.leftAnchor="-10.0" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="27.0">
                               <children>
-                                 <Label text="Speak" textFill="#7a12ca">
+                                 <Label text="Speak" textFill="#0099cc">
                                     <font>
                                        <Font name="Berlin Sans FB Demi Bold" size="48.0" />
                                     </font></Label>
@@ -79,12 +79,12 @@
                            </HBox>
                            <HBox alignment="CENTER_LEFT" layoutX="4.0" layoutY="242.0" prefHeight="18.0" prefWidth="341.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
                               <children>
-                                 <JFXCheckBox fx:id="keep_me_login_Chkbox" checkedColor="#87109c" mnemonicParsing="false" text="Keep me Logged in " />
+                                 <JFXCheckBox fx:id="keep_me_login_Chkbox" checkedColor="#0099cc" mnemonicParsing="false" text="Keep me Logged in " />
                               </children>
                            </HBox>
                            <HBox alignment="CENTER" layoutX="1.0" layoutY="310.0" prefHeight="42.0" prefWidth="344.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                               <children>
-                                 <JFXButton fx:id="login_Btn" buttonType="RAISED" mnemonicParsing="false" onAction="#view" prefHeight="42.0" prefWidth="144.0" ripplerFill="#69b1c3" style="-fx-border-radius: 20px; -fx-background-color: #7a12ca;" text="Log in" textFill="#fffdfd">
+                                 <JFXButton fx:id="login_Btn" buttonType="RAISED" mnemonicParsing="false" onAction="#view" prefHeight="42.0" prefWidth="144.0" ripplerFill="#69b1c3" style="-fx-border-radius: 20px; -fx-background-color: #0099cc;" text="Log in" textFill="#fffdfd">
                                     <font>
                                        <Font size="19.0" />
                                     </font>
