@@ -49,14 +49,14 @@ public class MainDeligator implements Serializable {
 
     public MainDeligator(){
         try {
-            this.serverConnectionController = new ServerConnectionController("10.145.6.113", 1290);
+            this.serverConnectionController = new ServerConnectionController("127.0.0.1", 1290);
             scheduledExecutorService.scheduleAtFixedRate(() -> {
                 try {
                     setverIsAlive();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            },0, 500 , TimeUnit.SECONDS);
+            }, 0, 500, TimeUnit.SECONDS);
 
         } catch (NotBoundException | IOException e) {
             System.out.println("dsfsdfsdfsfsdfds");

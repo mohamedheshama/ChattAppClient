@@ -6,7 +6,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import javax.imageio.ImageIO;
 import java.io.IOException;
@@ -57,6 +56,8 @@ public class App extends Application {
 
     private static final String iconImageLoc =
             "http://icons.iconarchive.com/icons/scafer31000/bubble-circle-3/16/GameCenter-icon.png";
+
+
     private void addAppToTray() {
 
         try {
@@ -127,5 +128,6 @@ public class App extends Application {
     public static void main(String[] args) {
         launch();
     }
+
 
 }
