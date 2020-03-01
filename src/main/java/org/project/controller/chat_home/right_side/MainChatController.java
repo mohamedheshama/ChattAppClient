@@ -36,7 +36,7 @@ import javafx.util.Callback;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 import org.project.controller.ChatBot.Chatbot;
-import org.project.controller.ChatBot.ChatterBotApiTest;
+import org.project.controller.ChatBot.ChatterBotApi;
 import org.project.controller.MainDeligator;
 import org.project.controller.XmlTransformer;
 import org.project.controller.chat_home.HomeController;

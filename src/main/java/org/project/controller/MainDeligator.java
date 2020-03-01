@@ -2,7 +2,6 @@ package org.project.controller;
 
 import com.healthmarketscience.rmiio.RemoteInputStream;
 import javafx.scene.control.Alert;
-import org.project.App;
 import org.project.controller.chat_home.HomeController;
 import org.project.controller.messages.Message;
 import org.project.controller.register.RegisterController;
@@ -153,16 +152,12 @@ public class MainDeligator implements Serializable {
         return serverConnectionController.getServicesInterface().checkForExistUser(user);
     }
 
-    public void registerUser(Users newUser) throws RemoteException, SQLException {
+    public boolean registerUser(Users newUser) throws RemoteException, SQLException {
         if (serverConnectionController.getServicesInterface().register(newUser)) {
             System.out.println("user registe succesfully");
-            try {
 
-                App.setRoot("/org/project/views/login_view");
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            return true;
+            // App.setRoot("/org/project/views/login_view");
 
 
         } else {
@@ -170,6 +165,7 @@ public class MainDeligator implements Serializable {
             alert.setContentText("user is already registe");
             alert.show();
             System.out.println("user can't registe");
+            return false;
         }
     }
 
