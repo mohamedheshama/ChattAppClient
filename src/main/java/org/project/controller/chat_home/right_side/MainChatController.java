@@ -45,7 +45,6 @@ import org.project.controller.messages.MessageType;
 import org.project.controller.messages.voiceMessage.VoicePlayback;
 import org.project.controller.messages.voiceMessage.VoiceRecorder;
 import org.project.controller.messages.voiceMessage.VoiceUtil;
-import org.project.controller.security.RSAEncryptionWithAES;
 import org.project.model.ChatRoom;
 import org.project.model.dao.users.Users;
 
@@ -137,7 +136,6 @@ public class MainChatController implements Initializable {
     private boolean bold;
     private boolean isChatBotEnabeled;
     private boolean isChatBotAPIEnabeled;
-    RSAEncryptionWithAES rsaEncryptionWithAES;
     ChatterBotApiTest chatterBotApiTest;
 
     public ImageView getAttachFileImgBtn() {
@@ -230,8 +228,6 @@ public class MainChatController implements Initializable {
             newMsg.setFontSize(sizePicked);
             newMsg.setFontPosture(getFontPosture().name());
             newMsg.setUser(mUser);
-            newMsg.setPublicKey(rsaEncryptionWithAES.getPublicKey());
-            newMsg.setEncryptedAESKeyString(rsaEncryptionWithAES.getEncryptedAESKeyString());
             newMsg.setChatId(chatRoom.getChatRoomId());
             newMsg.setFontWeight(getFontWeight().name());
             homeController.sendMsg(newMsg, chatRoom);
@@ -330,11 +326,6 @@ public class MainChatController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // chatbot = new Chatbot();
         chatterBotApiTest = new ChatterBotApiTest();
-        try {
-            rsaEncryptionWithAES = new RSAEncryptionWithAES();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
 
         chatReceiversTxtLabel.setText("myFrined");
