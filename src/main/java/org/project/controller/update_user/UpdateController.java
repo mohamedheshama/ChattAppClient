@@ -1,19 +1,18 @@
 package org.project.controller.update_user;
 
-import com.jfoenix.controls.*;
+import com.jfoenix.controls.JFXDatePicker;
+import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXRadioButton;
+import com.jfoenix.controls.JFXTextField;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -22,7 +21,6 @@ import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.apache.commons.io.FilenameUtils;
-import org.project.App;
 import org.project.controller.MainDeligator;
 import org.project.controller.ServicesInterface;
 import org.project.controller.chat_home.HomeController;
@@ -33,12 +31,14 @@ import org.project.model.dao.users.Users;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -243,7 +243,7 @@ public class UpdateController implements Initializable, UpdateInterface {
         existUser.setBio(upd_bio.getText());
         existUser.setDisplayPicture(imageBytes);
         existUser.setCountry(choicebox.getSelectionModel().getSelectedItem().toString());
-        if (Date.valueOf(upd_birthDate.getValue()) !=null){
+        if ((upd_birthDate.getValue()) != null) {
             existUser.setDateOfBirth(Date.valueOf(upd_birthDate.getValue()));
         }
         gender.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {

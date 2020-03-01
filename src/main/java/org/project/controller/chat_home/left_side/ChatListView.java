@@ -94,6 +94,7 @@ public class ChatListView implements Initializable {
 
     private ChatRoom requestChatRoom(ArrayList<Users> chatroomUsers) throws IOException {
         try {
+            System.out.println("chat Users Are : " + chatroomUsers);
             return homeController.requestChatRoom(chatroomUsers);
         } catch (RemoteException e) {
             homeController.setsetverIsAlive();
