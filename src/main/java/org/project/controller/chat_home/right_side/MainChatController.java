@@ -219,19 +219,16 @@ public class MainChatController implements Initializable {
     }
 
     private void sendMsgToHomeController(String text) throws Exception {
-       // String encryptedText = rsaEncryptionWithAES.encryptTextUsingAES(msgTxtField.getText(), rsaEncryptionWithAES.getSecretAESKeyString());
         Message newMsg = new Message();
         newMsg.setMsg(text);
         if (!newMsg.getMsg().trim().equals("")){
-        newMsg.setMsg(msgTxtField.getText());
+         //newMsg.setMsg(msgTxtField.getText());
             newMsg.setType(MessageType.USER);
             newMsg.setFontFamily(fontFamily);
             newMsg.setTextFill(colorPicked);
             newMsg.setFontSize(sizePicked);
             newMsg.setFontPosture(getFontPosture().name());
             newMsg.setUser(mUser);
-            newMsg.setPublicKey(rsaEncryptionWithAES.getPublicKey());
-            newMsg.setEncryptedAESKeyString(rsaEncryptionWithAES.getEncryptedAESKeyString());
             newMsg.setChatId(chatRoom.getChatRoomId());
             newMsg.setFontWeight(getFontWeight().name());
             homeController.sendMsg(newMsg, chatRoom);

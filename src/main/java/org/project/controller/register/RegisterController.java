@@ -25,16 +25,15 @@ import org.project.model.dao.users.UserStatus;
 import org.project.model.dao.users.Users;
 
 import java.io.IOException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class RegisterController implements Initializable {
@@ -164,15 +163,19 @@ public class RegisterController implements Initializable {
             newUser.setPhoneNumber(phone_num.getText());
             newUser.setGender(Gender.Female);
             newUser.setStatus(UserStatus.Available);
+            final Map<String, String> env = new HashMap<>();
+
             URL url = getClass().getResource("/org/project/images/unknown.png");
-            Path dest = Paths.get(url.toURI());
-            if (dest != null) {
-                byte[] bytes = Files.readAllBytes(dest);
+            final String[] array = url.toString().split("!");
+            final FileSystem fs = FileSystems.newFileSystem(URI.create(array[0]), env);
+            final Path path = fs.getPath(array[1]);
+            //Path dest = Paths.get(url.toURI());
+            if (path != null) {
+                byte[] bytes = Files.readAllBytes(path);
                 System.out.println("bytes are " + bytes);
                 newUser.setDisplayPicture(bytes);
                 System.out.println("user defalult image : " + newUser.getDisplayPicture());
             }
-
             choicebox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
 
                 public void changed(ObservableValue ov, Number value, Number new_value) {
