@@ -7,6 +7,7 @@ import com.jfoenix.controls.JFXColorPicker;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXToggleButton;
 import javafx.application.Platform;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -15,7 +16,6 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -24,6 +24,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
@@ -34,11 +36,10 @@ import javafx.util.Callback;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 import org.project.controller.ChatBot.Chatbot;
-import org.project.controller.ChatBot.ChatterBotApiTest;
+import org.project.controller.ChatBot.ChatterBotApi;
 import org.project.controller.MainDeligator;
 import org.project.controller.XmlTransformer;
 import org.project.controller.chat_home.HomeController;
-import org.project.controller.createXML.SaveXml;
 import org.project.controller.messages.Message;
 import org.project.controller.messages.MessageType;
 import org.project.controller.messages.voiceMessage.VoicePlayback;
@@ -49,6 +50,8 @@ import org.project.model.ChatRoom;
 import org.project.model.dao.users.Users;
 
 import javax.xml.bind.JAXBException;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -63,8 +66,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -137,7 +138,7 @@ public class MainChatController implements Initializable {
     private boolean isChatBotEnabeled;
     private boolean isChatBotAPIEnabeled;
     RSAEncryptionWithAES rsaEncryptionWithAES;
-    ChatterBotApiTest chatterBotApiTest;
+    ChatterBotApi chatterBotApiTest;
 
     public ImageView getAttachFileImgBtn() {
         return attachFileImgBtn;
@@ -150,113 +151,7 @@ public class MainChatController implements Initializable {
 
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-       // chatbot = new Chatbot();
-        chatterBotApiTest=new ChatterBotApiTest();
-        try {
-            rsaEncryptionWithAES = new RSAEncryptionWithAES();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-
-        chatReceiversTxtLabel.setText("myFrined");
-        mainDeligator = new MainDeligator();
-        msgTxtField.setWrapText(true);
-        msgTxtField.setOnKeyPressed(keyEvent -> {
-            if (keyEvent.getCode() == KeyCode.ENTER) {
-                try {
-                    sendMsgToHomeController(msgTxtField.getText());
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                    try {
-                        homeController.setsetverIsAlive();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        fontComboBox.getItems().addAll(Font.getFontNames());
-        updateFontComboBoxcell();
-        fontColorPicker.setValue(Color.BLACK);
-        colorPicked = toRGBCode(fontColorPicker.getValue());
-        fontColorPicker.valueProperty().addListener((obs, oldVal, newVal) -> {
-                    Color color = (Color) newVal;
-                    colorPicked = toRGBCode(color);
-                    setTextFieldStyle();
-                }
-        );
-
-        sizeComboBox.getItems().addAll(IntStream.rangeClosed(8, 28).boxed().collect(Collectors.toList()));
-        sizeComboBox.setValue(14);
-        sizePicked = 14;
-        sizeComboBox.valueProperty().addListener((obs, oldVal, newVal) -> {
-                    //Country current = (Country) newVal;
-                    int size = (int) newVal;
-                    sizePicked = size;
-                    setTextFieldStyle();
-                }
-        );
-        fontComboBox.setValue(fontFamily);
-        fontComboBox.valueProperty().addListener((observableValue, o, t1) -> {
-            String fontName = t1.toString();
-            this.fontFamily = fontName;
-            setTextFieldStyle();
-        });
-        boldButton.setOnAction((ActionEvent e) -> {
-            if (bold) {
-                bold = false;
-            } else {
-                bold = true;
-            }
-            setTextFieldStyle();
-        });
-        italicButton.setOnAction((ActionEvent e) -> {
-            if (italic) {
-                italic = false;
-            } else {
-                italic = true;
-            }
-            setTextFieldStyle();
-        });
-        setTextFieldStyle();
-        chatBotButton.setOnAction((ActionEvent e) -> {
-            if (isChatBotEnabeled) {
-                isChatBotEnabeled = false;
-            } else {
-                if(isChatBotAPIEnabeled==true){
-                    isChatBotAPIEnabeled=false;
-                }
-
-                chatbot=new Chatbot();
-                try {
-                    sendMsgToHomeController(chatbot.botSendMessage());
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-                isChatBotEnabeled = true;
-            }
-
-        });
-        chatBotAPIButton.setOnAction((ActionEvent e) -> {
-            if (isChatBotAPIEnabeled) {
-                isChatBotAPIEnabeled = false;
-
-            } else {
-                if(isChatBotEnabeled){
-                    isChatBotEnabeled=false;
-                }
-                isChatBotAPIEnabeled = true;
-            }
-
-        });
-
-    }
+    Circle imageViewSender = new Circle(20, 20, 20);
 
     public String toRGBCode(Color color) {
         return String.format("#%02X%02X%02X",
@@ -307,13 +202,7 @@ public class MainChatController implements Initializable {
         });
     }
 
-    public void setTextFieldStyle() {
-       // System.out.println("s;geod");
-        String str = msgTxtField.getText().toString();
-        msgTxtField.setText("");
-        msgTxtField.setStyle("-fx-font-family: \"" + fontFamily + "\"; " + "-fx-text-fill: " + colorPicked + ";" + "-fx-font-size: " + sizePicked + ";" + " -fx-font-weight:" + getFontWeight().name() + ";" + " -fx-font-style:" + getFontPosture().name());
-        msgTxtField.setText(str);
-    }
+    Circle imageViewReceiver = new Circle(20, 20, 20);
 
     public void setChatRoom(ChatRoom chatRoom) {
         this.chatRoom = chatRoom;
@@ -335,8 +224,6 @@ public class MainChatController implements Initializable {
         newMsg.setMsg(text);
         if (!newMsg.getMsg().trim().equals("")){
         newMsg.setMsg(msgTxtField.getText());
-            chatRoom.getChatRoomMessage().add(newMsg);
-            //System.out.println("chat room id : "+chatRoom.getChatRoomId()+" message is " +chatRoom.getChatRoomMessage());
             newMsg.setType(MessageType.USER);
             newMsg.setFontFamily(fontFamily);
             newMsg.setTextFill(colorPicked);
@@ -356,11 +243,10 @@ public class MainChatController implements Initializable {
 
     public void reciveMsg(Message newMsg, ChatRoom chatRoom) {
         if (newMsg.getUser().getId() == mUser.getId()) {
-            displayMsg(newMsg, Pos.TOP_RIGHT);
-
+            displayMsg(newMsg, Pos.CENTER_RIGHT);
         } else {
             if (chatRoom.getChatRoomId().equals(this.chatRoom.getChatRoomId())) {
-                displayMsg(newMsg, Pos.TOP_LEFT);
+                displayMsg(newMsg, Pos.CENTER_LEFT);
                 if (isChatBotEnabeled) {
                     if (newMsg.getMsg() != null) {
                         String inmessage=newMsg.getMsg().trim();
@@ -440,12 +326,119 @@ public class MainChatController implements Initializable {
         return ((Stage) stagePane.getScene().getWindow());
     }
 
-    public HBox recipientChatLine(Message msg, Pos pos) throws Exception {
-        HBox hb = new HBox();
-        JFXButton fileBtnLoad=new JFXButton();
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        // chatbot = new Chatbot();
+        chatterBotApiTest = new ChatterBotApi();
         try {
-            Label name = new Label(msg.getName());
-            // ImageView imageView = new ImageView();
+            rsaEncryptionWithAES = new RSAEncryptionWithAES();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        chatReceiversTxtLabel.setText("myFrined");
+        mainDeligator = new MainDeligator();
+        msgTxtField.setWrapText(true);
+        msgTxtField.setOnKeyPressed(keyEvent -> {
+            if (keyEvent.getCode() == KeyCode.ENTER) {
+                try {
+                    sendMsgToHomeController(msgTxtField.getText());
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                    try {
+                        homeController.setsetverIsAlive();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        fontComboBox.getItems().addAll(Font.getFontNames());
+        updateFontComboBoxcell();
+        fontColorPicker.setValue(Color.BLACK);
+        colorPicked = toRGBCode(fontColorPicker.getValue());
+        fontColorPicker.valueProperty().addListener((obs, oldVal, newVal) -> {
+                    Color color = newVal;
+                    colorPicked = toRGBCode(color);
+                    setTextFieldStyle();
+                }
+        );
+
+        sizeComboBox.getItems().addAll(IntStream.rangeClosed(8, 28).boxed().collect(Collectors.toList()));
+        sizeComboBox.setValue(14);
+        sizePicked = 14;
+        sizeComboBox.valueProperty().addListener((obs, oldVal, newVal) -> {
+                    //Country current = (Country) newVal;
+                    int size = (int) newVal;
+                    sizePicked = size;
+                    setTextFieldStyle();
+                }
+        );
+        fontComboBox.setValue(fontFamily);
+        fontComboBox.valueProperty().addListener((observableValue, o, t1) -> {
+            String fontName = t1.toString();
+            this.fontFamily = fontName;
+            setTextFieldStyle();
+        });
+        boldButton.setOnAction((ActionEvent e) -> {
+            bold = !bold;
+            setTextFieldStyle();
+        });
+        italicButton.setOnAction((ActionEvent e) -> {
+            italic = !italic;
+            setTextFieldStyle();
+        });
+        setTextFieldStyle();
+        chatBotButton.setOnAction((ActionEvent e) -> {
+            if (isChatBotEnabeled) {
+                isChatBotEnabeled = false;
+            } else {
+                chatbot = new Chatbot();
+                try {
+                    sendMsgToHomeController(chatbot.botSendMessage());
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                isChatBotEnabeled = true;
+            }
+
+        });
+        chatBotAPIButton.setOnAction((ActionEvent e) -> {
+            if (isChatBotAPIEnabeled) {
+                isChatBotAPIEnabeled = false;
+                if (isChatBotEnabeled) {
+                    isChatBotEnabeled = false;
+                }
+            } else {
+                isChatBotAPIEnabeled = true;
+            }
+
+        });
+
+    }
+
+    public void setTextFieldStyle() {
+        // System.out.println("s;geod");
+        String str = msgTxtField.getText();
+        msgTxtField.setText("");
+        msgTxtField.setStyle("-fx-font-family: \"" + fontFamily + "\"; " + "-fx-text-fill: " + colorPicked + ";" + "-fx-font-size: " + sizePicked + ";" + " -fx-font-weight:" + getFontWeight().name() + ";" + " -fx-font-style:" + getFontPosture().name());
+        msgTxtField.setText(str);
+    }
+
+    public HBox recipientChatLine(Message msg, Pos pos) throws Exception {
+        VBox message = new VBox();
+        HBox hb = new HBox();
+        JFXButton fileBtnLoad = new JFXButton();
+        HBox dateHbox = new HBox();
+        dateHbox.setPrefHeight(30);
+        dateHbox.setPrefWidth(50);
+        try {
+            Label name = new Label(msg.getReciverName());
+            Label dateLbl = new Label(new Date().toString());
+            System.out.println(new Date().toString()+"kkkkkk");
             Text text = new Text(msg.getMsg());
             Text userNameText = new Text(mUser.getName());
             text.setFill(Color.valueOf(msg.getTextFill()));
@@ -456,29 +449,53 @@ public class MainChatController implements Initializable {
             if (msg.getMsg().length() > 50)
                 text.setWrappingWidth(500);
             VBox vb = new VBox();
-            //BufferedImage image = javax.imageio.ImageIO.read(new ByteArrayInputStream(msg.getUser().getDisplayPicture()));
-            //Image card = SwingFXUtils.toFXImage(image, null);
-            //imageView.setImage(card);
-            //imageView.setFitWidth(15);
-            //imageView.setPreserveRatio(true);
-            hb.setAlignment(pos);
-            vb.getChildren().add(userNameText);
+            BufferedImage image = javax.imageio.ImageIO.read(new ByteArrayInputStream(msg.getUser().getDisplayPicture()));
+            Image card = SwingFXUtils.toFXImage(image, null);
             if(msg.getType().equals(MessageType.NOTIFICATION)){
-                ImageView loadFile=new ImageView();
+                ImageView loadFile = new ImageView();
             loadFile.setImage(new Image(getClass().getResource("/org/project/images/download.png").toExternalForm()));
             loadFile.setFitHeight(50);
             loadFile.setFitWidth(50);
             fileBtnLoad.setGraphic(loadFile);
-
                 vb.getChildren().add(fileBtnLoad);
             }
             vb.setSpacing(2);
-            hb.getChildren().add(vb);
-            hb.getChildren().add(text);
-            hb.setPadding(new Insets(15, 12, 15, 12));
-            hb.setSpacing(10);
-            hb.setBackground(new Background(new BackgroundFill(Color.valueOf(msg.getTextFill()).invert() , new CornerRadii(25) , new Insets(10.0f))));
-            //hb.maxWidthProperty().bindBidirectional(msg.getMsg());
+            hb.setAlignment(pos);
+            dateHbox.setAlignment(pos);
+         //   message.setAlignment(pos);
+            switch (pos){
+                case CENTER_RIGHT: {
+                    hb.getChildren().add(text);
+                    hb.getChildren().add(vb);
+                    imageViewSender.setFill(new ImagePattern(card));
+                    hb.getChildren().add(imageViewSender);
+                    hb.setBackground(new Background(new BackgroundFill(Color.valueOf(msg.getTextFill()).invert(), new CornerRadii(25), new Insets(10.0f))));
+                    HBox.setMargin(imageViewSender, new Insets(0, 0, 0, 10));
+                    hb.setPadding(new Insets(15, 12, 15, 12));
+                    hb.setSpacing(10);
+                    dateHbox.setSpacing(10);
+                    // dateHbox.getChildren().add(dateLbl);
+
+                    message.getChildren().add(dateLbl);
+                    message.getChildren().add(hb);
+                    break;
+                }
+                case CENTER_LEFT: {
+                    imageViewReceiver.setFill(new ImagePattern(card));
+                    hb.getChildren().add(imageViewReceiver);
+                    hb.getChildren().add(vb);
+                    hb.getChildren().add(text);
+                    hb.setBackground(new Background(new BackgroundFill(Color.valueOf(msg.getTextFill()).invert(), new CornerRadii(25), new Insets(10.0f))));
+                    HBox.setMargin(imageViewReceiver, new Insets(0, 0, 0, 10));
+                    hb.setPadding(new Insets(15, 12, 15, 12));
+                    hb.setSpacing(10);
+                    dateHbox.setSpacing(10);
+                    message.getChildren().add(dateLbl);
+                    message.getChildren().add(hb);
+                    break;
+                }
+            }
+
             showMsgsScrollPane.vvalueProperty().bind(showMsgsBox.heightProperty());
         } catch (Exception e) {
             e.printStackTrace();
@@ -492,6 +509,7 @@ public class MainChatController implements Initializable {
                         break;
                     }
                 }
+
                 fileSendAccepted(users);
             } catch (RemoteException e) {
                 e.printStackTrace();
@@ -508,13 +526,13 @@ public class MainChatController implements Initializable {
 // strart HEND
 
 
-    public void sendFile() throws RemoteException,IOException, NotBoundException {
+    public void sendFile() throws IOException, NotBoundException {
         FileChooser SaveFileChooser = new FileChooser();
         file = SaveFileChooser.showOpenDialog(getStage());
-        if(file!=null) {
+        if (file != null) {
             String path = file.getAbsolutePath();
             Message newMsg = new Message();
-            msgTxtField.setText(file.getName()+ new Date());
+            msgTxtField.setText(file.getName() + new Date());
             newMsg.setMsg(msgTxtField.getText());
             newMsg.setType(MessageType.NOTIFICATION);
             newMsg.setFontFamily(fontFamily);
@@ -537,11 +555,12 @@ public class MainChatController implements Initializable {
     public void displayMessagesFromArrList() {
         Pos pos;
         if (chatRoom.getChatRoomMessage() != null){
+            System.out.println(chatRoom.getChatRoomMessage());
             for (Message message : chatRoom.getChatRoomMessage()) {
                 if (message.getUser().getId() == mUser.getId()) {
-                    pos = Pos.TOP_RIGHT;
+                    pos = Pos.CENTER_RIGHT;
                 } else {
-                    pos = Pos.TOP_LEFT;
+                    pos = Pos.CENTER_LEFT;
                     // todo set alignment to left nad display message
                 }
                 displayMsg(message , pos);
@@ -591,7 +610,7 @@ public class MainChatController implements Initializable {
 
     public void sendVoiceMessage(byte[] audio) throws RemoteException {
         Message createMessage = new Message();
-        createMessage.setName(mUser.getName());
+        createMessage.setReciverName(mUser.getName());
         createMessage.setUser(mUser);
         createMessage.setMsg("voice note");
         createMessage.setType(MessageType.VOICE);
@@ -657,8 +676,13 @@ public class MainChatController implements Initializable {
     }
 
     public void saveChatSession() throws JAXBException {
-        XmlTransformer xmlTransformer= new XmlTransformer(chatRoom.getChatRoomMessage() , chatRoom.getUsers());
-        xmlTransformer.transform();
+        XmlTransformer xmlTransformer = new XmlTransformer();
+        try {
+            if (chatRoom != null)
+                xmlTransformer.transform((homeController.requestChatRoom(chatRoom.getUsers())).getChatRoomMessage(), mUser);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     public void reveiveTheActualFile(String newMsg, RemoteInputStream remoteFileData) {

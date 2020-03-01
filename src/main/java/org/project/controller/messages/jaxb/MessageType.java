@@ -40,17 +40,36 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "messageType", propOrder = {
-    "from",
-    "to",
-    "content",
-    "color",
-    "fontSize",
-    "fontWeight"
+        "sender",
+        "from",
+        "to",
+        "content",
+        "color",
+        "fontSize",
+        "fontWeight"
 })
 public class MessageType {
 
     @XmlElement(required = true)
+    protected String sender;
+    @XmlElement(required = true)
     protected String from;
+
+
+    public String getSender() {
+        return sender;
+    }
+
+    /**
+     * Gets the value of the from property.
+     *
+     * @return possible object is
+     * {@link String }
+     */
+    public void setSender(String sender) {
+        this.sender = sender;
+    }
+
     @XmlElement(required = true)
     protected String to;
     @XmlElement(required = true)

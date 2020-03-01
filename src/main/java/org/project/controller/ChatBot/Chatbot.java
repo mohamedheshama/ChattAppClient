@@ -30,10 +30,11 @@ public class Chatbot {
     public  String getResponse(String s){
         String response = bot.send(s);
         if (response.length() > 0) {
-            return response+" ,"+bot.getMessage();
+             response +=" ,"+bot.getMessage();
         }else{
-            return bot.getMessage();
+            response= bot.getMessage();
         }
+        return response;
     }
 
 

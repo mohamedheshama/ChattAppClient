@@ -3,6 +3,7 @@
   <xs:element name="myMessages" type="myMessagesType"/>
   <xs:complexType name="messageType">
     <xs:sequence>
+      <xs:element type="xs:string" name="sender"/>
       <xs:element type="xs:string" name="from"/>
       <xs:element type="xs:string" name="to"/>
       <xs:element type="xs:string" name="content"/>

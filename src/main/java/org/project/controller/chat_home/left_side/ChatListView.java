@@ -5,7 +5,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
@@ -28,7 +27,6 @@ public class ChatListView implements Initializable {
     public ListView chatsListView;
 
 
-
     public ObservableList<ChatRoom> chatsObservableList;
     Users user;
     //ArrayList<ChatRoom> chatRooms;
@@ -36,11 +34,10 @@ public class ChatListView implements Initializable {
     ChatRoom currentChatRoom;
 
 
-
     public void setChatsListView(Users user, HomeController homeController) {
         this.user = user;
         this.homeController = homeController;
-        chatsObservableList = FXCollections.observableArrayList(user.getChatRooms().stream().filter(chatRoom -> chatRoom.getUsers().size()>2).collect(Collectors.toList()));
+        chatsObservableList = FXCollections.observableArrayList(user.getChatRooms().stream().filter(chatRoom -> chatRoom.getUsers().size() > 2).collect(Collectors.toList()));
         chatsListView.setItems(chatsObservableList);
         chatsListView.setCellFactory(chatListView -> new ChatsListViewCell());
         chatsListView.setCellFactory(new Callback<javafx.scene.control.ListView<ChatRoom>, ListCell<ChatRoom>>() {
@@ -68,19 +65,22 @@ public class ChatListView implements Initializable {
     }*/
 
     public void handle(MouseEvent event) throws Exception {
-        if (chatsListView != null){
-            ChatRoom groupChatRoom = (ChatRoom) chatsListView.getSelectionModel().getSelectedItem();
-            currentChatRoom = requestChatRoom(groupChatRoom.getUsers());
-            if (currentChatRoom != null) {
-                boolean isChatRoomAdded = addChatRoom(currentChatRoom);
-                homeController.openChatRoom(currentChatRoom, isChatRoomAdded);
+        if (chatsListView.getSelectionModel().getSelectedItem() != null) {
+
+            if (chatsListView != null) {
+                ChatRoom groupChatRoom = (ChatRoom) chatsListView.getSelectionModel().getSelectedItem();
+                currentChatRoom = requestChatRoom(groupChatRoom.getUsers());
+                if (currentChatRoom != null) {
+                    boolean isChatRoomAdded = addChatRoom(currentChatRoom);
+                    homeController.openChatRoom(currentChatRoom, isChatRoomAdded);
+                }
             }
         }
 
     }
 
     private boolean addChatRoom(ChatRoom chatRoom) {
-        if(!isChatRoomExist(chatRoom)){
+        if (!isChatRoomExist(chatRoom)) {
             //chatRooms.add(chatRoom);
             homeController.getChatRooms().add(chatRoom);
             return true;
@@ -103,10 +103,11 @@ public class ChatListView implements Initializable {
     }
 
     public boolean changeUserStatus(UserStatus userStatus) throws RemoteException {
-       return homeController.changeUserStatus(user , userStatus);
+        return homeController.changeUserStatus(user, userStatus);
     }
+
     //start IMAN
-    public void notifyUsersWithUpdateStatus(){
+    public void notifyUsersWithUpdateStatus() {
 
     }
 

@@ -7,7 +7,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,35 +15,21 @@ import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
-import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Circle;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import org.apache.commons.io.FilenameUtils;
-import org.project.App;
 import org.project.controller.MainDeligator;
 import org.project.controller.ServicesInterface;
-import org.project.controller.chat_home.HomeController;
-import org.project.controller.login.LoginController;
 import org.project.model.dao.users.Gender;
 import org.project.model.dao.users.UserStatus;
 import org.project.model.dao.users.Users;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
@@ -170,7 +155,7 @@ public class RegisterController implements Initializable {
     }*/
 
 
-    public void register() throws RemoteException, SQLException, IOException, URISyntaxException {
+    public void register() throws SQLException, IOException, URISyntaxException {
 
         if (userDataValid()) {
             newUser.setName(username.getText());
@@ -194,13 +179,17 @@ public class RegisterController implements Initializable {
 
                     choicebox.setValue(new_value.intValue());
                     System.out.println(new_value.intValue());
-                    System.out.println("choice"+choicebox.getSelectionModel().getSelectedItem());
+                    System.out.println("choice" + choicebox.getSelectionModel().getSelectedItem());
 
                 }
             });
             newUser.setCountry(choicebox.getSelectionModel().getSelectedItem().toString());
 
-            mainDeligator.registerUser(newUser);
+            if (mainDeligator.registerUser(newUser)) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/login_view.fxml"));
+                Parent root = loader.load();
+                getStage().setScene(new Scene(root));
+            }
 
 
             // todo send user to deligator

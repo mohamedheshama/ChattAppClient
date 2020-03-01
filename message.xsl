@@ -10,7 +10,7 @@
     </xsl:template>
 
     <xsl:template match="message">
-        <xsl:if test="from">
+        <xsl:if test="from = sender">
             <li style="
                         list-style-type: none;
                         margin-bottom: 3px;
@@ -24,7 +24,7 @@
                 <xsl:apply-templates select="content"/>
             </li><br/>
         </xsl:if>
-        <xsl:if test="to">
+        <xsl:if test="from != sender">
             <li style="
                         list-style-type: none;
                         margin-bottom: 3px;

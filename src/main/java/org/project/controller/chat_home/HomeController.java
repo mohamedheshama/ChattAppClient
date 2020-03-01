@@ -169,7 +169,7 @@ public class HomeController implements Initializable, Serializable {
 
     private void initRightSide() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/right_side/welcome_view.fxml"));
-        Pane root = (Pane) loader.load();
+        Pane root = loader.load();
         welcomeController = loader.getController();
         System.out.println("welcome controller" + welcomeController);
         welcomeController.setExistUser(user);
@@ -181,7 +181,7 @@ public class HomeController implements Initializable, Serializable {
 
     private void initLeftSide() throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/left_side/Left_Chat_pane.fxml"));
-        Pane root = (Pane) loader.load();
+        Pane root = loader.load();
         leftSideController = loader.getController();
         leftSideController.setTabPane(user, this);
         leftSideController.setUserIcon(user, this);
@@ -207,10 +207,8 @@ public class HomeController implements Initializable, Serializable {
             mainChatController.setmUser(user);
             mainChatController.setHomeController(this);
             mainChatController.setChatRoom(chatRoom);
+            mainChatController.displayMessagesFromArrList();
             borderBaneStage.setCenter(root);
-            if (!isChatRoomExist) {
-                mainChatController.displayMessagesFromArrList();
-            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -488,7 +486,7 @@ public class HomeController implements Initializable, Serializable {
             welcomeController.setsetverIsAlive();
         } else {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/serverDown.fxml"));
-            Pane root = (Pane) loader.load();
+            Pane root = loader.load();
             getStage().setScene(new Scene(root));
         }
 
