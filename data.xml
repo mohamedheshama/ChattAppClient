@@ -39,12 +39,7 @@
     
     
     
-    
-    <keyword points="10" target="16" variable="name">mohamed</keyword>
-            
-    
-    <keyword points="10" target="16" variable="name">mohame</keyword>
-                
+
     
     
     <keyword points="1" target="900">how are my</keyword>
@@ -57,7 +52,8 @@
     
     
     <keyword points="1" target="900">Hi,Hello,Cool</keyword>
-                                		
+
+    <keyword target="16" variable="name">([a-zA-Z ]+)</keyword>
 
 	
         

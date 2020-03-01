@@ -229,6 +229,10 @@ public class MainChatController implements Initializable {
             if (isChatBotEnabeled) {
                 isChatBotEnabeled = false;
             } else {
+                if(isChatBotAPIEnabeled==true){
+                    isChatBotAPIEnabeled=false;
+                }
+
                 chatbot=new Chatbot();
                 try {
                     sendMsgToHomeController(chatbot.botSendMessage());
@@ -242,10 +246,11 @@ public class MainChatController implements Initializable {
         chatBotAPIButton.setOnAction((ActionEvent e) -> {
             if (isChatBotAPIEnabeled) {
                 isChatBotAPIEnabeled = false;
-               if(isChatBotEnabeled){
+
+            } else {
+                if(isChatBotEnabeled){
                     isChatBotEnabeled=false;
                 }
-            } else {
                 isChatBotAPIEnabeled = true;
             }
 
