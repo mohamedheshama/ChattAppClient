@@ -36,7 +36,7 @@ import javafx.util.Callback;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 import org.project.controller.ChatBot.Chatbot;
-import org.project.controller.ChatBot.ChatterBotApiTest;
+import org.project.controller.ChatBot.ChatterBotApi;
 import org.project.controller.MainDeligator;
 import org.project.controller.XmlTransformer;
 import org.project.controller.chat_home.HomeController;
@@ -138,7 +138,7 @@ public class MainChatController implements Initializable {
     private boolean isChatBotEnabeled;
     private boolean isChatBotAPIEnabeled;
     RSAEncryptionWithAES rsaEncryptionWithAES;
-    ChatterBotApiTest chatterBotApiTest;
+    ChatterBotApi chatterBotApiTest;
 
     public ImageView getAttachFileImgBtn() {
         return attachFileImgBtn;
@@ -223,7 +223,6 @@ public class MainChatController implements Initializable {
         Message newMsg = new Message();
         newMsg.setMsg(text);
         if (!newMsg.getMsg().trim().equals("")){
-        newMsg.setMsg(msgTxtField.getText());
             newMsg.setType(MessageType.USER);
             newMsg.setFontFamily(fontFamily);
             newMsg.setTextFill(colorPicked);
@@ -329,7 +328,7 @@ public class MainChatController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // chatbot = new Chatbot();
-        chatterBotApiTest = new ChatterBotApiTest();
+        chatterBotApiTest = new ChatterBotApi();
         try {
             rsaEncryptionWithAES = new RSAEncryptionWithAES();
         } catch (Exception e) {
@@ -409,9 +408,6 @@ public class MainChatController implements Initializable {
         chatBotAPIButton.setOnAction((ActionEvent e) -> {
             if (isChatBotAPIEnabeled) {
                 isChatBotAPIEnabeled = false;
-                if (isChatBotEnabeled) {
-                    isChatBotEnabeled = false;
-                }
             } else {
                 isChatBotAPIEnabeled = true;
             }
