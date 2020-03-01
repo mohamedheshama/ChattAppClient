@@ -469,4 +469,9 @@ public class MainDeligator implements Serializable {
     public void recieveUpdateCurrentUser(Users currentUser) throws RemoteException{
         homeController.recieveUpdateCurrentUser(currentUser);
     }
+
+
+    public boolean checkUserLoggedIn(String phonenumber_input) throws RemoteException{
+       return serverConnectionController.getServicesInterface().checkUserLoggedIn(phonenumber_input);
+    }
 }

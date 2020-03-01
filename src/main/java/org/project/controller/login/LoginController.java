@@ -7,7 +7,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import org.project.App;
@@ -26,10 +25,11 @@ import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
-public class LoginController implements Initializable , LoginInterface {
+public class LoginController implements Initializable, LoginInterface {
 
 
-    @FXML private HBox mainPane;
+    @FXML
+    private HBox mainPane;
     static String phonenumber_input;
     String password_input;
     boolean keepme = false;
@@ -53,6 +53,7 @@ public class LoginController implements Initializable , LoginInterface {
     HomeController homecontroller;
 
     boolean userIsExist;
+    boolean userALreadyLoggedIn;
     File file2;
     Scanner sc = null;
 
@@ -84,14 +85,14 @@ public class LoginController implements Initializable , LoginInterface {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-            mainDeligator = new MainDeligator();
+        mainDeligator = new MainDeligator();
     }
-    public File getUSerDataFile ()
-    {
+
+    public File getUSerDataFile() {
         String home = System.getProperty("user.home");
-        File userDataFile = new File(home+"\\Data");
+        File userDataFile = new File(home + "\\Data");
         boolean fileIsExists = userDataFile.exists();
-        System.out.print("the file is exist" +fileIsExists);
+        System.out.print("the file is exist" + fileIsExists);
 
         return userDataFile;
 
@@ -112,24 +113,33 @@ public class LoginController implements Initializable , LoginInterface {
             phonenumber_input = phonenumber_Txtfield.getText();
             password_input = password_TxtField.getText();
             userIsExist = checkUserLogin(phonenumber_input, password_input);
+
             if (userIsExist) {
-                keepme = keep_me_login_Chkbox.isSelected();
-                if (keepme)
-                {
-                    String home = System.getProperty("user.home");
-                    String dataOfUser = phonenumber_input+"/"+password_input;
-                    Path x=Files.write(Paths.get(home+"/Data"),dataOfUser.getBytes());
-                    file2 = new File(String.valueOf(x));
+                userALreadyLoggedIn = mainDeligator.checkUserLoggedIn(phonenumber_input);
+                System.out.println("user already logged in"+userALreadyLoggedIn);
+                if (userALreadyLoggedIn) {
+                    Alert alreadyIn=new Alert(Alert.AlertType.ERROR);
+                    alreadyIn.setTitle("user already logged in");
+                    alreadyIn.setContentText("user is already logged in");
+                    alreadyIn.show();
+
+                } else {
+                    keepme = keep_me_login_Chkbox.isSelected();
+                    if (keepme) {
+                        String home = System.getProperty("user.home");
+                        String dataOfUser = phonenumber_input + "/" + password_input;
+                        Path x = Files.write(Paths.get(home + "/Data"), dataOfUser.getBytes());
+                        file2 = new File(String.valueOf(x));
+                    }
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/home.fxml"));
+                    Parent root = fxmlLoader.load();
+                    HomeController homeController = fxmlLoader.getController();
+                    homeController.setMainDeligator(mainDeligator);
+                    homeController.setStage(getStage());
+                    homeController.setPhoneNumber(phonenumber_input);
+                    getStage().setScene(new Scene(root));
                 }
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/project/views/chat_home/home.fxml"));
-                Parent root = fxmlLoader.load();
-                HomeController homeController = fxmlLoader.getController();
-                homeController.setMainDeligator(mainDeligator);
-                homeController.setStage(getStage());
-                homeController.setPhoneNumber(phonenumber_input);
-                getStage().setScene(new Scene(root));
-            }
-            else {
+            } else {
                 ShowAlertError();
                 phonenumber_Txtfield.clear();
                 password_TxtField.clear();
@@ -160,8 +170,8 @@ public class LoginController implements Initializable , LoginInterface {
     public Boolean checkUserLogin(String phoneNumber, String password) {
         boolean userExist = false;
         try {
-            if (mainDeligator != null){
-                userExist = mainDeligator.checkUserLogin(phoneNumber , password);
+            if (mainDeligator != null) {
+                userExist = mainDeligator.checkUserLogin(phoneNumber, password);
             }
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -185,12 +195,10 @@ public class LoginController implements Initializable , LoginInterface {
 
 
     public void handleKeepMeReSelect(ActionEvent event) throws IOException {
-        if (!keep_me_login_Chkbox.isSelected())
-        {
-            if (getUSerDataFile().exists())
-            {
+        if (!keep_me_login_Chkbox.isSelected()) {
+            if (getUSerDataFile().exists()) {
                 boolean del = Files.deleteIfExists(getUSerDataFile().toPath());
-                System.out.println("the file is deleted " +del);
+                System.out.println("the file is deleted " + del);
             }
         }
     }
